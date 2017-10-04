@@ -1,3 +1,7 @@
+class Messages:
+    def console_msg(self, item_to_print):
+        print(item_to_print)
+
 class BoardPresenter:
     def display_terminal_board(self, board):
          board_string = ''
