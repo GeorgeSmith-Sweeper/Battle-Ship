@@ -1,5 +1,5 @@
 class Messages:
-    def console_msg(self, item_to_print):
+    def terminal_msg(self, item_to_print):
         print(item_to_print)
 
 class BoardPresenter:
