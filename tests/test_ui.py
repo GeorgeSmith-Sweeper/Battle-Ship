@@ -1,11 +1,13 @@
-from unittest import TestCase
+from unittest import TestCase, mock
 from core import ui
+from io import StringIO
 
 class TestPrintWrapper(TestCase):
     def test_strings_passed_to_console_msg_print(self):
-        hello_string = 'hello'
         message = ui.Messages()
-        self.assertEqual(message.terminal_msg(hello_string), print('hello'))
+        with mock.patch('sys.stdout', new=StringIO()) as fake_stdout:
+            message.terminal_msg('hello')
+        self.assertEqual(fake_stdout.getvalue(), 'hello\n')
 
 class TestDisplayBoard(TestCase):
     def test_board_is_displayed_as_a_grid(self):
