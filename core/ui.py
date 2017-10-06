@@ -1,6 +1,9 @@
 class Messages:
     def terminal_msg(self, item_to_print):
         print(item_to_print)
+    
+    def prompt_user(self, choice):
+        return input(choice)
 
 class BoardPresenter:
     def display_terminal_board(self, board):
