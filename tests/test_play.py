@@ -6,7 +6,7 @@ from io import StringIO
 
 class TestPlayGame(TestCase):
 
-    def test_discovery(self):
+    def test_display_calls(self):
         terminal_ui = TerminalUi()
         board = Board()
         spot_chooser = SpotChooser(board)
@@ -21,7 +21,7 @@ class TestPlayGame(TestCase):
         board.format = MagicMock(return_value = formatted_board)
         terminal_ui.get_input = MagicMock(return_value = user_input)
         terminal_ui.display = MagicMock()
-        expected_calls = [call("Welcome to Battleship"), call(board.format())]
+        expected_calls = [call("Welcome to Battleship"), call(board.format()), call("Take your best shot")]
         
         new_game = Game(board, spot_chooser, terminal_ui) 
 
@@ -29,6 +29,7 @@ class TestPlayGame(TestCase):
         
         self.assertEqual(terminal_ui.display.call_args_list, expected_calls)
 
+        
 class TestTerminalUi(TestCase):
     def test_terminal_displays_string_passed_to_it(self):
        ui = TerminalUi() 
@@ -36,6 +37,17 @@ class TestTerminalUi(TestCase):
            ui.display('Welcome to Battleship')
        self.assertEqual(fake_stdout.getvalue(), 'Welcome to Battleship\n')
 
+    def correct_response(self):
+        ui = TerminalUi()
+        answer = ui.get_input("Enter hello: ")
+        if answer == 'hello':
+            return 'it works'
+    
+    @patch('play.TerminalUi.get_input', return_value='hello')
+    def test_get_input_returns_a_users_input(self, input):
+        self.assertEqual(self.correct_response(), 'it works')
+
+####################################################################
 class TestBoard(TestCase):
     def test_board_is_formatted_correctly_with_empty_board(self):
         board = Board()

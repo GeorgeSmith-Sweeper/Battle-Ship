@@ -6,11 +6,16 @@ class Game:
     def play(self):
         self.ui.display("Welcome to Battleship")
         self.ui.display(self.board.format())
+        self.ui.display("Take your best shot")
         pass
 
 class TerminalUi:
     def display(self, message):
        print(message)
+
+    def get_input(self, prompt_string):
+        reponse = input(prompt_string)
+        return response
 
 class Board:
     def __init__(self):
