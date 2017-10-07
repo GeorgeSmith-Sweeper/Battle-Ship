@@ -15,19 +15,15 @@ class TerminalUi:
 class Board:
     def __init__(self):
         self.state = [[None for ele in range(10)] for index in range(10)]
+
     def format(self):
-        return """
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-"""
+        formatted_board = ''
+        for row in range(0, len(self.state)):
+            formatted_board += '\n'
+            for column in range(0, len(self.state[row])):
+                formatted_board += '[]'
+        formatted_board += '\n'
+        return formatted_board
 
 class SpotChooser:
     def __init__(self, board):
