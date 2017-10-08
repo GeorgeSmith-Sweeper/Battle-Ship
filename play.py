@@ -28,7 +28,10 @@ class Board:
         for row in range(0, len(self.state)):
             formatted_board += '\n'
             for column in range(0, len(self.state[row])):
-                formatted_board += '[]'
+                if self.state[column][row] is None:
+                    formatted_board += '[ ]'
+                else: 
+                    formatted_board += '[X]'
         formatted_board += '\n'
         return formatted_board
     
@@ -74,5 +77,5 @@ class Board:
                 '10': 9
                 }
         user_letter, user_num = user_shot_choice
-        self.state[letters[user_letter]][numbers[user_num]] = 'x'
+        self.state[letters[user_letter]][numbers[user_num]] = 'X'
 

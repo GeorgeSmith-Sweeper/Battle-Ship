@@ -12,7 +12,7 @@ class TestPlayGame(TestCase):
 
         board_state = [[None]]
         user_shot_choice = 'A1'
-        state_after_valid_spot_choice = [['x']]
+        state_after_valid_spot_choice = [['X']]
         formatted_board = '[]'
         
         board.validate = MagicMock('A1')
@@ -53,21 +53,40 @@ class TestBoard(TestCase):
     def test_board_is_formatted_correctly_with_empty_board(self):
         board = Board()
         initial_board = """
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
-[][][][][][][][][][]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """
         formatted_board = board.format()
 
         self.assertEqual(formatted_board, initial_board) 
 
+    def test_board_is_formatted_correctly_with_an_occupied_board(self):
+        board = Board()
+        board.update('A1')
+        occupied_board = """
+[X][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+[ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+"""
+        formatted_board = board.format()
+
+        self.assertEqual(formatted_board, occupied_board) 
+        
     def test_board_is_initialized_with_an_empty_state(self):
        board = Board()
        initial_board_state = [
@@ -99,7 +118,7 @@ class TestBoard(TestCase):
         board = Board()
          
         state_after_spot_choice = [
-               ['x', None, None, None, None, None, None, None, None, None],
+               ['X', None, None, None, None, None, None, None, None, None],
                [None, None, None, None, None, None, None, None, None, None],
                [None, None, None, None, None, None, None, None, None, None],
                [None, None, None, None, None, None, None, None, None, None],
