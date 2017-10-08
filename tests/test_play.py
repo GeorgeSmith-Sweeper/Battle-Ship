@@ -94,7 +94,7 @@ class TestBoard(TestCase):
        user_shot_choice = 'A35' 
        with self.assertRaises(ValueError):
            board.validate(user_shot_choice)
-    '''
+    
     def test_board_state_is_updated_with_new_spot_choice(self):
         board = Board()
          
@@ -114,4 +114,3 @@ class TestBoard(TestCase):
         spot_choice = 'A1'
         board.update(spot_choice)
         self.assertEqual(board.state, state_after_spot_choice)
-        '''
