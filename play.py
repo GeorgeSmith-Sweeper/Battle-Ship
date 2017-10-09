@@ -26,9 +26,13 @@ class Board:
         self.state = [[None for ele in range(10)] for index in range(10)]
 
     def format(self):
-        formatted_board = ''
+        formatted_board = '\n' + '    A  B  C  D  E  F  G  H  I  J'
         for row in range(0, len(self.state)):
             formatted_board += '\n'
+            if (row + 1) < 10:  
+                formatted_board += ' ' + str(row + 1) + ' '  
+            else:
+                formatted_board += str(row + 1) + ' '
             for column in range(0, len(self.state[row])):
                 if self.state[column][row] is None:
                     formatted_board += '[ ]'
