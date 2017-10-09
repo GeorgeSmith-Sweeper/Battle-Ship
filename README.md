@@ -1,6 +1,4 @@
 # BATTLESHIP
-<<<<<<< HEAD
-=======
 
 ### Getting started
 
@@ -21,4 +19,3 @@ The tests for this game can be run with the command `pytest`, at the root in the
 1. Run `coverage run -m pytest` at the root to gather test data.
 
 2. Run `coverage report` at the root to view coverage totals.
->>>>>>> parent of 803a50a... clear for pr
