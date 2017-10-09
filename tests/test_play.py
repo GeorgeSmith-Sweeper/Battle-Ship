@@ -21,17 +21,17 @@ class TestPlayGame(TestCase):
         terminal_ui.get_input = MagicMock(return_value = user_shot_choice)
         terminal_ui.display = MagicMock()
         
-        expected_calls = [call("Welcome to Battleship"), call(board.format()), call("Take your best shot")]
         new_game = Game(board, terminal_ui) 
 
         new_game.play()
-        
-        self.assertEqual(terminal_ui.display.call_args_list, expected_calls)
+
+        terminal_ui.display.assert_called()
+        terminal_ui.get_input.assert_called()         
         board.validate.assert_called_with(user_shot_choice)
         board.update.assert_called_with(board.validate(user_shot_choice))
-        terminal_ui.get_input.assert_called() 
 
 class TestTerminalUi(TestCase):
+    
     def test_terminal_displays_string_passed_to_it(self):
        ui = TerminalUi() 
        with mock.patch('sys.stdout', new=StringIO()) as fake_stdout:
@@ -108,11 +108,10 @@ class TestBoard(TestCase):
        user_shot_choice = 'A1' 
        self.assertEqual(board.validate(user_shot_choice), 'A1')
     
-    def test_exception_is_raised_when_shot_is_invalid(self):
+    def test_ValueError_is_returned_when_shot_is_invalid(self):
        board = Board()
        user_shot_choice = 'A35' 
-       with self.assertRaises(ValueError):
-           board.validate(user_shot_choice)
+       self.assertEqual(board.validate(user_shot_choice), ValueError)
     
     def test_board_state_is_updated_with_new_spot_choice(self):
         board = Board()
