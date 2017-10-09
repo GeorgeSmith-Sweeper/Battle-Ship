@@ -7,12 +7,20 @@ class Game:
         self.ui.display("Welcome to Battleship")
         self.ui.display("Take your best shot")
         self.ui.display(self.board.format())
-        valid_spot = ValueError
-        while valid_spot == ValueError:
-            valid_spot =  self.board.validate(self.ui.get_input('>>'))
-        self.board.update(valid_spot)
+        spot_choice = self.ui.get_input('>>')
+        self.board.spot_exists(spot_choice)
+        self.board.spot_occupied(spot_choice)
+        self.board.update(spot_choice)
         self.ui.display(self.board.format())
 
+        '''
+        while self.board.spot_exists(spot_choice) == False:
+            self.ui.display('Spot does not exist. Try again!')
+            spot_choice = self.ui.get_input('>>')
+        while self.board.spot_occupied(spot_choice) == False:
+            self.ui.display('Shot already taken. Try again!')
+            spot_choice = self.ui.get_input('>>')
+        '''
 class TerminalUi:
     def display(self, message):
        print(message)
@@ -41,7 +49,7 @@ class Board:
         formatted_board += '\n'
         return formatted_board
     
-    def validate(self, user_shot_choice):
+    def spot_exists(self, user_shot_choice):
         letters = [chr(i) for i in range(ord('A'), ord('J')+1)]
         numbers = list(range(1, 11))
 
@@ -53,9 +61,38 @@ class Board:
             for num in numbers:
                 all_spots.append(letters[let] + num)
         
-        if user_shot_choice in all_spots:
-            return user_shot_choice
-        return ValueError
+        return user_shot_choice in all_spots
+
+    def spot_occupied(self, user_shot_choice):
+        letters = {
+                'A': 0, 
+                'B': 1, 
+                'C': 2, 
+                'D': 3, 
+                'E': 4, 
+                'F': 5, 
+                'G': 6, 
+                'H': 7, 
+                'I': 8, 
+                'J': 9
+                }
+        numbers = {
+                '1': 0, 
+                '2': 1, 
+                '3': 2, 
+                '4': 3, 
+                '5': 4, 
+                '6': 5, 
+                '7': 6, 
+                '8': 7, 
+                '9': 8, 
+                '10': 9
+                }
+        user_letter = user_shot_choice[0]
+        user_num = user_shot_choice[1:]
+        return self.state[letters[user_letter]][numbers[user_num]] is not None  
+              
+       
 
     def update(self, user_shot_choice):
         letters = {

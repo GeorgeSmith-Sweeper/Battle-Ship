@@ -4,8 +4,8 @@ from play import Game, TerminalUi, Board
 from io import StringIO
 
 class TestPlayGame(TestCase):
-
-    def test_display_calls(self):
+    
+    def test_play_runs_the_correct_methods(self):
         terminal_ui = TerminalUi()
         board = Board()
 
@@ -14,20 +14,24 @@ class TestPlayGame(TestCase):
         state_after_valid_spot_choice = [['X']]
         formatted_board = '[]'
         
-        board.validate = MagicMock('A1')
+        board.state = MagicMock()
+        board.spot_exists = MagicMock(return_value = True)
+        board.spot_occupied = MagicMock(return_value = False)
         board.update = MagicMock(return_value = state_after_valid_spot_choice)
         board.format = MagicMock(return_value = formatted_board)
+        
         terminal_ui.get_input = MagicMock(return_value = user_shot_choice)
-        terminal_ui.display = MagicMock()
-       
+        terminal_ui.display = MagicMock() 
+        
         new_game = Game(board, terminal_ui) 
 
         new_game.play()
-
+        # collaboration tests
         terminal_ui.display.assert_called()
         terminal_ui.get_input.assert_called()         
-        board.validate.assert_called_with(user_shot_choice)
-        board.update.assert_called_with(board.validate(user_shot_choice))
+        board.spot_exists.assert_called_with(user_shot_choice)
+        board.spot_occupied.assert_called_with(user_shot_choice)
+        board.update.assert_called_with(user_shot_choice)
 
 class TestTerminalUi(TestCase):
     
@@ -48,7 +52,6 @@ class TestTerminalUi(TestCase):
         self.assertEqual(self.correct_response(), 'it works')
 
 class TestBoard(TestCase):
-
     def test_board_is_formatted_correctly_with_empty_board(self):
         board = Board()
         initial_board = """
@@ -104,16 +107,52 @@ class TestBoard(TestCase):
                ]
        self.assertEqual(board.state, initial_board_state) 
 
-    def test_choosen_spot_is_returned_when_valid(self):
+    def test_spot_exists_returns_True_when__choosen_spot_exists(self):
        board = Board()
        user_shot_choice = 'A1' 
-       self.assertEqual(board.validate(user_shot_choice), 'A1')
+       self.assertEqual(board.spot_exists(user_shot_choice), True)
     
-    def test_ValueError_is_returned_when_shot_is_invalid(self):
+    def test_False_is_returned_when_shot_is_invalid(self):
        board = Board()
        user_shot_choice = 'A35' 
-       self.assertEqual(board.validate(user_shot_choice), ValueError)
-    
+       self.assertEqual(board.spot_exists(user_shot_choice), False)
+   
+    def test_True_is_returned_when_spot_is_occupied(self):
+        board = Board()
+        user_shot_choice = 'A1'
+        board.state = [
+               ['X', None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               ]
+
+        self.assertEqual(board.spot_occupied(user_shot_choice), True)
+
+    def test_False_is_returned_when_spot_is_not_occupied(self):
+        board = Board()
+        user_shot_choice = 'A2'
+        board.state = [
+               ['X', None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               ]
+
+        self.assertEqual(board.spot_occupied(user_shot_choice), False)
+        
     def test_board_state_is_updated_with_new_spot_choice(self):
         board = Board()
          
