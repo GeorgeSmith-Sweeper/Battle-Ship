@@ -1,7 +1,6 @@
 from unittest import TestCase, mock
 from unittest.mock import patch, MagicMock, call
 from play import Game, TerminalUi, Board 
-from core import board
 from io import StringIO
 
 class TestPlayGame(TestCase):
