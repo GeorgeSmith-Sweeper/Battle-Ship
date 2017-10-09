@@ -1,10 +1,6 @@
 from unittest import TestCase, mock
 from unittest.mock import patch, MagicMock, call
 from play import Game, TerminalUi, Board 
-<<<<<<< HEAD
-from core import board
-=======
->>>>>>> parent of 803a50a... clear for pr
 from io import StringIO
 
 class TestPlayGame(TestCase):
