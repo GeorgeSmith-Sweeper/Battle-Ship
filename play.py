@@ -14,10 +14,6 @@ class Game:
         self.board.update(spot_choice)
         self.ui.display(self.board.format())
 
-        '''
-        choice = self.board.validate_spot_choice(spot_choice, self.ui)
-        self.ui.format(self.board.state)
-        '''
 class TerminalUi:
     def display(self, message):
        print(message)

@@ -133,7 +133,7 @@ class TestValidations(TestCase):
        ui = TerminalUi()
        user_shot_choice = 'A1'
        self.assertEqual(validate.spot_exists(user_shot_choice, ui), 'A1')
-    '''
+
     @patch('play.TerminalUi.get_input', return_value= 'A1')
     def test_spot_exists_prompts_the_user_if_spot_is_invalid(self, input):
        validate = Validate()
@@ -146,7 +146,7 @@ class TestValidations(TestCase):
 
        ui.display.assert_called_with(invalid_msg)
        assert input() == 'A1'
-    '''
+    
     def test_user_choice_is_returned_when_spot_is_not_occupied(self):
         validate = Validate()
         board = Board()
@@ -166,4 +166,30 @@ class TestValidations(TestCase):
                ]
 
         self.assertEqual(validate.spot_occupied(user_shot_choice, board.state, ui), 'A2')
+    '''
+    @patch('play.TerminalUi.get_input', return_value = 'A2')
+    def test_spot_occupied_prompts_the_user_if_spot_is_occupied(self, input):
+       validate = Validate()
+       board = Board()
+       ui = TerminalUi()
+       invalid_msg = 'That spot is occupied. Pick a different spot' 
+       user_shot_choice = 'A1'
+       ui.display = MagicMock()
+       board.state = [
+               ['X', None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               ]
+       
+       validate.spot_occupied(user_shot_choice, board.state, ui)
 
+       ui.display.assert_called_with(invalid_msg)
+       assert input() == 'A2'
+       '''
