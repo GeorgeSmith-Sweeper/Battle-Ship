@@ -4,15 +4,15 @@ class Game:
         self.board = board
         self.validate = validate
 
-    def play(self):
+    def play(self): 
         self.ui.display("Welcome to Battleship")
-        self.ui.display("Take your best shot")
-        self.ui.display(self.board.format())
-        spot_choice = self.ui.get_input('>>')
-        spot_choice = self.validate.spot_exists(spot_choice, self.ui)
-        spot_choice = self.validate.spot_occupied(spot_choice, self.board.state, self.ui)
-        self.board.update(spot_choice)
-        self.ui.display(self.board.format())
+        board_full = False
+        while not board_full:
+            board_full = self.validate.board_full(self.board.state)
+            self.ui.display("Take your best shot")
+            self.ui.display(self.board.format())
+            spot_choice = self.validate.spot_occupied(self.board.state, self.ui)
+            self.board.update(spot_choice)
 
 class TerminalUi:
     def display(self, message):
@@ -76,14 +76,24 @@ class Validate:
         self.letters = [chr(i) for i in range(ord('A'), ord('J')+1)]
         self.numbers = [str(i) for i in range(1, 11)]
         self.all_spots = [(let + num) for let in self.letters for num in self.numbers]
+    
+    def board_full(self, board_state):
+        full = True
+        for row in range(0, len(board_state)):
+            for ele in board_state[row]:
+                if ele is None:
+                    full = False
+        return full
 
-    def spot_exists(self, user_shot_choice, ui):
+    def spot_exists(self, ui):
+        user_shot_choice = ui.get_input('>>')
         while user_shot_choice not in self.all_spots:
             ui.display('Spot does not exist, Try again')
             user_shot_choice = ui.get_input('>>')
         return user_shot_choice
 
-    def spot_occupied(self, user_shot_choice, board_state, ui):
+    def spot_occupied(self, board_state, ui):
+        user_shot_choice = self.spot_exists(ui)
         lets = {
                 'A': 0,
                 'B': 1,
@@ -113,6 +123,8 @@ class Validate:
         while board_state[lets[user_letter]][nums[user_num]] is not None:
             ui.display('That spot is occupied. Pick a different spot')
             user_shot_choice = ui.get_input('>>')
+            user_letter = user_shot_choice[0]
+            user_num = user_shot_choice[1:]
         return user_shot_choice
 
 if __name__ == "__main__":
