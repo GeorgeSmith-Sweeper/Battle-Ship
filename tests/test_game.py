@@ -35,7 +35,7 @@ class TestPlayGame(TestCase):
         new_game.play()
         # collaboration tests
        
-        ships.place_on_board.assert_called_with(board.state)
+        ships.place_on_board.assert_called_with(board)
         terminal_ui.display.assert_called()
         validate.board_full.assert_called_with(board.state)
         validate.spot_occupied.assert_called_with(board.state, terminal_ui)
