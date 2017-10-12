@@ -10,7 +10,7 @@ class Game:
     def play(self):
         self.ui.display("Welcome to Battleship")
         board_full = False
-        self.ships.place_on_board(self.board.state)
+        self.ships.place_on_board(self.board)
         while not board_full:
             board_full = self.validate.board_full(self.board.state)
             self.ui.display("Take your best shot")
