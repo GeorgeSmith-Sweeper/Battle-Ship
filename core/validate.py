@@ -51,7 +51,8 @@ class Validate:
 
         while board_state[lets[user_letter]][nums[user_num]] is not None:
             ui.display('That spot is occupied. Pick a different spot')
-            user_shot_choice = ui.get_input('>>')
+            print(user_letter, user_num)
+            user_shot_choice = self.spot_exists(ui)self
             user_letter = user_shot_choice[0]
             user_num = user_shot_choice[1:]
         return user_shot_choice
