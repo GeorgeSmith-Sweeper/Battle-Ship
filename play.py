@@ -1,16 +1,18 @@
-from core import board, ui, validate, ships
+from core import board, ui, validate, ships, placement
 
 class Game:
-    def __init__(self, board, ui, validate, ships):
+    def __init__(self, board, ui, validate, ships, place):
         self.ui = ui
         self.board = board
         self.validate = validate
         self.ships = ships
+        self.place = place
 
     def play(self):
         self.ui.display("Welcome to Battleship")
         board_full = False
-        self.ships.place_on_board(self.board)
+        ship_orientation = 'row'
+        self.place.ship_fit(self.board.state, self.ships.aircraft_carrier['size'], ship_orientation)
         while not board_full:
             board_full = self.validate.board_full(self.board.state)
             self.ui.display("Take your best shot")
@@ -24,6 +26,7 @@ if __name__ == "__main__":
     ui = ui.TerminalUi()
     validate = validate.Validate()
     ships = ships.Ships()
-    game = Game(board, ui, validate, ships)
+    place = placement.Place()
+    game = Game(board, ui, validate, ships, place)
     game.play()
 
