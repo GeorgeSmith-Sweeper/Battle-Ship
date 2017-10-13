@@ -38,7 +38,7 @@ class TestPlayGame(TestCase):
         new_game = Game(board, terminal_ui, validate, ships, place)
 
         new_game.play()
-        # collaboration tests
+
 
         place.ship_fit.assert_called()
         terminal_ui.display.assert_called()
