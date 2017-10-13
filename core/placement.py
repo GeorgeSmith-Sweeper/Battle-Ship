@@ -21,9 +21,3 @@ class Place:
         col_int = self.create_random_num()
         if ship_orientation == 'row':
            ship_location = self.can_ship_fit_in_row(board_state, ship_size, row_int, col_int)
-
-
-'''
-def can_ship_fit_in_column(self, board_state, ship_size, row_int, col_int):
-    for row in range(0, len(board_state[col_int]))
-'''

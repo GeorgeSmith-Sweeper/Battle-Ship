@@ -61,8 +61,8 @@ class TestValidations(TestCase):
 
         self.assertEqual(validate.spot_occupied(board.state, ui), 'A2')
 
-    @patch('core.validate.Validate.spot_exists', return_value = 'A1')
-    @patch('core.ui.TerminalUi.get_input', return_value = 'A2')
+    @patch('core.validate.Validate.spot_exists', side_effect = ['A1', 'A2'])
+    @patch('core.ui.TerminalUi.get_input', side_effect = ['A2'])
     def test_spot_occupied_prompts_the_user_if_spot_is_occupied(self, mock1, mock2):
        validate = Validate()
        board = Board()
