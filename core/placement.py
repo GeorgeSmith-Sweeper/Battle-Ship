@@ -20,8 +20,8 @@ class Place:
         
     def can_ship_fit_in_column(self, board_state, ship_size, row_int, col_int):
         requested_col = [sub_list[col_int] for sub_list in board_state]
-        slice_of_col = [requested_col[row_int : row_int + (len(requested_col) - ship_size)]]
-        ship_fits = all(slice_of_col)
+        slice_of_col = requested_col[row_int : row_int + (len(requested_col) - ship_size)]
+        ship_fits = all([spot == None for spot in slice_of_col])
 
         if ship_fits:
             legal_ship_location = {
