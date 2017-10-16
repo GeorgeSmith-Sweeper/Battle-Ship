@@ -1,6 +1,7 @@
 from unittest import TestCase, mock
 from unittest.mock import patch, MagicMock
 from core.board import Board
+from core.placement import Place
 
 
 class TestBoard(TestCase):
@@ -58,3 +59,39 @@ class TestBoard(TestCase):
                [None, None, None, None, None, None, None, None, None, None],
                ]
        self.assertEqual(board.state, initial_board_state)
+
+    @patch('core.placement.Place.create_random_num', return_value = 0)
+    @patch('core.placement.Place.create_random_num', return_value = 0)
+    def test_add_to_board_places_a_ship_on_the_board_if_there_is_room(self, mock1, mock2):
+        board = Board()
+        place = Place()
+        state_after_move = [
+                ['AC', 'AC', 'AC', 'AC', 'AC', None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                ]
+        empty_board = [
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+            ]
+        all_ships = [{
+            'symbol': 'AC',
+            'size': 5,
+            }]
+        board.add_to_board(all_ships, place)
+        self.assertEqual(board.state, state_after_move)
