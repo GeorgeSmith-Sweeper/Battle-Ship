@@ -27,20 +27,18 @@ class TestPlayGame(TestCase):
 
 
         board.state = MagicMock(return_value = board_state)
-        place.ship_fit = MagicMock(return_value = board_state_after_ship_placed)
+        board.add_to_board = MagicMock(return_value = board_state_after_ship_placed)
         validate.spot_occupied = MagicMock(return_value = user_shot_choice)
         validate.board_full = MagicMock(return_value = True)
         board.update = MagicMock(return_value = state_after_valid_spot_choice)
         board.format = MagicMock(return_value = formatted_board)
         terminal_ui.get_input = MagicMock(return_value = user_shot_choice)
         terminal_ui.display = MagicMock()
-
         new_game = Game(board, terminal_ui, validate, ships, place)
-
+        ships.all_ships = MagicMock()
         new_game.play()
 
-
-        place.ship_fit.assert_called()
+        # place.add_to_board.assert_called_with(board.state, ships.all_ships)
         terminal_ui.display.assert_called()
         validate.board_full.assert_called_with(board.state)
         validate.spot_occupied.assert_called_with(board.state, terminal_ui)

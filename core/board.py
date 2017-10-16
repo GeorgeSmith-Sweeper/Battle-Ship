@@ -49,3 +49,22 @@ class Board:
         user_num = user_shot_choice[1:]
 
         self.state[letters[user_letter]][numbers[user_num]] = 'X'
+
+    def add_to_board(self, all_ships, place):
+        ship_orientation = 'row'
+        ship = 0
+
+        while len(all_ships) > 0:
+            row_int = place.create_random_num()
+            col_int = place.create_random_num()
+            ship_orientation = 'column'
+            ship_orientation = 'column' if ship_orientation == 'row' else 'row'
+
+            if ship_orientation == 'row':
+                ship_location = place.can_ship_fit_in_row(self.state, all_ships[0]['size'], row_int, col_int)
+                if ship_location:
+                    for col in range(all_ships[0]['size']):
+                        self.state[row_int][col] = all_ships[ship]['symbol']
+                    all_ships.pop()
+            else:
+                pass
