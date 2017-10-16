@@ -22,3 +22,10 @@ class Ships:
                 'symbol': 'D',
                 'size': 2,
                 }
+        self.all_ships = [
+                self.aircraft_carrier, 
+                self.battleship, 
+                self.cruiser,
+                self.submarine,
+                self.destroyer,
+                ]
