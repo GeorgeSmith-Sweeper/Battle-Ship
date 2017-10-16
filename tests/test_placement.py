@@ -126,3 +126,23 @@ class TestPlace(TestCase):
                 }
         result = self.place.can_ship_fit_in_column(self.board.state, ship_size, row_int, col_int)
         self.assertEqual(result, legal_ship_location)
+    
+    def test_space_for_ship_in_column_returns_False_if_there_is_no_space(self):
+        col_int = 0
+        row_int = 0 
+        ship_size = 5
+        self.board.state = [
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                ['ship', None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                ['ship', None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+            ]
+
+        result = self.place.can_ship_fit_in_column(self.board.state, ship_size, row_int, col_int)
+        self.assertEqual(result, False)
