@@ -33,3 +33,6 @@ class TestShips(TestCase):
         self.assertEqual(ships.submarine['size'], submarine_size)
         self.assertEqual(ships.destroyer['size'], destroyer_size)
 
+    def test_all_ships_contains_all_5_ships(self):
+        ships = Ships()
+        self.assertEqual(len(ships.all_ships), 5)
