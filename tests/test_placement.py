@@ -27,29 +27,21 @@ class TestPlace(TestCase):
         random_num = self.place.create_random_num()
         self.assertIn(random_num,  zero_to_nine_list)
 
-    def test_space_for_ship_in_row_returns_location_if_there_is_space(self):
+    def test_space_for_ship_in_row_returns_True_if_there_is_space(self):
         col_int = 0
         row_int = 0
         ship_size = 5
-        legal_ship_location = {
-                'start': 0,
-                'end': 5,
-                }
         result = self.place.can_ship_fit_in_row(self.empty_board, ship_size, row_int, col_int)
 
-        self.assertEqual(result, legal_ship_location)
+        self.assertEqual(result, True)
 
-    def test_space_for_ship_in_row_returns_location_if_there_is_space_2nd(self):
+    def test_space_for_ship_in_row_returns_True_if_there_is_space_2nd(self):
         col_int = 0
         row_int = 4
         ship_size = 5
-        legal_ship_location = {
-                'start': 0,
-                'end': 5,
-                }
         result = self.place.can_ship_fit_in_row(self.empty_board, ship_size, row_int, col_int)
 
-        self.assertEqual(result, legal_ship_location)
+        self.assertEqual(result, True)
 
     def test_space_for_ship_in_row_returns_False_if_there_is_no_space(self):
         col_int = 0
@@ -71,21 +63,17 @@ class TestPlace(TestCase):
         result = self.place.can_ship_fit_in_row(self.board.state, ship_size, row_int, col_int)
         self.assertEqual(result, False)
 
-    def test_space_for_ship_in_column_returns_location_if_there_is_space(self):
+    def test_space_for_ship_in_column_returns_True_if_there_is_space(self):
         col_int = 1
         row_int = 4
         ship_size = 5
-        legal_ship_location = {
-                'start': 4,
-                'end': 9,
-                }
         result = self.place.can_ship_fit_in_column(self.empty_board, ship_size, row_int, col_int)
 
-        self.assertEqual(result, legal_ship_location)
+        self.assertEqual(result, True)
 
     def test_space_for_ship_in_column_returns_False_if_there_is_no_space(self):
         col_int = 0
-        row_int = 0
+        row_int = 7
         ship_size = 5
         self.board.state = [
                 [None, None, None, None, None, None, None, None, None, None],

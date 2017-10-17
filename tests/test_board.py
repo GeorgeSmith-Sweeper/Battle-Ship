@@ -5,6 +5,22 @@ from core.placement import Place
 
 
 class TestBoard(TestCase):
+    
+    def setUp(self):
+       self.empty_board = [
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               [None, None, None, None, None, None, None, None, None, None],
+               ]
+        
+
     def test_board_is_formatted_correctly_with_empty_board(self):
         board = Board()
         initial_board = """
@@ -46,23 +62,11 @@ class TestBoard(TestCase):
 
     def test_board_is_initialized_with_an_empty_state(self):
        board = Board()
-       initial_board_state = [
-               [None, None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None, None],
-               [None, None, None, None, None, None, None, None, None, None],
-               ]
-       self.assertEqual(board.state, initial_board_state)
+       self.assertEqual(board.state, self.empty_board)
 
     @patch('core.placement.Place.create_random_num', return_value = 0)
     @patch('core.placement.Place.create_random_num', return_value = 0)
-    def test_add_to_board_places_a_ship_on_the_board_if_there_is_room(self, mock1, mock2):
+    def test_ship_added_to_row_if_there_is_room(self, mock1, mock2):
         board = Board()
         place = Place()
         state_after_move = [
@@ -77,7 +81,33 @@ class TestBoard(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
-        empty_board = [
+        all_ships = [{
+            'symbol': 'AC',
+            'size': 5,
+            }]
+        ship_orientation = 'row'
+        board.add_to_board(all_ships, place, ship_orientation)
+        self.assertEqual(board.state, state_after_move)
+
+    @patch('core.placement.Place.create_random_num', return_value = 0)
+    @patch('core.placement.Place.create_random_num', return_value = 0)
+    
+    def test_ship__added_to_column_if_there_is_room(self, mock1, mock2):
+        board = Board()
+        place = Place()
+        state_after_move = [
+                ['AC', None, None, None, None, None, None, None, None, None],
+                ['AC', None, None, None, None, None, None, None, None, None],
+                ['AC', None, None, None, None, None, None, None, None, None],
+                ['AC', None, None, None, None, None, None, None, None, None],
+                ['AC', None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                ]
+        board.state = [
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
@@ -93,5 +123,6 @@ class TestBoard(TestCase):
             'symbol': 'AC',
             'size': 5,
             }]
-        board.add_to_board(all_ships, place)
+        ship_orientation = 'column'
+        board.add_to_board(all_ships, place, ship_orientation)
         self.assertEqual(board.state, state_after_move)

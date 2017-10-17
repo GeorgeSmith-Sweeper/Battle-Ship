@@ -50,21 +50,27 @@ class Board:
 
         self.state[letters[user_letter]][numbers[user_num]] = 'X'
 
-    def add_to_board(self, all_ships, place):
-        ship_orientation = 'row'
+    def add_to_board(self, all_ships, place, ship_orientation):
         ship = 0
+        row_int = place.create_random_num()
+        col_int = place.create_random_num()
 
-        while len(all_ships) > 0:
-            row_int = place.create_random_num()
-            col_int = place.create_random_num()
-            ship_orientation = 'column'
-            ship_orientation = 'column' if ship_orientation == 'row' else 'row'
-
+        while len(all_ships) > 0: 
             if ship_orientation == 'row':
-                ship_location = place.can_ship_fit_in_row(self.state, all_ships[0]['size'], row_int, col_int)
-                if ship_location:
-                    for col in range(all_ships[0]['size']):
-                        self.state[row_int][col] = all_ships[ship]['symbol']
-                    all_ships.pop()
-            else:
-                pass
+
+                while place.can_ship_fit_in_row(self.state, all_ships[ship]['size'], row_int, col_int) == False:
+                    row_int = place.create_random_num()
+                    col_int = place.create_random_num()
+                
+                for ele in range(all_ships[ship]['size']):
+                    self.state[row_int][ele - (len(self.state) - col_int)] = all_ships[ship]['symbol']
+            else: 
+                while place.can_ship_fit_in_column(self.state, all_ships[ship]['size'], row_int, col_int) == False:
+                    row_int = place.create_random_num()
+                    col_int = place.create_random_num()
+                
+                for ele in range(all_ships[ship]['size']):
+                    self.state[ele - (len(self.state) - row_int)][col_int] = all_ships[ship]['symbol']  
+
+            all_ships.pop(0)
+            ship_orientation = 'column' if ship_orientation == 'row' else 'row'
