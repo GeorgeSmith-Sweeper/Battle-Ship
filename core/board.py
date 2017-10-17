@@ -2,24 +2,6 @@ class Board:
     def __init__(self):
         self.state = [[None for ele in range(10)] for index in range(10)]
 
-    def format(self):
-        formatted_board = '\n' + '    A  B  C  D  E  F  G  H  I  J'
-
-        for row in range(0, len(self.state)):
-            formatted_board += '\n'
-            if (row + 1) < 10:
-                formatted_board += ' ' + str(row + 1) + ' '
-            else:
-                formatted_board += str(row + 1) + ' '
-            for column in range(0, len(self.state[row])):
-                if self.state[column][row] is None:
-                    formatted_board += '[ ]'
-                else:
-                    formatted_board += '[X]'
-
-        formatted_board += '\n'
-        return formatted_board
-
     def update(self, user_shot_choice):
         letters = {
                 'A': 0,
@@ -51,26 +33,27 @@ class Board:
         self.state[letters[user_letter]][numbers[user_num]] = 'X'
 
     def add_to_board(self, all_ships, place, ship_orientation):
+        all_ships_copy = all_ships.copy()
         ship = 0
         row_int = place.create_random_num()
         col_int = place.create_random_num()
 
-        while len(all_ships) > 0: 
+        while len(all_ships_copy) > 0:
             if ship_orientation == 'row':
 
-                while place.can_ship_fit_in_row(self.state, all_ships[ship]['size'], row_int, col_int) == False:
+                while place.can_ship_fit_in_row(self.state, all_ships_copy[ship]['size'], row_int, col_int) == False:
                     row_int = place.create_random_num()
                     col_int = place.create_random_num()
-                
-                for ele in range(all_ships[ship]['size']):
-                    self.state[row_int][ele - (len(self.state) - col_int)] = all_ships[ship]['symbol']
-            else: 
-                while place.can_ship_fit_in_column(self.state, all_ships[ship]['size'], row_int, col_int) == False:
-                    row_int = place.create_random_num()
-                    col_int = place.create_random_num()
-                
-                for ele in range(all_ships[ship]['size']):
-                    self.state[ele - (len(self.state) - row_int)][col_int] = all_ships[ship]['symbol']  
 
-            all_ships.pop(0)
+                for ele in range(all_ships_copy[ship]['size']):
+                    self.state[row_int][ele - (len(self.state) - col_int)] = all_ships_copy[ship]['symbol']
+            else:
+                while place.can_ship_fit_in_column(self.state, all_ships_copy[ship]['size'], row_int, col_int) == False:
+                    row_int = place.create_random_num()
+                    col_int = place.create_random_num()
+
+                for ele in range(all_ships_copy[ship]['size']):
+                    self.state[ele - (len(self.state) - row_int)][col_int] = all_ships_copy[ship]['symbol']
+
+            all_ships_copy.pop(0)
             ship_orientation = 'column' if ship_orientation == 'row' else 'row'

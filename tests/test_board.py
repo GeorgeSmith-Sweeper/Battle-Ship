@@ -5,7 +5,7 @@ from core.placement import Place
 
 
 class TestBoard(TestCase):
-    
+
     def setUp(self):
        self.empty_board = [
                [None, None, None, None, None, None, None, None, None, None],
@@ -19,50 +19,7 @@ class TestBoard(TestCase):
                [None, None, None, None, None, None, None, None, None, None],
                [None, None, None, None, None, None, None, None, None, None],
                ]
-        
 
-    def test_board_is_formatted_correctly_with_empty_board(self):
-        board = Board()
-        initial_board = """
-    A  B  C  D  E  F  G  H  I  J
- 1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 2 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 6 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 7 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-"""
-        formatted_board = board.format()
-
-        self.assertEqual(formatted_board, initial_board)
-
-    def test_board_is_formatted_correctly_with_an_occupied_board(self):
-        board = Board()
-        board.update('A1')
-        occupied_board = """
-    A  B  C  D  E  F  G  H  I  J
- 1 [X][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 2 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 6 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 7 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-"""
-        formatted_board = board.format()
-
-        self.assertEqual(formatted_board, occupied_board)
-
-    def test_board_is_initialized_with_an_empty_state(self):
-       board = Board()
-       self.assertEqual(board.state, self.empty_board)
 
     @patch('core.placement.Place.create_random_num', return_value = 0)
     @patch('core.placement.Place.create_random_num', return_value = 0)
@@ -91,7 +48,7 @@ class TestBoard(TestCase):
 
     @patch('core.placement.Place.create_random_num', return_value = 0)
     @patch('core.placement.Place.create_random_num', return_value = 0)
-    
+
     def test_ship__added_to_column_if_there_is_room(self, mock1, mock2):
         board = Board()
         place = Place()

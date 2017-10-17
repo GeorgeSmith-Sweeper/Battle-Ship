@@ -1,7 +1,9 @@
 from unittest import TestCase, mock
 from unittest.mock import patch, MagicMock
 from core.ui import TerminalUi
+from core.board import Board
 from io import StringIO
+from core.ships import Ships
 
 class TestTerminalUi(TestCase):
 
@@ -20,3 +22,61 @@ class TestTerminalUi(TestCase):
     @patch('core.ui.TerminalUi.get_input', return_value='hello')
     def test_get_input_returns_a_users_input(self, mock):
         self.assertEqual(self.correct_response(), 'it works')
+
+class TestFormat(TestCase):
+    def setUp(self):
+        self.board_with_ships = [
+                ['AC', 'AC', 'AC', 'AC', 'AC', None, None, None, None, 'S'],
+                [None, None, None, None, None, None, None, None, None, 'S'],
+                [None, None, None, None, None, None, None, None, None, 'S'],
+                [None, None, None, None, 'C', None, None, None, None, None],
+                [None, 'D', None, None, 'C', None, None, None, None, None],
+                [None, 'D', None, None, 'C', None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                ]
+        self.ships = Ships()
+
+    def test_board_is_formatted_correctly_with_ships_before_moves(self):
+        board = Board()
+        ui = TerminalUi()
+        
+        board_with_hidden_ships = """
+    A  B  C  D  E  F  G  H  I  J
+ 1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 2 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 6 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 7 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+"""
+        formatted_board = ui.format(self.board_with_ships, self.ships.all_ships)
+        print(self.ships.all_ships)
+        self.assertEqual(formatted_board, board_with_hidden_ships)
+
+    def test_board_is_formatted_correctly_with_an_occupied_board(self):
+        board = Board()
+        ui = TerminalUi()
+        board.update('A2')
+        occupied_board = """
+    A  B  C  D  E  F  G  H  I  J
+ 1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 2 [X][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 6 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 7 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+"""
+        formatted_board = ui.format(board.state, self.ships.all_ships)
+
+        self.assertEqual(formatted_board, occupied_board)
