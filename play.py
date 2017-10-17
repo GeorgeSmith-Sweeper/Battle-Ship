@@ -12,7 +12,7 @@ class Game:
         self.ui.display("Welcome to Battleship")
         board_full = False
         ship_orientation = 'row'
-        self.board.add_to_board(self.ships.all_ships, self.place)
+        self.board.add_to_board(self.ships.all_ships, self.place, ship_orientation)
         while not board_full:
             board_full = self.validate.board_full(self.board.state)
             self.ui.display("Take your best shot")

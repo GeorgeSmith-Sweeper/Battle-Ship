@@ -36,9 +36,10 @@ class TestPlayGame(TestCase):
         terminal_ui.display = MagicMock()
         new_game = Game(board, terminal_ui, validate, ships, place)
         ships.all_ships = MagicMock()
+        
         new_game.play()
 
-        # place.add_to_board.assert_called_with(board.state, ships.all_ships)
+        board.add_to_board.assert_called_with(ships.all_ships, place, ship_orientation)
         terminal_ui.display.assert_called()
         validate.board_full.assert_called_with(board.state)
         validate.spot_occupied.assert_called_with(board.state, terminal_ui)
