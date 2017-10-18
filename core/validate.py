@@ -20,7 +20,8 @@ class Validate:
             user_shot_choice = ui.get_input('>>')
         return user_shot_choice
 
-    def spot_occupied(self, board_state, ui):
+    def spot_occupied(self, board_state, ui, all_ships):
+        ship_symbols = [] 
         user_shot_choice = self.spot_exists(ui)
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]
@@ -48,10 +49,15 @@ class Validate:
                 '9': 8,
                 '10': 9
                 }
-
-        while board_state[lets[user_letter]][nums[user_num]] is not None:
+        for ship in all_ships:
+            ship_symbols.append(ship['symbol'])
+            
+        # must check for None AND any ship symbols
+        while board_state[lets[user_letter]][nums[user_num]] is not None or board_state[lets[user_letter]][nums[user_num]] in ship_symbols: 
             ui.display('That spot is occupied. Pick a different spot')
             user_shot_choice = self.spot_exists(ui)
             user_letter = user_shot_choice[0]
             user_num = user_shot_choice[1:]
         return user_shot_choice
+    
+    
