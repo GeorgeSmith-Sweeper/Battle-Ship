@@ -13,7 +13,7 @@ class Board:
                 'G': 6,
                 'H': 7,
                 'I': 8,
-                'J': 9
+                'J': 9,
                 }
         numbers = {
                 '1': 0,
@@ -25,11 +25,14 @@ class Board:
                 '7': 6,
                 '8': 7,
                 '9': 8,
-                '10': 9
+                '10': 9,
                 }
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]
-
+        
+        # conditional can be added here to display a hit verses a non hit
+        # can be based on the return value of hit_ship
+        # hit_ship() => True spot = H 'hit' else spot = M 'miss'
         self.state[letters[user_letter]][numbers[user_num]] = 'X'
 
     def add_to_board(self, all_ships, place, ship_orientation):

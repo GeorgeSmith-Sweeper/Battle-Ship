@@ -42,5 +42,5 @@ class TestPlayGame(TestCase):
         board.add_to_board.assert_called_with(ships.all_ships, place, ship_orientation)
         terminal_ui.display.assert_called()
         validate.board_full.assert_called_with(board.state)
-        validate.spot_occupied.assert_called_with(board.state, terminal_ui)
+        validate.spot_occupied.assert_called_with(board.state, terminal_ui, ships.all_ships)
         board.update.assert_called_with(user_shot_choice)
