@@ -133,9 +133,28 @@ class TestValidations(TestCase):
     # state of board
     # users shot location
     # ship symbol
-
-    def test_can_detect_when_a_ship_is_hit(self):
+    def test_hitting_a_ship_displays_msg_and_returns_true(self):
         board = Board()
         ui = TerminalUi()
+        ui.display = MagicMock()
+        shot = 'A1'
+        all_ships = self.ships.all_ships
+        ship_hit_msg = 'You hit a ship!'    
+        
+        hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, ui)
+        
+        ui.display.assert_called_with(ship_hit_msg)
+        self.assertEqual(hit, True)
 
-
+    def test_missing_a_ship_displays_miss_msg_and_returns_False(self):
+        board = Board()
+        ui = TerminalUi()
+        ui.display = MagicMock()
+        shot = 'A9'
+        all_ships = self.ships.all_ships
+        ship_hit_msg = 'Miss!'    
+        
+        hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, ui)
+        
+        ui.display.assert_called_with(ship_hit_msg)
+        self.assertEqual(hit, False)
