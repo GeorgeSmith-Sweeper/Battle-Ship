@@ -137,7 +137,7 @@ class TestValidations(TestCase):
         ui.display = MagicMock()
         shot = 'A2'
         all_ships = self.ships.all_ships
-        ship_hit_msg = 'You hit a ship!'    
+        ship_hit_msg = 'You hit the Aircraft Carrier!'    
         
         is_hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, ui)
         

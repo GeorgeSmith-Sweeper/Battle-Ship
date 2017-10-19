@@ -65,12 +65,10 @@ class Validate:
         user_letter = shot[0]
         user_num = shot[1:]
         ship_symbols = [] 
-        for ship in all_ships:
-            ship_symbols.append(ship['symbol'])
-
-        if board_state[self.rows[user_num]][self.columns[user_letter]] in ship_symbols:
-            ui.display('You hit a ship!')
-            return True
+        for ship in range(len(all_ships)):
+            if board_state[self.rows[user_num]][self.columns[user_letter]] == all_ships[ship]['symbol']:
+                ui.display('You hit the ' + all_ships[ship]['name'] + '!')
+                return True
         ui.display('Miss!')
         return False
 
