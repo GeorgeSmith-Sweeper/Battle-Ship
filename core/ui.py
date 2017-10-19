@@ -21,10 +21,13 @@ class TerminalUi:
                 formatted_board += str(row + 1) + ' '
 
             for column in range(0, len(board_state[row])):
-                if board_state[column][row] is None or board_state[column][row] in ship_symbols:
+                if board_state[row][column] is None or board_state[row][column] in ship_symbols:
                     formatted_board += '[ ]'
-                else:
-                    formatted_board += '[X]'
+
+                if board_state[row][column] == 'Miss': 
+                    formatted_board += '[M]'
+                elif board_state[row][column] == 'Hit':
+                    formatted_board += '[H]'
 
         formatted_board += '\n'
         return formatted_board
