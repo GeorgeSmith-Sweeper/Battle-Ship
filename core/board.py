@@ -3,18 +3,6 @@ class Board:
         self.state = [[None for ele in range(10)] for index in range(10)]
 
     def update(self, user_shot_choice, hit):
-        columns = {
-                'A': 0,
-                'B': 1,
-                'C': 2,
-                'D': 3,
-                'E': 4,
-                'F': 5,
-                'G': 6,
-                'H': 7,
-                'I': 8,
-                'J': 9,
-                }
         rows = {
                 '1': 0,
                 '2': 1,
@@ -27,14 +15,26 @@ class Board:
                 '9': 8,
                 '10': 9,
                 }
+        columns = {
+                'A': 0,
+                'B': 1,
+                'C': 2,
+                'D': 3,
+                'E': 4,
+                'F': 5,
+                'G': 6,
+                'H': 7,
+                'I': 8,
+                'J': 9,
+                }
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]
         
-        # conditional can be added here to display a hit verses a non hit
-        # can be based on the return value of hit_ship
-        # hit_ship() => True spot = H 'hit' else spot = M 'miss'
-        self.state[columns[user_letter]][rows[user_num]] = 'X' 
-        
+        if hit:
+            self.state[rows[user_num]][columns[user_letter]] = 'Hit' 
+        else:
+            self.state[rows[user_num]][columns[user_letter]] = 'Miss' 
+            
     def add_to_board(self, all_ships, place, ship_orientation):
         all_ships_copy = all_ships.copy()
         ship = 0
