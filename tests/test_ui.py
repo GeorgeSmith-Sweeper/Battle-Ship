@@ -6,7 +6,6 @@ from io import StringIO
 from core.ships import Ships
 
 class TestTerminalUi(TestCase):
-
     def test_terminal_displays_string_passed_to_it(self):
        ui = TerminalUi()
        with mock.patch('sys.stdout', new=StringIO()) as fake_stdout:
@@ -37,12 +36,24 @@ class TestFormat(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
+        self.board_with_ships_and_moves = [
+                ['Hit', 'AC', 'AC', 'AC', 'AC', None, None, None, None, 'S'],
+                ['Miss', None, None, None, None, None, None, None, None, 'S'],
+                [None, None, None, None, None, None, None, None, None, 'S'],
+                [None, None, None, None, 'C', None, None, None, None, None],
+                [None, 'D', None, None, 'C', None, None, None, None, None],
+                [None, 'D', None, None, 'C', None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                ]
+
         self.ships = Ships()
 
     def test_board_is_formatted_correctly_with_ships_before_moves(self):
         board = Board()
-        ui = TerminalUi()
-        
+        ui = TerminalUi() 
         board_with_hidden_ships = """
     A  B  C  D  E  F  G  H  I  J
  1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
@@ -59,15 +70,13 @@ class TestFormat(TestCase):
         formatted_board = ui.format(self.board_with_ships, self.ships.all_ships)
         self.assertEqual(formatted_board, board_with_hidden_ships)
 
-    def test_board_is_formatted_correctly_with_an_occupied_board(self):
+    def test_board_is_formatted_correctly_with_an_shots_taken(self):
         board = Board()
         ui = TerminalUi()
-        hit = True
-        board.update('A2', hit)
         occupied_board = """
     A  B  C  D  E  F  G  H  I  J
- 1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 2 [X][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 1 [H][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 2 [M][ ][ ][ ][ ][ ][ ][ ][ ][ ]
  3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
  4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
  5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
@@ -77,6 +86,6 @@ class TestFormat(TestCase):
  9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """
-        formatted_board = ui.format(board.state, self.ships.all_ships)
+        formatted_board = ui.format(self.board_with_ships_and_moves, self.ships.all_ships)
 
         self.assertEqual(formatted_board, occupied_board)
