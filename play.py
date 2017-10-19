@@ -19,8 +19,8 @@ class Game:
             self.ui.display("Take your best shot")
             self.ui.display(self.ui.format(self.board.state, self.ships.all_ships))
             spot_choice = self.validate.spot_occupied(self.board.state, self.ui, self.ships.all_ships)
-            hit = self.validate.hit_ship(self.board.state, spot_choice, self.ships.all_ships, self.ui)
-            self.board.update(spot_choice, hit)
+            is_hit = self.validate.hit_ship(self.board.state, spot_choice, self.ships.all_ships, self.ui)
+            self.board.update(spot_choice, is_hit)
 
 
 if __name__ == "__main__":

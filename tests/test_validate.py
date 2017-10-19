@@ -6,6 +6,11 @@ from core.ui import TerminalUi
 from core.ships import Ships
 
 class TestValidations(TestCase):
+    '''
+    board_helper = BoardHelper
+    board_helper.create_new_board()
+    board_helper.create_board_with_state(state)
+    '''
     def setUp(self):
         self.ships = Ships()
         self.validate = Validate()
@@ -96,19 +101,7 @@ class TestValidations(TestCase):
        validate.spot_occupied(self.board.state, ui, self.ships.all_ships)
 
        ui.display.assert_called_with(invalid_msg)
-    '''
-    @patch('core.validate.Validate.spot_exists', side_effect = ['A1', 'A2'])
-    @patch('core.ui.TerminalUi.get_input', side_effect = ['A2'])
-    def test_spot_occupied_does_not_prompt_user_if_a_ship_is_hit(self, mock1, mock2):
-       validate = Validate()
-       ui = TerminalUi()
-       ui.display = MagicMock()
-       self.board.state = self.board_with_ships 
 
-       validate.spot_occupied(self.board.state, ui, self.ships.all_ships)
-
-       ui.display.assert_not_called()
-    '''
     def test_board_full_returns_True_if_there_are_no_empty_spots_on_the_board(self):
         self.board.state = [
                ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
@@ -146,10 +139,10 @@ class TestValidations(TestCase):
         all_ships = self.ships.all_ships
         ship_hit_msg = 'You hit a ship!'    
         
-        hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, ui)
+        is_hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, ui)
         
         ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(hit, True)
+        self.assertEqual(is_hit, True)
 
     def test_missing_a_ship_displays_miss_msg_and_returns_False(self):
         ui = TerminalUi()
@@ -158,7 +151,7 @@ class TestValidations(TestCase):
         all_ships = self.ships.all_ships
         ship_hit_msg = 'Miss!'    
         
-        hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, ui)
+        is_hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, ui)
         
         ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(hit, False)
+        self.assertEqual(is_hit, False)
