@@ -3,7 +3,7 @@ class Validate:
         self.letters = [chr(i) for i in range(ord('A'), ord('J')+1)]
         self.numbers = [str(i) for i in range(1, 11)]
         self.all_spots = [(let + num) for let in self.letters for num in self.numbers]
-        self.let_dict = {
+        self.rows = {
                 'A': 0,
                 'B': 1,
                 'C': 2,
@@ -15,7 +15,7 @@ class Validate:
                 'I': 8,
                 'J': 9
                 }
-        self.nums_dict = {
+        self.columns = {
                 '1': 0,
                 '2': 1,
                 '3': 2,
@@ -54,7 +54,7 @@ class Validate:
             ship_symbols.append(ship['symbol'])
             
         # must check for None AND any ship symbols
-        while board_state[self.let_dict[user_letter]][self.nums_dict[user_num]] is not None or board_state[self.let_dict[user_letter]][self.nums_dict[user_num]] in ship_symbols: 
+        while board_state[self.rows[user_letter]][self.columns[user_num]] is not None or board_state[self.rows[user_letter]][self.columns[user_num]] in ship_symbols: 
             ui.display('That spot is occupied. Pick a different spot')
             user_shot_choice = self.spot_exists(ui)
             user_letter = user_shot_choice[0]
@@ -68,7 +68,7 @@ class Validate:
         for ship in all_ships:
             ship_symbols.append(ship['symbol'])
 
-        if board_state[self.let_dict[user_letter]][self.nums_dict[user_num]] in ship_symbols:
+        if board_state[self.rows[user_letter]][self.columns[user_num]] in ship_symbols:
             ui.display('You hit a ship!')
             return True
         ui.display('Miss!')

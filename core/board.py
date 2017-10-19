@@ -33,8 +33,7 @@ class Board:
         # conditional can be added here to display a hit verses a non hit
         # can be based on the return value of hit_ship
         # hit_ship() => True spot = H 'hit' else spot = M 'miss'
-        if hit == True: 
-            self.state[columns[user_letter]][rows[user_num]] = 'Hit'
+        self.state[columns[user_letter]][rows[user_num]] = 'X' 
         
     def add_to_board(self, all_ships, place, ship_orientation):
         all_ships_copy = all_ships.copy()
