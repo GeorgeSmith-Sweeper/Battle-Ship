@@ -7,7 +7,6 @@ class TerminalUi:
         return response
 
     def format(self, board_state, all_ships):
-        print(all_ships)
         ship_symbols = []
         for ship in all_ships:
             ship_symbols.append(ship['symbol'])
@@ -29,3 +28,4 @@ class TerminalUi:
 
         formatted_board += '\n'
         return formatted_board
+    
