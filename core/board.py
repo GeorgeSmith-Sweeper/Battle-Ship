@@ -2,8 +2,8 @@ class Board:
     def __init__(self):
         self.state = [[None for ele in range(10)] for index in range(10)]
 
-    def update(self, user_shot_choice):
-        letters = {
+    def update(self, user_shot_choice, hit):
+        columns = {
                 'A': 0,
                 'B': 1,
                 'C': 2,
@@ -15,7 +15,7 @@ class Board:
                 'I': 8,
                 'J': 9,
                 }
-        numbers = {
+        rows = {
                 '1': 0,
                 '2': 1,
                 '3': 2,
@@ -33,8 +33,9 @@ class Board:
         # conditional can be added here to display a hit verses a non hit
         # can be based on the return value of hit_ship
         # hit_ship() => True spot = H 'hit' else spot = M 'miss'
-        self.state[letters[user_letter]][numbers[user_num]] = 'X'
-
+        if hit == True: 
+            self.state[columns[user_letter]][rows[user_num]] = 'Hit'
+        
     def add_to_board(self, all_ships, place, ship_orientation):
         all_ships_copy = all_ships.copy()
         ship = 0
