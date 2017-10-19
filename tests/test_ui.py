@@ -57,13 +57,13 @@ class TestFormat(TestCase):
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """
         formatted_board = ui.format(self.board_with_ships, self.ships.all_ships)
-        print(self.ships.all_ships)
         self.assertEqual(formatted_board, board_with_hidden_ships)
 
     def test_board_is_formatted_correctly_with_an_occupied_board(self):
         board = Board()
         ui = TerminalUi()
-        board.update('A2')
+        hit = True
+        board.update('A2', hit)
         occupied_board = """
     A  B  C  D  E  F  G  H  I  J
  1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
