@@ -29,11 +29,3 @@ class TerminalUi:
         formatted_board += '\n'
         return formatted_board
     
-    
-
-
-
-
-
-    # Ideas
-    # Create messages dictionary eg {'instructions': 'blah blah blah'}

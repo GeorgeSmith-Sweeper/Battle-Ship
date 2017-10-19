@@ -44,7 +44,7 @@ class TestBoard(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
-
+    '''
     def test_Hit_is_added_to_board_if_the_user_hit_a_ship(self):
         user_shot_choice = 'A2'
         self.board.state = [
@@ -63,7 +63,7 @@ class TestBoard(TestCase):
         
         self.board.update(user_shot_choice, hit)
         self.assertEqual(self.board.state, self.board_with_a_hit)
-    
+    ''' 
     @patch('core.placement.Place.create_random_num', return_value = 0)
     @patch('core.placement.Place.create_random_num', return_value = 0)
     def test_ship_added_to_row_if_there_is_room(self, mock1, mock2):
