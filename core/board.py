@@ -37,11 +37,11 @@ class Board:
             
     def add_to_board(self, all_ships, place, ship_orientation):
         all_ships_copy = all_ships.copy()
-        ship = 0
         row_int = place.create_random_num()
         col_int = place.create_random_num()
 
         while len(all_ships_copy) > 0:
+            ship = 0
             if ship_orientation == 'row':
 
                 while place.can_ship_fit_in_row(self.state, all_ships_copy[ship]['size'], row_int, col_int) == False:
