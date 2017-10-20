@@ -15,10 +15,7 @@ class TerminalUi:
         
         for row in range(0, len(board_state)):
             formatted_board += '\n'
-            if (row + 1) < 10:
-                formatted_board += ' ' + str(row + 1) + ' '
-            else:
-                formatted_board += str(row + 1) + ' '
+            formatted_board += self.add_row_number(row, len(board_state))
 
             for column in range(0, len(board_state[row])):
                 if board_state[row][column] is None or board_state[row][column] in ship_symbols:
@@ -31,4 +28,10 @@ class TerminalUi:
 
         formatted_board += '\n'
         return formatted_board
-    
+   
+    def add_row_number(self, row_int, total_rows):
+        if (row_int + 1) < total_rows:
+            return ' ' + str(row_int + 1) + ' '
+        else:
+            return str(row_int + 1) + ' '
+        

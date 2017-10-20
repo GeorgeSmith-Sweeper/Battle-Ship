@@ -50,6 +50,26 @@ class TestFormat(TestCase):
                 ]
 
         self.ships = Ships()
+    
+    def test_less_then_board_len_add_row_numbers_returns_correctly_formatted_row(self):
+        board = Board()
+        ui = TerminalUi()
+        current_row = 0
+        total_rows = 10
+        row_number = ' 1 '
+
+        formatted_row_number = ui.add_row_number(current_row, total_rows)
+        self.assertEqual(formatted_row_number, row_number)
+    
+    def test_add_row_numbers_returns_correctly_formats_dbl_digit_rows(self):
+        board = Board()
+        ui = TerminalUi()
+        current_row = 9
+        total_rows = 10
+        row_number = '10 '
+        
+        formatted_row_number = ui.add_row_number(current_row, total_rows)
+        self.assertEqual(formatted_row_number, row_number)
 
     def test_board_is_formatted_correctly_with_ships_before_moves(self):
         board = Board()
