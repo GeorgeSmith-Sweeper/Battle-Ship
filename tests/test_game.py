@@ -29,7 +29,6 @@ class TestPlayGame(TestCase):
         board.state = MagicMock(return_value = board_state)
         board.add_to_board = MagicMock(return_value = board_state_after_ship_placed)
         board.update = MagicMock()
-        board.format = MagicMock(return_value = formatted_board)
         validate.spot_occupied = MagicMock(return_value = user_shot_choice)
         validate.board_full = MagicMock(return_value = True)
         ui.get_input = MagicMock(return_value = user_shot_choice)
