@@ -50,7 +50,7 @@ class TestFormat(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
-        self.ship_symbols = ['AC', 'B', 'S', 'C', 'D']
+        self.ship_symbols = ['AC', 'B', 'C', 'S', 'D']
     
     def test_less_then_board_len_add_row_numbers_returns_correctly_formatted_row(self):
         current_row = 0
@@ -83,6 +83,11 @@ class TestFormat(TestCase):
         formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ship_symbols)
 
         self.assertEqual(formated_marker, missed_marker)
+    
+    def test_get_ship_symbols_returns_a_list_of_all_ship_symbols(self):
+        all_ship_symbols = self.ui.get_ship_symbols(self.ships.all_ships)
+        
+        self.assertEqual(all_ship_symbols, self.ship_symbols)
 
     def test_board_is_formatted_correctly_with_ships_before_moves(self):
         board_with_hidden_ships = """
