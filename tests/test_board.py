@@ -60,40 +60,20 @@ class TestBoard(TestCase):
        
     def test_Hit_is_added_to_board_if_the_user_hit_a_ship(self):
         user_shot_choice = 'B1'
-        self.board.state = [
-                ['AC', 'AC', 'AC', 'AC', 'AC', None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                ]
+        self.board.state = self.board_with_ships 
         hit = True
         self.maxDiff = None 
         self.board.update(user_shot_choice, hit)
+
         self.assertEqual(self.board.state, self.board_with_a_hit)
 
     def test_Miss_is_added_to_board_if_the_user_Misses_a_ship(self):
         user_shot_choice = 'A2'
-        self.board.state = [
-                ['AC', 'AC', 'AC', 'AC', 'AC', None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                ]
+        self.board.state = self.board_with_ships 
         hit = False
         self.maxDiff = None 
         self.board.update(user_shot_choice, hit)
+
         self.assertEqual(self.board.state, self.board_with_a_miss)
 
     @patch('core.placement.Place.create_random_num', return_value = 0)
@@ -118,6 +98,7 @@ class TestBoard(TestCase):
             }]
         ship_orientation = 'row'
         self.board.add_to_board(all_ships, place, ship_orientation)
+
         self.assertEqual(self.board.state, state_after_move)
 
     @patch('core.placement.Place.create_random_num', return_value = 0)
@@ -136,22 +117,12 @@ class TestBoard(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
-        self.board.state = [
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-            ]
         all_ships = [{
             'symbol': 'AC',
             'size': 5,
             }]
         ship_orientation = 'column'
         self.board.add_to_board(all_ships, place, ship_orientation)
+
         self.assertEqual(self.board.state, state_after_move)
+

@@ -24,6 +24,8 @@ class TestTerminalUi(TestCase):
 
 class TestFormat(TestCase):
     def setUp(self):
+        self.ui = TerminalUi()
+        self.ships = Ships()
         self.board_with_ships = [
                 ['AC', 'AC', 'AC', 'AC', 'AC', None, None, None, None, 'S'],
                 [None, None, None, None, None, None, None, None, None, 'S'],
@@ -48,12 +50,46 @@ class TestFormat(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
+        self.ship_symbols = ['AC', 'B', 'C', 'S', 'D']
+    
+    def test_less_then_board_len_add_row_numbers_returns_correctly_formatted_row(self):
+        current_row = 0
+        total_rows = 10
+        row_number = ' 1 '
 
-        self.ships = Ships()
+        formatted_row_number = self.ui.add_row_number(current_row, total_rows)
+        self.assertEqual(formatted_row_number, row_number)
+    
+    def test_add_row_numbers_returns_correctly_formats_dbl_digit_rows(self):
+        current_row = 9
+        total_rows = 10
+        row_number = '10 '
+        
+        formatted_row_number = self.ui.add_row_number(current_row, total_rows)
+        self.assertEqual(formatted_row_number, row_number)
+
+    def test_add_shot_marker_returns_M_when_a_ship_is_missed(self):
+        missed_marker = '[M]'
+        row = 1
+        column = 0
+        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ship_symbols)
+
+        self.assertEqual(formated_marker, missed_marker)
+
+    def test_add_shot_marker_returns_H_when_a_ship_is_hit(self):
+        missed_marker = '[H]'
+        row = 0
+        column = 0
+        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ship_symbols)
+
+        self.assertEqual(formated_marker, missed_marker)
+    
+    def test_get_ship_symbols_returns_a_list_of_all_ship_symbols(self):
+        all_ship_symbols = self.ui.get_ship_symbols(self.ships.all_ships)
+        
+        self.assertEqual(all_ship_symbols, self.ship_symbols)
 
     def test_board_is_formatted_correctly_with_ships_before_moves(self):
-        board = Board()
-        ui = TerminalUi() 
         board_with_hidden_ships = """
     A  B  C  D  E  F  G  H  I  J
  1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
@@ -67,12 +103,10 @@ class TestFormat(TestCase):
  9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """
-        formatted_board = ui.format(self.board_with_ships, self.ships.all_ships)
+        formatted_board = self.ui.format(self.board_with_ships, self.ships.all_ships)
         self.assertEqual(formatted_board, board_with_hidden_ships)
 
     def test_board_is_formatted_correctly_with_an_shots_taken(self):
-        board = Board()
-        ui = TerminalUi()
         occupied_board = """
     A  B  C  D  E  F  G  H  I  J
  1 [H][ ][ ][ ][ ][ ][ ][ ][ ][ ]
@@ -86,6 +120,6 @@ class TestFormat(TestCase):
  9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """
-        formatted_board = ui.format(self.board_with_ships_and_moves, self.ships.all_ships)
+        formatted_board = self.ui.format(self.board_with_ships_and_moves, self.ships.all_ships)
 
         self.assertEqual(formatted_board, occupied_board)
