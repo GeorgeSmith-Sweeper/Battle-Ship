@@ -12,13 +12,15 @@ class Game:
         self.ui.display("Welcome to Battleship")
         board_full = False
         ship_orientation = 'row'
-        self.place.ship_fit(self.board.state, self.ships.aircraft_carrier['size'], ship_orientation)
+        self.board.add_to_board(self.ships.all_ships, self.place, ship_orientation)
+
         while not board_full:
-            board_full = self.validate.board_full(self.board.state)
+            board_full = self.validate.board_full(self.board.state) 
             self.ui.display("Take your best shot")
-            self.ui.display(self.board.format())
-            spot_choice = self.validate.spot_occupied(self.board.state, self.ui)
-            self.board.update(spot_choice)
+            self.ui.display(self.ui.format(self.board.state, self.ships.all_ships))
+            spot_choice = self.validate.spot_occupied(self.board.state, self.ui, self.ships.all_ships)
+            is_hit = self.validate.hit_ship(self.board.state, spot_choice, self.ships.all_ships, self.ui)
+            self.board.update(spot_choice, is_hit)
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ from play import Game
 class TestPlayGame(TestCase):
 
     def test_play_runs_the_correct_methods(self):
-        terminal_ui = TerminalUi()
+        ui = TerminalUi()
         board = Board()
         validate = Validate()
         ships = Ships()
@@ -24,24 +24,21 @@ class TestPlayGame(TestCase):
         formatted_board = '[]'
         ship_orientation = 'row'
         ship_size = 5
-
+        hit = False
 
         board.state = MagicMock(return_value = board_state)
-        place.ship_fit = MagicMock(return_value = board_state_after_ship_placed)
+        board.add_to_board = MagicMock(return_value = board_state_after_ship_placed)
+        board.update = MagicMock()
         validate.spot_occupied = MagicMock(return_value = user_shot_choice)
         validate.board_full = MagicMock(return_value = True)
-        board.update = MagicMock(return_value = state_after_valid_spot_choice)
-        board.format = MagicMock(return_value = formatted_board)
-        terminal_ui.get_input = MagicMock(return_value = user_shot_choice)
-        terminal_ui.display = MagicMock()
+        ui.get_input = MagicMock(return_value = user_shot_choice)
+        ui.display = MagicMock()
 
-        new_game = Game(board, terminal_ui, validate, ships, place)
-
+        new_game = Game(board, ui, validate, ships, place)
         new_game.play()
-
-
-        place.ship_fit.assert_called()
-        terminal_ui.display.assert_called()
+        
+        board.add_to_board.assert_called_with(ships.all_ships, place, ship_orientation)
+        ui.display.assert_called()
         validate.board_full.assert_called_with(board.state)
-        validate.spot_occupied.assert_called_with(board.state, terminal_ui)
-        board.update.assert_called_with(user_shot_choice)
+        validate.spot_occupied.assert_called_with(board.state, ui, ships.all_ships)
+        board.update.assert_called_with(user_shot_choice, hit)
