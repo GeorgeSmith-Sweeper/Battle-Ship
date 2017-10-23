@@ -2,9 +2,12 @@ from unittest import TestCase, mock
 from unittest.mock import patch, MagicMock
 from core.board import Board
 from core.ships import Ships
-from core.placement import Place
 
 class TestShips(TestCase):
+    def test_all_ships_contains_all_5_ships(self):
+        ships = Ships()
+        self.assertEqual(len(ships.all_ships), 5)
+
     def test_ships_is_initialized_with_a_five_unique_ships(self):
         ships = Ships()
         aircraft_carrier_symbol = 'AC'
@@ -61,6 +64,3 @@ class TestShips(TestCase):
         self.assertEqual(ships.submarine['health'], submarine_health)
         self.assertEqual(ships.destroyer['health'], destroyer_health)
 
-    def test_all_ships_contains_all_5_ships(self):
-        ships = Ships()
-        self.assertEqual(len(ships.all_ships), 5)

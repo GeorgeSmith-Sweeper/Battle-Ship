@@ -139,3 +139,6 @@ class TestValidations(TestCase):
 
         self.ui.display.assert_called_with(ship_hit_msg)
         self.assertEqual(is_hit, False)
+    
+    def test_reduce_health_of_passed_in_ship_by_one(self):        
+        pass
