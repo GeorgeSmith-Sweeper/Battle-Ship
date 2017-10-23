@@ -1,9 +1,7 @@
 class Board:
     def __init__(self):
         self.state = [[None for ele in range(10)] for index in range(10)]
-
-    def update(self, user_shot_choice, is_hit):
-        rows = {
+        self.rows = {
                 '1': 0,
                 '2': 1,
                 '3': 2,
@@ -15,7 +13,7 @@ class Board:
                 '9': 8,
                 '10': 9,
                 }
-        columns = {
+        self.columns = {
                 'A': 0,
                 'B': 1,
                 'C': 2,
@@ -27,10 +25,11 @@ class Board:
                 'I': 8,
                 'J': 9,
                 }
+    def update(self, user_shot_choice, is_hit):
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]
         
-        self.state[rows[user_num]][columns[user_letter]] = 'Hit' if is_hit else 'Miss' 
+        self.state[self.rows[user_num]][self.columns[user_letter]] = 'Hit' if is_hit else 'Miss' 
             
     def add_to_board(self, all_ships, place, ship_orientation):
         all_ships_copy = all_ships.copy()

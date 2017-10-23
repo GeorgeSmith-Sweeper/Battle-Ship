@@ -45,13 +45,10 @@ class Validate:
         return user_shot_choice
 
     def spot_occupied(self, board_state, ui, all_ships):
-        ship_symbols = [] 
+        ship_symbols = ui.get_ship_symbols(all_ships) 
         user_shot_choice = self.spot_exists(ui)
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]
-
-        for ship in all_ships:
-            ship_symbols.append(ship['symbol'])
             
         # must check for None AND any ship symbols
         while board_state[self.rows[user_num]][self.columns[user_letter]] is not None and board_state[self.rows[user_num]][self.columns[user_letter]] not in ship_symbols: 
@@ -64,7 +61,6 @@ class Validate:
     def hit_ship(self, board_state, shot, all_ships, ui):
         user_letter = shot[0]
         user_num = shot[1:]
-        ship_symbols = [] 
         for ship in range(len(all_ships)):
             if board_state[self.rows[user_num]][self.columns[user_letter]] == all_ships[ship]['symbol']:
                 ui.display('You hit the ' + all_ships[ship]['name'] + '!')
