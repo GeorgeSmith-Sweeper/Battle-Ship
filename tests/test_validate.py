@@ -50,7 +50,12 @@ class TestValidations(TestCase):
                ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
                ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
               ]
-
+    
+    def test_split_user_row_and_returns_a_single_letter_and_a_number_as_strings(self):
+        user_shot_choice = 'A2'
+        split_choice = ('A', '2')
+        answer = self.validate.split_user_shot(user_shot_choice)
+        self.assertEqual(answer, split_choice)
 
     def test_Validate_is_initialized_with_a_letters_list(self):
         col_lets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
