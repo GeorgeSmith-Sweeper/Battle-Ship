@@ -27,6 +27,11 @@ class Validate:
                 'I': 8,
                 'J': 9
                 }
+    
+    def split_user_shot(self, shot_choice):
+        user_let = shot_choice[0]
+        user_num = shot_choice[1:]
+        return user_let, user_num
 
     def board_full(self, board_state):
         full = True
@@ -47,24 +52,22 @@ class Validate:
     def spot_occupied(self, board_state, ui, all_ships):
         ship_symbols = ui.get_ship_symbols(all_ships) 
         user_shot_choice = self.spot_exists(ui)
-        user_letter = user_shot_choice[0]
-        user_num = user_shot_choice[1:]
+        user_let, user_num = self.split_user_shot(user_shot_choice)
             
-        # must check for None AND any ship symbols
-        while board_state[self.rows[user_num]][self.columns[user_letter]] is not None and board_state[self.rows[user_num]][self.columns[user_letter]] not in ship_symbols: 
+        while board_state[self.rows[user_num]][self.columns[user_let]] is not None and board_state[self.rows[user_num]][self.columns[user_let]] not in ship_symbols: 
             ui.display('That spot is occupied. Pick a different spot')
             user_shot_choice = self.spot_exists(ui)
-            user_letter = user_shot_choice[0]
-            user_num = user_shot_choice[1:]
+            user_let, user_num = self.split_user_shot(user_shot_choice)
         return user_shot_choice
-    
+   
+
     def hit_ship(self, board_state, shot, all_ships, ui):
-        user_letter = shot[0]
-        user_num = shot[1:]
+        user_let, user_num = self.split_user_shot(shot)
         for ship in range(len(all_ships)):
-            if board_state[self.rows[user_num]][self.columns[user_letter]] == all_ships[ship]['symbol']:
+            if board_state[self.rows[user_num]][self.columns[user_let]] == all_ships[ship]['symbol']:
                 ui.display('You hit the ' + all_ships[ship]['name'] + '!')
                 return True
         ui.display('Miss!')
         return False
-
+    
+    
