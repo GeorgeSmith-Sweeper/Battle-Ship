@@ -47,6 +47,20 @@ class TestShips(TestCase):
         self.assertEqual(ships.submarine['name'], submarine_name)
         self.assertEqual(ships.destroyer['name'], destroyer_name)
 
+    def test_each_ship_has_a_health(self):
+        ships = Ships()
+        aircraft_carrier_health = 5
+        battleship_health = 4
+        cruiser_health = 3
+        submarine_health = 3
+        destroyer_health = 2
+
+        self.assertEqual(ships.aircraft_carrier['health'], aircraft_carrier_health)
+        self.assertEqual(ships.battleship['health'], battleship_health)
+        self.assertEqual(ships.cruiser['health'], cruiser_health)
+        self.assertEqual(ships.submarine['health'], submarine_health)
+        self.assertEqual(ships.destroyer['health'], destroyer_health)
+
     def test_all_ships_contains_all_5_ships(self):
         ships = Ships()
         self.assertEqual(len(ships.all_ships), 5)
