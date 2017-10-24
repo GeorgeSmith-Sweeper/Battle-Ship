@@ -22,6 +22,20 @@ class TestShips(TestCase):
         self.assertEqual(ships.submarine['symbol'], submarine_symbol)
         self.assertEqual(ships.battleship['symbol'], battleship_symbol)
 
+    def test_each_ship_has_a_sunk_boolean_that_is_False(self):
+        ships = Ships()
+        aircraft_carrier_sunk = False
+        battleship_sunk = False
+        cruiser_sunk = False
+        submarine_sunk = False
+        destroyer_sunk = False
+
+        self.assertEqual(ships.aircraft_carrier['sunk'], aircraft_carrier_sunk)
+        self.assertEqual(ships.destroyer['sunk'], destroyer_sunk)
+        self.assertEqual(ships.cruiser['sunk'], cruiser_sunk)
+        self.assertEqual(ships.submarine['sunk'], submarine_sunk)
+        self.assertEqual(ships.battleship['sunk'], battleship_sunk)
+
     def test_each_ship_has_a_size(self):
         ships = Ships()
         aircraft_carrier_size = 5
@@ -36,7 +50,7 @@ class TestShips(TestCase):
         self.assertEqual(ships.submarine['size'], submarine_size)
         self.assertEqual(ships.destroyer['size'], destroyer_size)
 
-    def test_each_ship_has_a_size(self):
+    def test_each_ship_has_a_name(self):
         ships = Ships()
         aircraft_carrier_name = 'Aircraft Carrier'
         battleship_name = 'Battleship'

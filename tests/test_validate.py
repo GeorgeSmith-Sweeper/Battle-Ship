@@ -146,4 +146,32 @@ class TestValidations(TestCase):
         self.assertEqual(is_hit, False)
     
     def test_reduce_health_of_passed_in_ship_by_one(self):        
-        pass
+        current_ship = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'health': 5,
+                } 
+        ship_after_hit = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'health': 4,
+                }
+        self.assertEqual(self.validate.reduce_ship_health(current_ship), ship_after_hit)
+
+    def test_ship_is_sunk_when_health_reaches_zero(self):
+        ship_with_zero_health = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'health': 0,
+                }
+
+        self.assertTrue(self.validate.is_ship_sunk(ship_with_zero_health))
+
+    def test_ship_is_not_sunk_when_health_is_greater_than_zero(self):
+        ship_with_zero_health = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'health': 5,
+                }
+
+        self.assertFalse(self.validate.is_ship_sunk(ship_with_zero_health))

@@ -25,6 +25,7 @@ class Board:
                 'I': 8,
                 'J': 9,
                 }
+
     def update(self, user_shot_choice, is_hit):
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]
@@ -56,3 +57,5 @@ class Board:
 
             all_ships_copy.pop(0)
             ship_orientation = 'column' if ship_orientation == 'row' else 'row'
+        
+    

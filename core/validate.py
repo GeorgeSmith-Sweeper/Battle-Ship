@@ -65,9 +65,16 @@ class Validate:
         user_let, user_num = self.split_user_shot(shot)
         for ship in range(len(all_ships)):
             if board_state[self.rows[user_num]][self.columns[user_let]] == all_ships[ship]['symbol']:
+                all_ships[ship] = self.reduce_ship_health(all_ships[ship])
                 ui.display('You hit the ' + all_ships[ship]['name'] + '!')
                 return True
         ui.display('Miss!')
         return False
     
-    
+    def reduce_ship_health(self, current_ship):
+        current_ship['health'] -= 1
+        return current_ship
+
+    def is_ship_sunk(self, current_ship):
+        is_sunk = True if current_ship['health'] <= 0 else False
+        return is_sunk
