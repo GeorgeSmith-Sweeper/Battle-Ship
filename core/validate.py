@@ -53,14 +53,15 @@ class Validate:
         ship_symbols = ui.get_ship_symbols(all_ships) 
         user_shot_choice = self.spot_exists(ui)
         user_let, user_num = self.split_user_shot(user_shot_choice)
-            
-        while board_state[self.rows[user_num]][self.columns[user_let]] is not None and board_state[self.rows[user_num]][self.columns[user_let]] not in ship_symbols: 
+        current_spot = board_state[self.rows[user_num]][self.columns[user_let]]
+
+        while current_spot is not None and current_spot not in ship_symbols: 
             ui.display('That spot is occupied. Pick a different spot')
             user_shot_choice = self.spot_exists(ui)
             user_let, user_num = self.split_user_shot(user_shot_choice)
+            current_spot = board_state[self.rows[user_num]][self.columns[user_let]]
         return user_shot_choice
    
-
     def hit_ship(self, board_state, shot, all_ships, ui):
         user_let, user_num = self.split_user_shot(shot)
         for ship in range(len(all_ships)):
@@ -78,3 +79,5 @@ class Validate:
     def is_ship_sunk(self, current_ship):
         is_sunk = True if current_ship['health'] <= 0 else False
         return is_sunk
+
+    

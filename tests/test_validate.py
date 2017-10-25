@@ -99,7 +99,6 @@ class TestValidations(TestCase):
        invalid_msg = 'That spot is occupied. Pick a different spot'
        self.ui.display = MagicMock()
        self.board.state = self.all_occupied_but_one
-
        self.validate.spot_occupied(self.board.state, self.ui, self.ships.all_ships)
 
        self.ui.display.assert_called_with(invalid_msg)
@@ -128,7 +127,6 @@ class TestValidations(TestCase):
         shot = 'A2'
         all_ships = self.ships.all_ships
         ship_hit_msg = 'You hit the Aircraft Carrier!'
-
         is_hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, self.ui)
 
         self.ui.display.assert_called_with(ship_hit_msg)
@@ -139,7 +137,6 @@ class TestValidations(TestCase):
         shot = 'A9'
         all_ships = self.ships.all_ships
         ship_hit_msg = 'Miss!'
-
         is_hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, self.ui)
 
         self.ui.display.assert_called_with(ship_hit_msg)
