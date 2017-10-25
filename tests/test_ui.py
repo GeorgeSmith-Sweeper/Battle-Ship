@@ -84,11 +84,6 @@ class TestFormat(TestCase):
 
         self.assertEqual(formated_marker, missed_marker)
 
-    def test_get_ship_symbols_returns_a_list_of_all_ship_symbols(self):
-        all_ship_symbols = self.ui.get_ship_symbols(self.ships.all_ships)
-        
-        self.assertEqual(all_ship_symbols, self.ship_symbols)
-
     def test_board_is_formatted_correctly_with_ships_before_moves(self):
         board_with_hidden_ships = """
     A  B  C  D  E  F  G  H  I  J

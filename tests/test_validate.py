@@ -13,18 +13,18 @@ class TestValidations(TestCase):
         self.board = Board()
         self.ui = TerminalUi()
         self.board_with_ships = [
-                ['AC', None, None, None, None, None, None, None, None, None],
-                ['AC', None, None, None, None, None, None, None, None, None],
-                ['AC', None, None, None, None, None, None, None, None, None],
-                ['AC', None, None, None, 'C', None, None, None, None, None],
-                ['AC', 'D', None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
+                [self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], None, None, None, None, self.ships.all_ships[3]], 
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
+                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
                 [None, None, None, None, None, None, None, None, None, None],
-                ['S', 'S', 'S', None, None, None, None, None, None, None],
-              ]
-
+                [None, None, None, None, None, None, None, None, None, None],
+                ]
+   
         self.empty_board = [
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
@@ -124,7 +124,7 @@ class TestValidations(TestCase):
 
     def test_hitting_a_ship_displays_msg_and_returns_true(self):
         self.ui.display = MagicMock()
-        shot = 'A2'
+        shot = 'A1'
         all_ships = self.ships.all_ships
         ship_hit_msg = 'You hit the Aircraft Carrier!'
         is_hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, self.ui)

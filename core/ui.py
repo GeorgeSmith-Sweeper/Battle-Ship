@@ -20,12 +20,6 @@ class TerminalUi:
         elif board_state[row][column] == 'Hit':
             return '[H]'
     
-    def get_ship_symbols(self, all_ships):
-        ship_symbols = []
-        for ship in all_ships:
-            ship_symbols.append(ship['symbol'])
-        return ship_symbols
-
     def format(self, board_state, all_ships):
         formatted_board = '\n' + '    A  B  C  D  E  F  G  H  I  J'
         
