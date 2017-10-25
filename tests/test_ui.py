@@ -27,31 +27,31 @@ class TestFormat(TestCase):
         self.ui = TerminalUi()
         self.ships = Ships()
         self.board_with_ships = [
-                ['AC', 'AC', 'AC', 'AC', 'AC', None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
+                [self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], None, None, None, None, self.ships.all_ships[3]], 
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
+                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
         self.board_with_ships_and_moves = [
-                ['Hit', 'AC', 'AC', 'AC', 'AC', None, None, None, None, 'S'],
-                ['Miss', None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
+                ['Hit', self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], None, None, None, None, self.ships.all_ships[3]], 
+                ['Miss', None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
+                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
         self.ship_symbols = ['AC', 'B', 'C', 'S', 'D']
-    
+         
     def test_less_then_board_len_add_row_numbers_returns_correctly_formatted_row(self):
         current_row = 0
         total_rows = 10
@@ -72,7 +72,7 @@ class TestFormat(TestCase):
         missed_marker = '[M]'
         row = 1
         column = 0
-        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ship_symbols)
+        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ships.all_ships)
 
         self.assertEqual(formated_marker, missed_marker)
 
@@ -80,10 +80,10 @@ class TestFormat(TestCase):
         missed_marker = '[H]'
         row = 0
         column = 0
-        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ship_symbols)
+        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ships.all_ships)
 
         self.assertEqual(formated_marker, missed_marker)
-    
+
     def test_get_ship_symbols_returns_a_list_of_all_ship_symbols(self):
         all_ship_symbols = self.ui.get_ship_symbols(self.ships.all_ships)
         

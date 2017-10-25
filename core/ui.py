@@ -12,8 +12,8 @@ class TerminalUi:
         else:
             return str(row_int + 1) + ' '
     
-    def add_shot_marker(self, board_state, row, column, ship_symbols):
-        if board_state[row][column] is None or board_state[row][column] in ship_symbols:
+    def add_shot_marker(self, board_state, row, column, all_ships):
+        if board_state[row][column] is None or board_state[row][column] in all_ships:
             return '[ ]'
         if board_state[row][column] == 'Miss': 
             return '[M]'
@@ -27,14 +27,13 @@ class TerminalUi:
         return ship_symbols
 
     def format(self, board_state, all_ships):
-        ship_symbols = self.get_ship_symbols(all_ships) 
         formatted_board = '\n' + '    A  B  C  D  E  F  G  H  I  J'
         
         for row in range(0, len(board_state)):
             formatted_board += '\n'
             formatted_board += self.add_row_number(row, len(board_state))
             for column in range(0, len(board_state[row])):
-                formatted_board += self.add_shot_marker(board_state, row, column, ship_symbols)
+                formatted_board += self.add_shot_marker(board_state, row, column, all_ships)
         formatted_board += '\n'
         return formatted_board
   
