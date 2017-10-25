@@ -3,11 +3,13 @@ from unittest.mock import patch, MagicMock
 from core.board import Board
 from core.placement import Place
 from core.validate import Validate
+from core.ships import Ships
 
 class TestBoard(TestCase):
 
     def setUp(self):
        self.board = Board()
+       self.ships = Ships()
        self.empty_board = [
                [None, None, None, None, None, None, None, None, None, None],
                [None, None, None, None, None, None, None, None, None, None],
@@ -21,39 +23,39 @@ class TestBoard(TestCase):
                [None, None, None, None, None, None, None, None, None, None],
                ]
        self.board_with_ships = [
-                ['AC', 'AC', 'AC', 'AC', 'AC', None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
+                [self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], None, None, None, None, self.ships.all_ships[3]], 
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
+                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
        self.board_with_a_hit = [
-                ['AC', 'Hit', 'AC', 'AC', 'AC', None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
+                [self.ships.all_ships[0], 'Hit', self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], None, None, None, None, self.ships.all_ships[3]], 
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
+                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
 
        self.board_with_a_miss = [
-                ['AC', 'AC', 'AC', 'AC', 'AC', None, None, None, None, 'S'],
-                ['Miss', None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, None, None, None, None, None, 'S'],
-                [None, None, None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
+                [self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], None, None, None, None, self.ships.all_ships[3]], 
+                ['Miss', None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
+                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
