@@ -63,8 +63,10 @@ class Validate:
    
     def hit_ship(self, board_state, shot, all_ships, ui):
         user_let, user_num = self.split_user_shot(shot)
+        current_spot = board_state[self.rows[user_num]][self.columns[user_let]]
+
         for ship in range(len(all_ships)):
-            if board_state[self.rows[user_num]][self.columns[user_let]] == all_ships[ship]:
+            if current_spot == all_ships[ship]:
                 all_ships[ship] = self.reduce_ship_health(all_ships[ship])
                 ui.display('You hit the ' + all_ships[ship]['name'] + '!')
                 return True
