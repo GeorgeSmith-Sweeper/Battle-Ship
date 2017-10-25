@@ -84,7 +84,6 @@ class TestBoard(TestCase):
         place = Place()
         all_ships = [{ 
                 'name': 'Aircraft Carrier',
-                'symbol': 'AC',
                 'size': 5,
                 'health': 5,
                 'sunk': False,
@@ -112,7 +111,6 @@ class TestBoard(TestCase):
         place = Place()
         all_ships = [{ 
                 'name': 'Aircraft Carrier',
-                'symbol': 'AC',
                 'size': 5,
                 'health': 5,
                 'sunk': False,
