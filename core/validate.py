@@ -70,8 +70,7 @@ class Validate:
                 all_ships[ship] = self.store_hits(all_ships[ship], shot)
                 if self.is_ship_sunk(all_ships[ship], ui):
                     return 'Sunk'
-                else:
-                    ui.display('You hit the ' + all_ships[ship]['name'] + '!')
+                ui.display('You hit the ' + all_ships[ship]['name'] + '!')
                 return 'Hit'      
         ui.display('Miss!')
         return 'Miss'
