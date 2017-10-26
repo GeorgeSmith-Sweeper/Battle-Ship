@@ -62,7 +62,15 @@ class TestFormat(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
-         
+
+    def test_ui_contains_the_ANSI_red_background_as_REDBG(self):
+        redbg = '\033[41m'
+        self.assertEqual(self.ui.REDBGCOLOR, redbg)
+    
+    def test_ui_contains_the_ANSI_attr_off_as_ENDCOLORS(self):
+        attr_off = '\033[0m'
+        self.assertEqual(self.ui.ENDCOLOR, attr_off)
+
     def test_less_then_board_len_add_row_numbers_returns_correctly_formatted_row(self):
         current_row = 0
         total_rows = 10
@@ -78,6 +86,14 @@ class TestFormat(TestCase):
         
         formatted_row_number = self.ui.add_row_number(current_row, total_rows)
         self.assertEqual(formatted_row_number, row_number)
+    
+    def test_add_shot_marker_returns_brakets_when_a_spot_is_empty(self):
+        empty_marker = '[ ]'
+        row = 2
+        column = 0
+        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ships.all_ships)
+
+        self.assertEqual(formated_marker, empty_marker)
 
     def test_add_shot_marker_returns_M_when_a_ship_is_missed(self):
         missed_marker = '[M]'
@@ -88,12 +104,20 @@ class TestFormat(TestCase):
         self.assertEqual(formated_marker, missed_marker)
 
     def test_add_shot_marker_returns_H_when_a_ship_is_hit(self):
-        missed_marker = '[H]'
+        hit_marker = '[H]'
         row = 0
         column = 0
         formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ships.all_ships)
 
-        self.assertEqual(formated_marker, missed_marker)
+        self.assertEqual(formated_marker, hit_marker)
+        
+    def test_add_shot_marker_returns_brakets_when_a_spot_is_empty(self):
+        sunk_marker = '\033[41m' + '[S]' + '\033[0m'
+        row = 0
+        column = 0
+        formated_marker = self.ui.add_shot_marker(self.board_with_a_sunken_ship, row, column, self.ships.all_ships)
+
+        self.assertEqual(formated_marker, sunk_marker)
 
     def test_board_is_formatted_correctly_with_ships_before_moves(self):
         board_with_hidden_ships = """
@@ -129,22 +153,3 @@ class TestFormat(TestCase):
         formatted_board = self.ui.format(self.board_with_ships_and_moves, self.ships.all_ships)
 
         self.assertEqual(formatted_board, occupied_board)
-
-    def test_board_is_formatted_correctly_with_a_sunken_ship(self):
-
-        sunk_ship_board = """
-    A  B  C  D  E  F  G  H  I  J
- 1 [S][S][S][S][S][ ][ ][ ][ ][ ]
- 2 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 6 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 7 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-"""
-        formatted_board = self.ui.format(self.board_with_a_sunken_ship, self.ships.all_ships)
-
-        self.assertEqual(formatted_board, sunk_ship_board)
