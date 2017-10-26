@@ -63,20 +63,32 @@ class Validate:
    
     def hit_ship(self, board_state, shot, all_ships, ui):
         user_let, user_num = self.split_user_shot(shot)
-        for ship in range(len(all_ships)):
-            if board_state[self.rows[user_num]][self.columns[user_let]] == all_ships[ship]:
-                all_ships[ship] = self.reduce_ship_health(all_ships[ship])
-                ui.display('You hit the ' + all_ships[ship]['name'] + '!')
-                return True
-        ui.display('Miss!')
-        return False
-    
-    def reduce_ship_health(self, current_ship):
-        current_ship['health'] -= 1
-        return current_ship
+        current_spot = board_state[self.rows[user_num]][self.columns[user_let]]
 
-    def is_ship_sunk(self, current_ship):
-        is_sunk = True if current_ship['health'] <= 0 else False
-        return is_sunk
+        for ship in range(len(all_ships)):
+            if current_spot == all_ships[ship]:
+                all_ships[ship] = self.store_hits(all_ships[ship], shot)
+                if self.is_ship_sunk(all_ships[ship], ui):
+                    return 'Sunk'
+                else:
+                    ui.display('You hit the ' + all_ships[ship]['name'] + '!')
+                return 'Hit'      
+        ui.display('Miss!')
+        return 'Miss'
+
+    def is_ship_sunk(self, current_ship, ui):
+        if len(current_ship['hit_locations']) == current_ship['size']: 
+            ui.display("You sunk the " + current_ship['name'] + '!')
+            return True
+        return False 
+
+    def store_hits(self, current_ship, shot):
+        user_let, user_num = self.split_user_shot(shot)
+        row = self.rows[user_num]
+        column = self.columns[user_let]
+
+        current_ship['hit_locations'].append([row, column])  
+        return current_ship
+        
 
     

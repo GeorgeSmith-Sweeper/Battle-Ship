@@ -30,8 +30,16 @@ class Board:
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]
         
-        self.state[self.rows[user_num]][self.columns[user_letter]] = 'Hit' if is_hit else 'Miss' 
-            
+        if is_hit == 'Hit':
+            self.state[self.rows[user_num]][self.columns[user_letter]] = 'Hit' 
+        elif is_hit == 'Miss': 
+            self.state[self.rows[user_num]][self.columns[user_letter]] = 'Miss' 
+        else:
+            for each_hit in self.state[self.rows[user_num]][self.columns[user_letter]]['hit_locations']:
+                row = each_hit[0]
+                column = each_hit[1]
+                self.state[row][column] = 'Sunk'
+
     def add_to_board(self, all_ships, place, ship_orientation):
         all_ships_copy = all_ships.copy()
         row_int = place.create_random_num()

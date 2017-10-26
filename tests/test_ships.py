@@ -8,6 +8,16 @@ class TestShips(TestCase):
         ships = Ships()
         self.assertEqual(len(ships.all_ships), 5)
 
+    def test_each_ship_has_a_hit_location_array(self):
+        ships = Ships()
+        hit_locations = []
+
+        self.assertEqual(ships.aircraft_carrier['hit_locations'], hit_locations)
+        self.assertEqual(ships.destroyer['hit_locations'], hit_locations)
+        self.assertEqual(ships.cruiser['hit_locations'], hit_locations)
+        self.assertEqual(ships.submarine['hit_locations'], hit_locations)
+        self.assertEqual(ships.battleship['hit_locations'], hit_locations)
+
     def test_each_ship_has_a_sunk_boolean_that_is_False(self):
         ships = Ships()
         aircraft_carrier_sunk = False
@@ -44,23 +54,8 @@ class TestShips(TestCase):
         submarine_name = 'Submarine'
         destroyer_name = 'Destroyer'
 
-        self.assertEqual(ships.aircraft_carrier['name'], aircraft_carrier_name)
-        self.assertEqual(ships.battleship['name'], battleship_name)
         self.assertEqual(ships.cruiser['name'], cruiser_name)
         self.assertEqual(ships.submarine['name'], submarine_name)
         self.assertEqual(ships.destroyer['name'], destroyer_name)
 
-    def test_each_ship_has_a_health(self):
-        ships = Ships()
-        aircraft_carrier_health = 5
-        battleship_health = 4
-        cruiser_health = 3
-        submarine_health = 3
-        destroyer_health = 2
-
-        self.assertEqual(ships.aircraft_carrier['health'], aircraft_carrier_health)
-        self.assertEqual(ships.battleship['health'], battleship_health)
-        self.assertEqual(ships.cruiser['health'], cruiser_health)
-        self.assertEqual(ships.submarine['health'], submarine_health)
-        self.assertEqual(ships.destroyer['health'], destroyer_health)
 
