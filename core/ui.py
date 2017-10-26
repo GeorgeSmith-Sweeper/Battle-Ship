@@ -19,7 +19,9 @@ class TerminalUi:
             return '[M]'
         elif board_state[row][column] == 'Hit':
             return '[H]'
-    
+        elif board_state[row][column] == 'Sunk':
+            return '[S]'
+
     def format(self, board_state, all_ships):
         formatted_board = '\n' + '    A  B  C  D  E  F  G  H  I  J'
         

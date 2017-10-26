@@ -50,7 +50,18 @@ class TestFormat(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
-        self.ship_symbols = ['AC', 'B', 'C', 'S', 'D']
+        self.board_with_a_sunken_ship = [
+                ['Sunk', 'Sunk', 'Sunk', 'Sunk', 'Sunk', None, None, None, None, self.ships.all_ships[3]], 
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                ]
          
     def test_less_then_board_len_add_row_numbers_returns_correctly_formatted_row(self):
         current_row = 0
@@ -118,3 +129,22 @@ class TestFormat(TestCase):
         formatted_board = self.ui.format(self.board_with_ships_and_moves, self.ships.all_ships)
 
         self.assertEqual(formatted_board, occupied_board)
+
+    def test_board_is_formatted_correctly_with_a_sunken_ship(self):
+
+        sunk_ship_board = """
+    A  B  C  D  E  F  G  H  I  J
+ 1 [S][S][S][S][S][ ][ ][ ][ ][ ]
+ 2 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 6 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 7 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+"""
+        formatted_board = self.ui.format(self.board_with_a_sunken_ship, self.ships.all_ships)
+
+        self.assertEqual(formatted_board, sunk_ship_board)
