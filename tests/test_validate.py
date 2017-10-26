@@ -122,7 +122,7 @@ class TestValidations(TestCase):
         self.board.state = self.empty_board
         self.assertEqual(self.validate.board_full(self.board.state), False)
 
-    def test_hitting_a_ship_displays_msg_and_returns_true(self):
+    def test_hitting_a_ship_displays_msg_and_returns_str_Hit(self):
         self.ui.display = MagicMock()
         shot = 'A1'
         all_ships = self.ships.all_ships
@@ -130,9 +130,9 @@ class TestValidations(TestCase):
         is_hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, self.ui)
 
         self.ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(is_hit, True)
+        self.assertEqual(is_hit, 'Hit')
 
-    def test_missing_a_ship_displays_miss_msg_and_returns_False(self):
+    def test_missing_a_ship_displays_miss_msg_and_returns_str_Miss(self):
         self.ui.display = MagicMock()
         shot = 'A9'
         all_ships = self.ships.all_ships
@@ -140,35 +140,48 @@ class TestValidations(TestCase):
         is_hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, self.ui)
 
         self.ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(is_hit, False)
+        self.assertEqual(is_hit, 'Miss')
     
-    def test_reduce_health_of_passed_in_ship_by_one(self):        
+
+    def test_ship_is_sunk_when_len_hit_locations_equals_ship_size(self):
+        sunken_ship = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'sunk': True,
+                'hit_locations': [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5]],
+                }
+        
+        self.ui.display = MagicMock()
+        ship_sunk_msg = 'You sunk the Aircraft Carrier!'
+        is_sunk = self.validate.is_ship_sunk(sunken_ship, self.ui)
+
+        self.ui.display.assert_called_with(ship_sunk_msg)
+        self.assertEqual(is_sunk, True)
+
+    def test_ship_is_not_sunk_when_len_hit_locations_doesnt_equal_ship_size(self):
+        ship_with_no_hits = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'sunk': False,
+                'hit_locations': [],
+                }
+    
+        self.assertFalse(self.validate.is_ship_sunk(ship_with_no_hits, self.ui))
+
+    def test_when_a_ship_is_hit_it_stores_the_location_of_the_hit(self):
         current_ship = {
                 'name': 'Aircraft Carrier',
                 'size': 5,
-                'health': 5,
+                'sunk': False,
+                'hit_locations': [],
                 } 
+        
         ship_after_hit = {
                 'name': 'Aircraft Carrier',
                 'size': 5,
-                'health': 4,
+                'sunk': False,
+                'hit_locations': [[0, 0]],
                 }
-        self.assertEqual(self.validate.reduce_ship_health(current_ship), ship_after_hit)
-
-    def test_ship_is_sunk_when_health_reaches_zero(self):
-        ship_with_zero_health = {
-                'name': 'Aircraft Carrier',
-                'size': 5,
-                'health': 0,
-                }
-
-        self.assertTrue(self.validate.is_ship_sunk(ship_with_zero_health))
-
-    def test_ship_is_not_sunk_when_health_is_greater_than_zero(self):
-        ship_with_zero_health = {
-                'name': 'Aircraft Carrier',
-                'size': 5,
-                'health': 5,
-                }
-
-        self.assertFalse(self.validate.is_ship_sunk(ship_with_zero_health))
+        shot = 'A1' 
+        self.assertEqual(self.validate.store_hits(current_ship, shot), ship_after_hit)
+         

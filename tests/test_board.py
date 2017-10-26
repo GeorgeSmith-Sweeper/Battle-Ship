@@ -59,25 +59,53 @@ class TestBoard(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
+
+       self.board_with_a_sunken_ship = [
+                ['Sunk', 'Sunk', 'Sunk', 'Sunk', 'Sunk', None, None, None, None, self.ships.all_ships[3]], 
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                ]
        
     def test_Hit_is_added_to_board_if_the_user_hit_a_ship(self):
         user_shot_choice = 'B1'
         self.board.state = self.board_with_ships 
-        hit = True
+        shot_result = 'Hit'
         self.maxDiff = None 
-        self.board.update(user_shot_choice, hit)
+        self.board.update(user_shot_choice, shot_result)
 
         self.assertEqual(self.board.state, self.board_with_a_hit)
 
     def test_Miss_is_added_to_board_if_the_user_Misses_a_ship(self):
         user_shot_choice = 'A2'
         self.board.state = self.board_with_ships 
-        hit = False
+        shot_result = 'Miss'
         self.maxDiff = None 
-        self.board.update(user_shot_choice, hit)
+        self.board.update(user_shot_choice, shot_result)
 
         self.assertEqual(self.board.state, self.board_with_a_miss)
+    
+    def test_when_ship_sinks_all_positions_where_ship_was_are_updated_to_str_Sunk(self):
+        user_shot_choice = 'A1'
+        self.board.state = self.board_with_ships 
+        self.board.state[0][0] = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'sunk': True,
+                'hit_locations': [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]],
+                }
+        shot_result = 'Sunk'
+        self.maxDiff = None 
+        self.board.update(user_shot_choice, shot_result)
 
+        self.assertEqual(self.board.state, self.board_with_a_sunken_ship)
+             
     @patch('core.placement.Place.create_random_num', return_value = 0)
     @patch('core.placement.Place.create_random_num', return_value = 0)
     def test_ship_added_to_row_if_there_is_room(self, mock1, mock2):

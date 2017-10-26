@@ -5,32 +5,32 @@ class Ships:
         self.aircraft_carrier = {
                 'name': 'Aircraft Carrier',
                 'size': 5,
-                'health': 5,
                 'sunk': False,
+                'hit_locations': [],
                 }
         self.battleship = {
                 'name': 'Battleship',
                 'size': 4,
-                'health': 4,
                 'sunk': False,
+                'hit_locations': [],
                 }
         self.cruiser = {
                 'name': 'Cruiser',
                 'size': 3,
-                'health': 3,
                 'sunk': False,
+                'hit_locations': [],
                 }
         self.submarine = {
                 'name': 'Submarine',
                 'size': 3,
-                'health': 3,
                 'sunk': False,
+                'hit_locations': [],
                 }
         self.destroyer = {
                 'name': 'Destroyer',
                 'size': 2,
-                'health': 2,
                 'sunk': False,
+                'hit_locations': [],
                 }
         self.all_ships = [
                 self.aircraft_carrier, 
