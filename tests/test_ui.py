@@ -28,11 +28,22 @@ class TestFormat(TestCase):
         self.ui = TerminalUi()
         self.ships = Ships()
         self.board_helper = BoardHelper(self.ships)
+        self.missed_marker = '[' + '\033[35m' + 'M' + '\033[0m' + ']'
+        self.hit_marker =  '[' + '\033[36m' + 'H' + '\033[0m' + ']'
+        self.sunk_marker = '\033[41m' + '[S]' + '\033[0m'
 
     def test_ui_contains_the_ANSI_red_background_as_REDBG(self):
         redbg = '\033[41m'
         self.assertEqual(self.ui.REDBGCOLOR, redbg)
     
+    def test_ui_contains_the_ANSI_magenta_text_as_MAGENTA(self):
+        magenta = '\033[35m'
+        self.assertEqual(self.ui.MAGENTA, magenta)
+    
+    def test_ui_contains_the_ANSI_cyan_text_as_CYAN(self):
+        cyan = '\033[36m'
+        self.assertEqual(self.ui.CYAN, cyan)
+
     def test_ui_contains_the_ANSI_attr_off_as_ENDCOLORS(self):
         attr_off = '\033[0m'
         self.assertEqual(self.ui.ENDCOLOR, attr_off)
@@ -62,7 +73,7 @@ class TestFormat(TestCase):
         self.assertEqual(formated_marker, empty_marker)
 
     def test_add_shot_marker_returns_M_when_a_ship_is_missed(self):
-        missed_marker = '[M]'
+        missed_marker = self.missed_marker 
         row = 1
         column = 0
         board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
@@ -71,7 +82,7 @@ class TestFormat(TestCase):
         self.assertEqual(formated_marker, missed_marker)
 
     def test_add_shot_marker_returns_H_when_a_ship_is_hit(self):
-        hit_marker = '[H]'
+        hit_marker = self.hit_marker 
         row = 0
         column = 0
         board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
@@ -80,7 +91,7 @@ class TestFormat(TestCase):
         self.assertEqual(formated_marker, hit_marker)
         
     def test_add_shot_marker_returns_brakets_when_a_spot_is_empty(self):
-        sunk_marker = '\033[41m' + '[S]' + '\033[0m'
+        sunk_marker = self.sunk_marker 
         row = 0
         column = 0
         board_with_a_sunken_ship = self.board_helper.generate_board_with_a_sunken_ship()
@@ -107,10 +118,12 @@ class TestFormat(TestCase):
         self.assertEqual(formatted_board, board_with_hidden_ships)
 
     def test_board_is_formatted_correctly_with_an_shots_taken(self):
+        M = self.missed_marker 
+        H = self.hit_marker
         occupied_board = """
     A  B  C  D  E  F  G  H  I  J
- 1 [H][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- 2 [M][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 1 %s[ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 2 %s[ ][ ][ ][ ][ ][ ][ ][ ][ ]
  3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
  4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
  5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
@@ -119,7 +132,48 @@ class TestFormat(TestCase):
  8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
  9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-"""
+""" % (H, M)
+        board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
+        formatted_board = self.ui.format(board_with_hit_and_miss, self.ships.all_ships)
+
+        self.assertEqual(formatted_board, occupied_board)
+
+    def test_board_is_formatted_correctly_with_a_sunken_ship(self):
+        S = self.sunk_marker
+        occupied_board = """
+    A  B  C  D  E  F  G  H  I  J
+ 1 %s%s%s%s%s[ ][ ][ ][ ][ ]
+ 2 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 6 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 7 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+""" % (S, S, S, S, S)
+        board_with_hit_and_miss = self.board_helper.generate_board_with_a_sunken_ship()
+        formatted_board = self.ui.format(board_with_hit_and_miss, self.ships.all_ships)
+
+        self.assertEqual(formatted_board, occupied_board)
+
+    def test_board_is_formatted_correctly_with_an_shots_taken(self):
+        M = self.missed_marker 
+        H = self.hit_marker
+        occupied_board = """
+    A  B  C  D  E  F  G  H  I  J
+ 1 %s[ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 2 %s[ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 5 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 6 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 7 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ 9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+""" % (H, M)
         board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
         formatted_board = self.ui.format(board_with_hit_and_miss, self.ships.all_ships)
 

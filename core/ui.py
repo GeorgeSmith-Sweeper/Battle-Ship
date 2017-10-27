@@ -3,6 +3,8 @@ class TerminalUi:
     def __init__(self):
         self.REDBGCOLOR = '\033[41m'
         self.ENDCOLOR = '\033[0m'
+        self.MAGENTA = '\033[35m'
+        self.CYAN = '\033[36m'
 
     def display(self, message):
        print(message)
@@ -21,9 +23,9 @@ class TerminalUi:
         if board_state[row][column] is None or board_state[row][column] in all_ships:
             return '[ ]'
         if board_state[row][column] == 'Miss': 
-            return '[M]'
+            return '[' + self.MAGENTA + 'M' + self.ENDCOLOR + ']'
         elif board_state[row][column] == 'Hit':
-            return '[H]'
+            return '[' + self.CYAN + 'H' + self.ENDCOLOR + ']'
         elif board_state[row][column] == 'Sunk':
             return self.REDBGCOLOR + '[S]' + self.ENDCOLOR
 
