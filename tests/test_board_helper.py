@@ -24,6 +24,38 @@ class TestBoardHelper(TestCase):
 
         self.assertEqual(self.board_helper.generate_empty_board(), empty_board)
     
+    def test_generate_all_occupied_but_one_returns_a_board_with_one_open_spot(self):
+        all_occupied_but_one = [
+               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
+               [None, 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
+               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
+               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
+               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
+               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
+               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
+               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
+               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
+               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
+              ]
+
+        self.assertEqual(self.board_helper.generate_all_but_one(), all_occupied_but_one)
+    
+    def test_generate_full_board_returns_a_board_with_all_spots_filled(self):
+        full_board = [
+                ['Sunk', "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
+                ['Sunk', "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
+                ['Sunk', "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
+                ['Sunk', "Miss", "Miss", "Miss", 'Sunk', "Miss", "Miss", "Miss", "Miss", "Miss"],
+                ['Sunk', 'Sunk', "Miss", "Miss", 'Sunk', "Miss", "Miss", "Miss", "Miss", "Miss"],
+                ["Miss", 'Sunk', "Miss", "Miss", 'Sunk', "Miss", "Miss", "Miss", "Miss", "Miss"],
+                ["Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
+                ["Miss", "Miss", "Miss", "Miss", "Miss", "Miss", 'Sunk', 'Sunk', 'Sunk', 'Sunk'],
+                ["Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
+                ['Sunk', 'Sunk', 'Sunk', "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
+              ]
+        
+        self.assertEqual(self.board_helper.generate_full_board(), full_board)
+
     def test_generate_board_with_ships_returns_a_board_with_ships(self):
         board_with_ships = [
                 [self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], None, None, None, None, self.ships.all_ships[3]], 
