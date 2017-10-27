@@ -3,24 +3,14 @@ from unittest.mock import patch, MagicMock
 from core.board import Board
 from core.ships import Ships
 from core.placement import Place
+from helpers.board_helper import BoardHelper
 
 class TestPlace(TestCase):
     def setUp(self):
         self.board = Board()
         self.place = Place()
         self.ships = Ships()
-        self.empty_board = [
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-            ]
+        self.board_helper = BoardHelper(self.ships)
 
     def test_create_random_generates_a_num_from_0_to_9(self):
         zero_to_nine_list = [0, 1, 2, 3, 4, 5, 6, 7 ,8, 9]
@@ -31,7 +21,8 @@ class TestPlace(TestCase):
         col_int = 0
         row_int = 0
         ship_size = 5
-        result = self.place.can_ship_fit_in_row(self.empty_board, ship_size, row_int, col_int)
+        empty_board = self.board_helper.generate_empty_board()
+        result = self.place.can_ship_fit_in_row(empty_board, ship_size, row_int, col_int)
 
         self.assertEqual(result, True)
 
@@ -39,7 +30,8 @@ class TestPlace(TestCase):
         col_int = 0
         row_int = 4
         ship_size = 5
-        result = self.place.can_ship_fit_in_row(self.empty_board, ship_size, row_int, col_int)
+        empty_board = self.board_helper.generate_empty_board()
+        result = self.place.can_ship_fit_in_row(empty_board, ship_size, row_int, col_int)
 
         self.assertEqual(result, True)
 
@@ -67,7 +59,8 @@ class TestPlace(TestCase):
         col_int = 1
         row_int = 4
         ship_size = 5
-        result = self.place.can_ship_fit_in_column(self.empty_board, ship_size, row_int, col_int)
+        empty_board = self.board_helper.generate_empty_board()
+        result = self.place.can_ship_fit_in_column(empty_board, ship_size, row_int, col_int)
 
         self.assertEqual(result, True)
 
