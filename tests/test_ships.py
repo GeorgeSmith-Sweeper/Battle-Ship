@@ -18,20 +18,6 @@ class TestShips(TestCase):
         self.assertEqual(ships.submarine['hit_locations'], hit_locations)
         self.assertEqual(ships.battleship['hit_locations'], hit_locations)
 
-    def test_each_ship_has_a_sunk_boolean_that_is_False(self):
-        ships = Ships()
-        aircraft_carrier_sunk = False
-        battleship_sunk = False
-        cruiser_sunk = False
-        submarine_sunk = False
-        destroyer_sunk = False
-
-        self.assertEqual(ships.aircraft_carrier['sunk'], aircraft_carrier_sunk)
-        self.assertEqual(ships.destroyer['sunk'], destroyer_sunk)
-        self.assertEqual(ships.cruiser['sunk'], cruiser_sunk)
-        self.assertEqual(ships.submarine['sunk'], submarine_sunk)
-        self.assertEqual(ships.battleship['sunk'], battleship_sunk)
-
     def test_each_ship_has_a_size(self):
         ships = Ships()
         aircraft_carrier_size = 5
