@@ -103,6 +103,21 @@ class TestBoardHelper(TestCase):
                 ]
 
         self.assertEqual(self.board_helper.generate_board_with_a_miss(), board_with_a_miss)
+    def test_generate_board_with_hit_and_miss_returns_a_board_with_a_hit_and_miss(self):
+        board_with_hit_and_miss = [
+                ['Hit', self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], None, None, None, None, self.ships.all_ships[3]], 
+                ['Miss', None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
+                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
+                [None, None, None, None, None, None, None, None, None, None],
+                [None, None, None, None, None, None, None, None, None, None],
+                ]
+
+        self.assertEqual(self.board_helper.generate_board_with_hit_and_miss(), board_with_hit_and_miss)
 
     def test_generate_board_with_sunken_ship_returns_a_board_with_a_sunken_ship(self):
         board_with_a_sunken_ship = [
