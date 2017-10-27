@@ -66,4 +66,3 @@ class Board:
             all_ships_copy.pop(0)
             ship_orientation = 'column' if ship_orientation == 'row' else 'row'
         
-    

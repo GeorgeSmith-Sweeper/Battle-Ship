@@ -4,6 +4,7 @@ from core.ui import TerminalUi
 from core.board import Board
 from io import StringIO
 from core.ships import Ships
+from helpers.board_helper import BoardHelper
 
 class TestTerminalUi(TestCase):
     def test_terminal_displays_string_passed_to_it(self):
@@ -26,42 +27,7 @@ class TestFormat(TestCase):
     def setUp(self):
         self.ui = TerminalUi()
         self.ships = Ships()
-        self.board_with_ships = [
-                [self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], None, None, None, None, self.ships.all_ships[3]], 
-                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
-                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
-                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
-                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
-                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                ]
-        self.board_with_ships_and_moves = [
-                ['Hit', self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], self.ships.all_ships[0], None, None, None, None, self.ships.all_ships[3]], 
-                ['Miss', None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
-                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
-                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
-                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
-                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                ]
-        self.board_with_a_sunken_ship = [
-                ['Sunk', 'Sunk', 'Sunk', 'Sunk', 'Sunk', None, None, None, None, self.ships.all_ships[3]], 
-                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
-                [None, None, None, None, None, None, None, None, None, self.ships.all_ships[3]],
-                [None, None, None, None, self.ships.all_ships[2], None, None, None, None, None],
-                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
-                [None, self.ships.all_ships[4], None, None, self.ships.all_ships[2], None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1], self.ships.all_ships[1]],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                ]
+        self.board_helper = BoardHelper(self.ships)
 
     def test_ui_contains_the_ANSI_red_background_as_REDBG(self):
         redbg = '\033[41m'
@@ -99,7 +65,8 @@ class TestFormat(TestCase):
         missed_marker = '[M]'
         row = 1
         column = 0
-        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ships.all_ships)
+        board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
+        formated_marker = self.ui.add_shot_marker(board_with_hit_and_miss, row, column, self.ships.all_ships)
 
         self.assertEqual(formated_marker, missed_marker)
 
@@ -107,7 +74,8 @@ class TestFormat(TestCase):
         hit_marker = '[H]'
         row = 0
         column = 0
-        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ships.all_ships)
+        board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
+        formated_marker = self.ui.add_shot_marker(board_with_hit_and_miss, row, column, self.ships.all_ships)
 
         self.assertEqual(formated_marker, hit_marker)
         
@@ -115,7 +83,8 @@ class TestFormat(TestCase):
         sunk_marker = '\033[41m' + '[S]' + '\033[0m'
         row = 0
         column = 0
-        formated_marker = self.ui.add_shot_marker(self.board_with_a_sunken_ship, row, column, self.ships.all_ships)
+        board_with_a_sunken_ship = self.board_helper.generate_board_with_a_sunken_ship()
+        formated_marker = self.ui.add_shot_marker(board_with_a_sunken_ship, row, column, self.ships.all_ships)
 
         self.assertEqual(formated_marker, sunk_marker)
 
@@ -133,7 +102,8 @@ class TestFormat(TestCase):
  9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """
-        formatted_board = self.ui.format(self.board_with_ships, self.ships.all_ships)
+        board_with_ships = self.board_helper.generate_board_with_ships()
+        formatted_board = self.ui.format(board_with_ships, self.ships.all_ships)
         self.assertEqual(formatted_board, board_with_hidden_ships)
 
     def test_board_is_formatted_correctly_with_an_shots_taken(self):
@@ -150,6 +120,7 @@ class TestFormat(TestCase):
  9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """
-        formatted_board = self.ui.format(self.board_with_ships_and_moves, self.ships.all_ships)
+        board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
+        formatted_board = self.ui.format(board_with_hit_and_miss, self.ships.all_ships)
 
         self.assertEqual(formatted_board, occupied_board)
