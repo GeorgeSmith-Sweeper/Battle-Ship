@@ -29,13 +29,15 @@ class Board:
     def update(self, user_shot_choice, is_hit):
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]
-        
+        y_coordinate = self.rows[user_num]
+        x_coordinate = self.columns[user_letter]
+
         if is_hit == 'Hit':
-            self.state[self.rows[user_num]][self.columns[user_letter]] = 'Hit' 
+            self.state[y_coordinate][x_coordinate] = 'Hit' 
         elif is_hit == 'Miss': 
-            self.state[self.rows[user_num]][self.columns[user_letter]] = 'Miss' 
+            self.state[y_coordinate][x_coordinate] = 'Miss' 
         else:
-            for each_hit in self.state[self.rows[user_num]][self.columns[user_letter]]['hit_locations']:
+            for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:
                 row = each_hit[0]
                 column = each_hit[1]
                 self.state[row][column] = 'Sunk'
