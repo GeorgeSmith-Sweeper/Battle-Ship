@@ -4,28 +4,28 @@ class Ships:
     def __init__(self):
         self.aircraft_carrier = {
                 'name': 'Aircraft Carrier',
-                'symbol': 'AC',
                 'size': 5,
+                'hit_locations': [],
                 }
         self.battleship = {
                 'name': 'Battleship',
-                'symbol': 'B',
                 'size': 4,
+                'hit_locations': [],
                 }
         self.cruiser = {
                 'name': 'Cruiser',
-                'symbol': 'C',
-                'size': 3
+                'size': 3,
+                'hit_locations': [],
                 }
         self.submarine = {
                 'name': 'Submarine',
-                'symbol': 'S',
                 'size': 3,
+                'hit_locations': [],
                 }
         self.destroyer = {
                 'name': 'Destroyer',
-                'symbol': 'D',
                 'size': 2,
+                'hit_locations': [],
                 }
         self.all_ships = [
                 self.aircraft_carrier, 

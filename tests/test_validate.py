@@ -4,53 +4,22 @@ from core.validate import Validate
 from core.board import Board
 from core.ui import TerminalUi
 from core.ships import Ships
+from helpers.board_helper import BoardHelper
 
 class TestValidations(TestCase):
 
     def setUp(self):
         self.ships = Ships()
+        self.board_helper = BoardHelper(self.ships)
         self.validate = Validate()
         self.board = Board()
         self.ui = TerminalUi()
-        self.board_with_ships = [
-                ['AC', None, None, None, None, None, None, None, None, None],
-                ['AC', None, None, None, None, None, None, None, None, None],
-                ['AC', None, None, None, None, None, None, None, None, None],
-                ['AC', None, None, None, 'C', None, None, None, None, None],
-                ['AC', 'D', None, None, 'C', None, None, None, None, None],
-                [None, 'D', None, None, 'C', None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, 'B', 'B', 'B', 'B'],
-                [None, None, None, None, None, None, None, None, None, None],
-                ['S', 'S', 'S', None, None, None, None, None, None, None],
-              ]
 
-        self.empty_board = [
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-              ]
-
-        self.all_occupied_but_one = [
-               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
-               [None, 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
-               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
-               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
-               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
-               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
-               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
-               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
-               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
-               ['Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss', 'Miss'],
-              ]
-
+    def test_split_user_row_and_returns_a_single_letter_and_a_number_as_strings(self):
+        user_shot_choice = 'A2'
+        split_choice = ('A', '2')
+        answer = self.validate.split_user_shot(user_shot_choice)
+        self.assertEqual(answer, split_choice)
 
     def test_Validate_is_initialized_with_a_letters_list(self):
         col_lets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
@@ -84,7 +53,7 @@ class TestValidations(TestCase):
     @patch('core.validate.Validate.spot_exists', return_value= 'A2')
     def test_user_choice_is_returned_when_spot_is_not_occupied(self, mock1):
         user_shot_choice = 'A2'
-        self.board.state = self.all_occupied_but_one
+        self.board.state = self.board_helper.generate_all_but_one()
 
         self.assertEqual(self.validate.spot_occupied(self.board.state, self.ui, self.ships.all_ships), 'A2')
 
@@ -93,49 +62,82 @@ class TestValidations(TestCase):
     def test_spot_occupied_prompts_the_user_if_spot_is_occupied(self, mock1, mock2):
        invalid_msg = 'That spot is occupied. Pick a different spot'
        self.ui.display = MagicMock()
-       self.board.state = self.all_occupied_but_one
-
+       self.board.state = self.board_helper.generate_all_but_one()
        self.validate.spot_occupied(self.board.state, self.ui, self.ships.all_ships)
 
        self.ui.display.assert_called_with(invalid_msg)
 
     def test_board_full_returns_True_if_there_are_no_empty_spots_on_the_board(self):
-        self.board.state = [
-                ['Hit', "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
-                ['Hit', "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
-                ['Hit', "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
-                ['Hit', "Miss", "Miss", "Miss", 'Hit', "Miss", "Miss", "Miss", "Miss", "Miss"],
-                ['Hit', 'Hit', "Miss", "Miss", 'Hit', "Miss", "Miss", "Miss", "Miss", "Miss"],
-                ["Miss", 'Hit', "Miss", "Miss", 'Hit', "Miss", "Miss", "Miss", "Miss", "Miss"],
-                ["Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
-                ["Miss", "Miss", "Miss", "Miss", "Miss", "Miss", 'Hit', 'Hit', 'Hit', 'Hit'],
-                ["Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
-                ['Hit', 'Hit', 'Hit', "Miss", "Miss", "Miss", "Miss", "Miss", "Miss", "Miss"],
-              ]
+        self.board.state = self.board_helper.generate_full_board() 
+
         self.assertEqual(self.validate.board_full(self.board.state), True)
 
     def test_board_full_returns_False_if_there_are_empty_spots_on_the_board(self):
-        self.board.state = self.empty_board
+        self.board.state = self.board_helper.generate_empty_board()
         self.assertEqual(self.validate.board_full(self.board.state), False)
 
-    def test_hitting_a_ship_displays_msg_and_returns_true(self):
+    def test_hitting_a_ship_displays_msg_and_returns_str_Hit(self):
         self.ui.display = MagicMock()
-        shot = 'A2'
+        shot = 'A1'
         all_ships = self.ships.all_ships
         ship_hit_msg = 'You hit the Aircraft Carrier!'
-
-        is_hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, self.ui)
+        board_with_ships = self.board_helper.generate_board_with_ships() 
+        is_hit = self.validate.hit_ship(board_with_ships, shot, all_ships, self.ui)
 
         self.ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(is_hit, True)
+        self.assertEqual(is_hit, 'Hit')
 
-    def test_missing_a_ship_displays_miss_msg_and_returns_False(self):
+    def test_missing_a_ship_displays_miss_msg_and_returns_str_Miss(self):
         self.ui.display = MagicMock()
         shot = 'A9'
         all_ships = self.ships.all_ships
+        board_with_ships = self.board_helper.generate_board_with_ships() 
         ship_hit_msg = 'Miss!'
-
-        is_hit = self.validate.hit_ship(self.board_with_ships, shot, all_ships, self.ui)
+        is_hit = self.validate.hit_ship(board_with_ships, shot, all_ships, self.ui)
 
         self.ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(is_hit, False)
+        self.assertEqual(is_hit, 'Miss')
+    
+
+    def test_ship_is_sunk_when_len_hit_locations_equals_ship_size(self):
+        sunken_ship = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'sunk': True,
+                'hit_locations': [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5]],
+                }
+        
+        self.ui.display = MagicMock()
+        ship_sunk_msg = 'You sunk the Aircraft Carrier!'
+        is_sunk = self.validate.is_ship_sunk(sunken_ship, self.ui)
+
+        self.ui.display.assert_called_with(ship_sunk_msg)
+        self.assertEqual(is_sunk, True)
+
+    def test_ship_is_not_sunk_when_len_hit_locations_doesnt_equal_ship_size(self):
+        ship_with_no_hits = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'sunk': False,
+                'hit_locations': [],
+                }
+    
+        self.assertFalse(self.validate.is_ship_sunk(ship_with_no_hits, self.ui))
+
+    def test_when_a_ship_is_hit_it_stores_the_location_of_the_hit(self):
+        current_ship = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'sunk': False,
+                'hit_locations': [],
+                } 
+        
+        ship_after_hit = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'sunk': False,
+                'hit_locations': [[0, 0]],
+                }
+        shot = 'A1' 
+        self.assertEqual(self.validate.store_hits(current_ship, shot), ship_after_hit)
+         
