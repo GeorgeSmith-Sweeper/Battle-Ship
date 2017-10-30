@@ -98,7 +98,7 @@ class TestFormat(TestCase):
         formated_marker = self.ui.add_shot_marker(board_with_a_sunken_ship, row, column, self.ships.all_ships)
 
         self.assertEqual(formated_marker, sunk_marker)
-
+     
     def test_board_is_formatted_correctly_with_ships_before_moves(self):
         board_with_hidden_ships = """
     A  B  C  D  E  F  G  H  I  J

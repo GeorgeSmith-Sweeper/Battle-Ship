@@ -26,6 +26,12 @@ class Board:
                 'J': 9,
                 }
 
+    def update_spot_to_sunk(self, y_coordinate, x_coordinate):
+        for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:
+            row = each_hit[0]
+            column = each_hit[1]
+            self.state[row][column] = 'Sunk'
+    
     def update(self, user_shot_choice, is_hit):
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]
@@ -37,10 +43,7 @@ class Board:
         elif is_hit == 'Miss': 
             self.state[y_coordinate][x_coordinate] = 'Miss' 
         else:
-            for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:
-                row = each_hit[0]
-                column = each_hit[1]
-                self.state[row][column] = 'Sunk'
+            self.update_spot_to_sunk(y_coordinate, x_coordinate)
 
     def add_to_board(self, all_ships, place, ship_orientation):
         all_ships_copy = all_ships.copy()
