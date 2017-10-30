@@ -24,9 +24,9 @@ class TerminalUi:
             return '[ ]'
         if board_state[row][column] == 'Miss': 
             return '[' + self.MAGENTA + 'M' + self.ENDCOLOR + ']'
-        elif board_state[row][column] == 'Hit':
+        if board_state[row][column] == 'Hit':
             return '[' + self.CYAN + 'H' + self.ENDCOLOR + ']'
-        elif board_state[row][column] == 'Sunk':
+        if board_state[row][column] == 'Sunk':
             return self.REDBGCOLOR + '[S]' + self.ENDCOLOR
 
     def format(self, board_state, all_ships):
