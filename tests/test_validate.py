@@ -40,6 +40,13 @@ class TestValidations(TestCase):
     def test_spot_exists_returns_user_input_when_choosen_spot_exists(self, mock):
        user_shot_choice = 'A1'
        self.assertEqual(self.validate.spot_exists(self.ui), 'A1')
+    
+    def test_get_current_spot_returns_the_value_of_the_selected_spot_on_the_board(self):
+       user_shot_choice = 'A1'
+       board_with_ships = self.board_helper.generate_board_with_ships() 
+       spot_value = self.validate.get_current_spot(board_with_ships, user_shot_choice) 
+       aircraft_carrier = self.ships.all_ships[0]
+       self.assertEqual(spot_value, aircraft_carrier)
 
     @patch('core.ui.TerminalUi.get_input', side_effect = ['A35', 'A1'])
     def test_spot_exists_prompts_the_user_if_spot_is_invalid(self, mocks):
