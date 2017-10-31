@@ -98,7 +98,6 @@ class TestValidations(TestCase):
         self.ui.display.assert_called_with(ship_hit_msg)
         self.assertEqual(is_hit, 'Miss')
     
-
     def test_ship_is_sunk_when_len_hit_locations_equals_ship_size(self):
         sunken_ship = {
                 'name': 'Aircraft Carrier',
