@@ -16,28 +16,18 @@ class TestPlace(TestCase):
         zero_to_nine_list = [0, 1, 2, 3, 4, 5, 6, 7 ,8, 9]
         random_num = self.place.create_random_num()
         self.assertIn(random_num,  zero_to_nine_list)
-
-    def test_space_for_ship_in_row_returns_True_if_there_is_space(self):
-        col_int = 0
-        row_int = 0
+    
+    @patch('core.placement.Place.create_random_num', side_effect = [0, 0])
+    def test_space_for_ship_in_row_returns_location_where_ship_fit_if_there_is_space(self, mock):
         ship_size = 5
         empty_board = self.board_helper.generate_empty_board()
-        result = self.place.can_ship_fit_in_row(empty_board, ship_size, row_int, col_int)
+        row_coordinate, column_coordinate = self.place.can_ship_fit_in_row(empty_board, ship_size)
 
-        self.assertEqual(result, True)
-
-    def test_space_for_ship_in_row_returns_True_if_there_is_space_2nd(self):
-        col_int = 0
-        row_int = 4
-        ship_size = 5
-        empty_board = self.board_helper.generate_empty_board()
-        result = self.place.can_ship_fit_in_row(empty_board, ship_size, row_int, col_int)
-
-        self.assertEqual(result, True)
-
-    def test_space_for_ship_in_row_returns_False_if_there_is_no_space(self):
-        col_int = 0
-        row_int = 1
+        self.assertEqual(row_coordinate, 0)
+        self.assertEqual(column_coordinate, 0)
+    
+    @patch('core.placement.Place.create_random_num', side_effect = [1, 0, 2, 2])
+    def test_if_there_is_no_space_in_row_method_loops_until_it_finds_space(self, mock_board_spaces):
         ship_size = 5
         self.board.state = [
                 [None, None, None, None, None, None, None, None, None, None],
@@ -52,8 +42,9 @@ class TestPlace(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
             ]
 
-        result = self.place.can_ship_fit_in_row(self.board.state, ship_size, row_int, col_int)
-        self.assertEqual(result, False)
+        row_coordinate, column_coordinate = self.place.can_ship_fit_in_row(self.board.state, ship_size)
+        self.assertEqual(row_coordinate, 2)
+        self.assertEqual(column_coordinate, 2)
 
     def test_space_for_ship_in_column_returns_True_if_there_is_space(self):
         col_int = 1
