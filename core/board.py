@@ -54,14 +54,14 @@ class Board:
             ship = 0
             if ship_orientation == 'row':
 
-                while place.can_ship_fit_in_row(self.state, all_ships_copy[ship]['size']) == False:
+                while place.find_space_in_row(self.state, all_ships_copy[ship]['size']) == False:
                     row_int = place.create_random_num()
                     col_int = place.create_random_num()
 
                 for ele in range(all_ships_copy[ship]['size']):
                     self.state[row_int][ele - (len(self.state) - col_int)] = all_ships_copy[ship]
             else:
-                while place.can_ship_fit_in_column(self.state, all_ships_copy[ship]['size'], row_int, col_int) == False:
+                while place.find_space_in_column(self.state, all_ships_copy[ship]['size']) == False:
                     row_int = place.create_random_num()
                     col_int = place.create_random_num()
 
