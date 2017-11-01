@@ -38,7 +38,7 @@ class TestPlayGame(TestCase):
 
         new_game = Game(board, ui, validate, ships, place)
         new_game.play()
-        
+
         board.add_to_board.assert_called_with(ships.all_ships, place, ship_orientation)
         ui.display.assert_called()
         validate.board_full.assert_called_with(board.state)
