@@ -32,7 +32,9 @@ class TestBoard(TestCase):
     def test_when_ship_sinks_all_positions_where_ship_was_are_updated_to_str_Sunk(self):
         user_shot_choice = 'A1'
         self.board.state = self.board_helper.generate_board_with_ships() 
-        self.board.state[0][0] = {
+        row = 0 
+        column = 0
+        self.board.state[row][column] = {
                 'name': 'Aircraft Carrier',
                 'size': 5,
                 'sunk': True,
@@ -45,7 +47,7 @@ class TestBoard(TestCase):
              
     @patch('core.placement.Place.create_random_num', return_value = 0)
     @patch('core.placement.Place.create_random_num', return_value = 0)
-    def test_ship_added_to_row_if_there_is_room(self, mock1, mock2):
+    def test_a_ship_is_added_to_row_if_there_is_room(self, mock1, mock2):
         place = Place()
         all_ships = [{ 
                 'name': 'Aircraft Carrier',
