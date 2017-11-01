@@ -4,9 +4,9 @@ class Game:
     def __init__(self, comp_board, human_board, ui, validate, place):
         self.ui = ui
         self.comp_board = comp_board 
+        self.human_board = human_board
         self.validate = validate
         self.place = place
-        self.human_board = human_board
 
     def play(self):
         self.ui.display("Welcome to Battleship")
