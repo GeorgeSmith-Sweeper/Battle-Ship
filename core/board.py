@@ -46,8 +46,8 @@ class Board:
         else:
             self.update_spot_to_sunk(y_coordinate, x_coordinate)
 
-    def add_to_board(self, all_ships, place, ship_orientation):
-        all_ships_copy = all_ships.copy()
+    def add_to_board(self, place, ship_orientation):
+        all_ships_copy = self.ships.all_ships.copy()
         while len(all_ships_copy) > 0:
             ship = 0
             if ship_orientation == 'row':                

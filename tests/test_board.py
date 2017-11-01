@@ -49,14 +49,14 @@ class TestBoard(TestCase):
     @patch('core.placement.Place.create_random_num', return_value = 0)
     def test_a_ship_is_added_to_row_if_there_is_room(self, mock1, mock2):
         place = Place()
-        all_ships = [{ 
+        self.board.ships.all_ships = [{ 
                 'name': 'Aircraft Carrier',
                 'size': 5,
                 'health': 5,
                 'sunk': False,
                 }]
         state_after_move = [
-                [all_ships[0], all_ships[0], all_ships[0], all_ships[0], all_ships[0], None, None, None, None, None],
+                [self.board.ships.all_ships[0], self.board.ships.all_ships[0], self.board.ships.all_ships[0], self.board.ships.all_ships[0], self.board.ships.all_ships[0], None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
@@ -68,7 +68,7 @@ class TestBoard(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
         ship_orientation = 'row'
-        self.board.add_to_board(all_ships, place, ship_orientation)
+        self.board.add_to_board(place, ship_orientation)
 
         self.assertEqual(self.board.state, state_after_move)
 
@@ -76,18 +76,18 @@ class TestBoard(TestCase):
     @patch('core.placement.Place.create_random_num', return_value = 0)
     def test_ship__added_to_column_if_there_is_room(self, mock1, mock2):
         place = Place()
-        all_ships = [{ 
+        self.board.ships.all_ships = [{ 
                 'name': 'Aircraft Carrier',
                 'size': 5,
                 'health': 5,
                 'sunk': False,
                 }]
         state_after_move = [
-                [all_ships[0], None, None, None, None, None, None, None, None, None],
-                [all_ships[0], None, None, None, None, None, None, None, None, None],
-                [all_ships[0], None, None, None, None, None, None, None, None, None],
-                [all_ships[0], None, None, None, None, None, None, None, None, None],
-                [all_ships[0], None, None, None, None, None, None, None, None, None],
+                [self.board.ships.all_ships[0], None, None, None, None, None, None, None, None, None],
+                [self.board.ships.all_ships[0], None, None, None, None, None, None, None, None, None],
+                [self.board.ships.all_ships[0], None, None, None, None, None, None, None, None, None],
+                [self.board.ships.all_ships[0], None, None, None, None, None, None, None, None, None],
+                [self.board.ships.all_ships[0], None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
                 [None, None, None, None, None, None, None, None, None, None],
@@ -95,7 +95,7 @@ class TestBoard(TestCase):
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
         ship_orientation = 'column'
-        self.board.add_to_board(all_ships, place, ship_orientation)
+        self.board.add_to_board(place, ship_orientation)
 
         self.assertEqual(self.board.state, state_after_move)
     
