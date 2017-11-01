@@ -73,15 +73,16 @@ class TestValidations(TestCase):
        self.validate.spot_occupied(self.board.state, self.ui, self.ships.all_ships)
 
        self.ui.display.assert_called_with(invalid_msg)
-
-    def test_board_full_returns_True_if_there_are_no_empty_spots_on_the_board(self):
+    
+    def test_all_ships_sunk_returns_True_if_there_are_no_ships_left(self):
         self.board.state = self.board_helper.generate_full_board() 
+        
+        self.assertEqual(self.validate.all_ships_sunk(self.board.state, self.board.ships.all_ships), True)
 
-        self.assertEqual(self.validate.board_full(self.board.state), True)
-
-    def test_board_full_returns_False_if_there_are_empty_spots_on_the_board(self):
-        self.board.state = self.board_helper.generate_empty_board()
-        self.assertEqual(self.validate.board_full(self.board.state), False)
+    def test_all_ships_sunk_returns_False_if_there_are_ships_left(self):
+        self.board.state = self.board_helper.generate_board_with_ships() 
+        
+        self.assertEqual(self.validate.all_ships_sunk(self.board.state, self.board.ships.all_ships), False)
 
     def test_hitting_a_ship_displays_msg_and_returns_str_Hit(self):
         self.ui.display = MagicMock()

@@ -39,13 +39,13 @@ class Validate:
         column = self.columns[user_let]
         return board_state[row][column]
 
-    def board_full(self, board_state):
-        full = True
+    def all_ships_sunk(self, board_state, all_ships):
+        all_sunk = True
         for row in range(0, len(board_state)):
             for ele in board_state[row]:
-                if ele is None:
+                if ele in all_ships:
                     return False
-        return full
+        return all_sunk 
 
     def spot_exists(self, ui):
         user_shot_choice = ui.get_input('>>')
