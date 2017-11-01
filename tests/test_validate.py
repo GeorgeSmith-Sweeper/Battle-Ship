@@ -10,9 +10,9 @@ class TestValidations(TestCase):
 
     def setUp(self):
         self.ships = Ships()
+        self.board = Board(self.ships)
         self.board_helper = BoardHelper(self.ships)
         self.validate = Validate()
-        self.board = Board()
         self.ui = TerminalUi()
 
     def test_split_user_row_and_returns_a_single_letter_and_a_number_as_strings(self):

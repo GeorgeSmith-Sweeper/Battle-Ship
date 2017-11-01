@@ -1,5 +1,5 @@
 class Board:
-    def __init__(self):
+    def __init__(self, ships):
         self.state = [[None for ele in range(10)] for index in range(10)]
         self.rows = {
                 '1': 0,
@@ -25,6 +25,7 @@ class Board:
                 'I': 8,
                 'J': 9,
                 }
+        self.ships = ships
 
     def update_spot_to_sunk(self, y_coordinate, x_coordinate):
         for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:

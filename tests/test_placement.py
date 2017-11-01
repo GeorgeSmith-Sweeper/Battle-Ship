@@ -7,9 +7,9 @@ from helpers.board_helper import BoardHelper
 
 class TestPlace(TestCase):
     def setUp(self):
-        self.board = Board()
-        self.place = Place()
         self.ships = Ships()
+        self.board = Board(self.ships)
+        self.place = Place()
         self.board_helper = BoardHelper(self.ships)
 
     def test_create_random_generates_a_num_from_0_to_9(self):

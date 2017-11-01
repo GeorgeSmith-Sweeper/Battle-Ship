@@ -9,8 +9,8 @@ from helpers.board_helper import BoardHelper
 class TestBoard(TestCase):
 
     def setUp(self):
-       self.board = Board()
        self.ships = Ships()
+       self.board = Board(self.ships)
        self.board_helper = BoardHelper(self.ships)
 
     def test_Hit_is_added_to_board_if_the_user_hit_a_ship(self):
