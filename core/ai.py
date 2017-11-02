@@ -5,11 +5,12 @@ class Ai:
         self.validate = validate
 
     def choose_random_spot(self):
-        all_spots = self.validate.all_spots
-        random_spot = all_spots.pop(random.randint(0, len(all_spots) - 1))
+        random_index = random.randint(0, len(self.validate.all_spots) - 1)
+        random_spot = self.validate.all_spots.pop(random_index)
         return random_spot 
 
     def shoots_at_board(self, human_board, ui):
         random_spot = self.choose_random_spot()
-        human_board.update(random_spot, self.validate.hit_ship(human_board.state, random_spot, human_board.ships.all_ships, ui))
+        shot_result = self.validate.hit_ship(human_board.state, random_spot, human_board.ships.all_ships, ui)
+        human_board.update(random_spot, shot_result)
 

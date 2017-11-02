@@ -1,13 +1,13 @@
 from core import board, ui, validate, ships, placement, ai
 
 class Game:
-    def __init__(self, comp_board, human_board, ui, ai, validate, place):
+    def __init__(self, comp_board, human_board, ai, ui, validate, place):
+        self.ai = ai
         self.ui = ui
         self.comp_board = comp_board 
         self.human_board = human_board
         self.validate = validate
         self.place = place
-        self.ai = ai
         
 
     def play(self):
@@ -15,6 +15,7 @@ class Game:
         all_sunk = False
         ship_orientation = 'row'
         self.comp_board.add_to_board(self.place, ship_orientation)
+        self.human_board.add_to_board(self.place, ship_orientation)
 
         while not all_sunk:
             self.ui.display("Take your best shot")
@@ -23,7 +24,9 @@ class Game:
             shot_result = self.validate.hit_ship(self.comp_board.state, spot_choice, self.comp_board.ships.all_ships, self.ui)
             self.comp_board.update(spot_choice, shot_result)
             all_sunk = self.validate.all_ships_sunk(self.comp_board.state, self.comp_board.ships.all_ships) 
+            
             self.ai.shoots_at_board(self.human_board, self.ui)
+            self.ui.display(self.ui.format(self.human_board.state, self.human_board.ships.all_ships))
             all_sunk = self.validate.all_ships_sunk(self.human_board.state, self.human_board.ships.all_ships) 
             
 

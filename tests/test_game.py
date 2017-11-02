@@ -40,7 +40,7 @@ class TestPlayGame(TestCase):
         ui.get_input = MagicMock(return_value = user_shot_choice)
         ui.display = MagicMock()
 
-        new_game = Game(comp_board, human_board, ui, ai, validate, place)
+        new_game = Game(comp_board, human_board, ai, ui, validate, place)
         new_game.play()
 
         comp_board.add_to_board.assert_called_with(place, ship_orientation)

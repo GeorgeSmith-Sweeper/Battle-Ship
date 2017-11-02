@@ -42,3 +42,18 @@ class TestAi(TestCase):
         random_spot = ai.choose_random_spot()
         self.assertIn(random_spot, all_spots_list)
     
+    @patch('core.ai.Ai.choose_random_spot', return_value='B1')
+    def test_shoots_at_board_updates_the_board_to_Hit_if_it_hits_a_ship(self, mock):
+        ui = TerminalUi()
+        validate = Validate()
+        ai = Ai(validate)
+        ships = Ships()
+        human_board = Board(ships)
+        board_helper = BoardHelper(ships)
+        all_spots_list = board_helper.generate_all_spots()
+        human_board.state = board_helper.generate_board_with_ships()
+        board_with_a_hit = board_helper.generate_board_with_hit()
+
+        ai.shoots_at_board(human_board, ui)
+        self.assertEqual(human_board.state, board_with_a_hit)
+        
