@@ -44,7 +44,7 @@ class Validate:
         for row in range(0, len(board_state)):
             for ele in board_state[row]:
                 if ele in all_ships:
-                   all_sunk = False
+                   return False
         return all_sunk 
 
     def spot_exists(self, ui):
