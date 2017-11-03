@@ -1,4 +1,5 @@
 from core import board, ui, validate, ships, placement, ai
+import copy
 
 class Game:
     def __init__(self, comp_board, human_board, ai, ui, validate, place):
@@ -9,7 +10,6 @@ class Game:
         self.validate = validate
         self.place = place
         
-
     def play(self):
         self.ui.display("Welcome to Battleship")
         all_sunk = False
@@ -24,16 +24,16 @@ class Game:
             shot_result = self.validate.hit_ship(self.comp_board.state, spot_choice, self.comp_board.ships.all_ships, self.ui)
             self.comp_board.update(spot_choice, shot_result)
             all_sunk = self.validate.all_ships_sunk(self.comp_board.state, self.comp_board.ships.all_ships) 
-            
+
             self.ai.shoots_at_board(self.human_board, self.ui)
             self.ui.display(self.ui.format(self.human_board.state, self.human_board.ships.all_ships))
             all_sunk = self.validate.all_ships_sunk(self.human_board.state, self.human_board.ships.all_ships) 
-            
 
 if __name__ == "__main__":
     ships = ships.Ships()
+    human_ships = copy.deepcopy(ships)
     comp_board = board.Board(ships)
-    human_board = board.Board(ships)
+    human_board = board.Board(human_ships)
     ui = ui.TerminalUi()
     validate = validate.Validate()
     place = placement.Place()

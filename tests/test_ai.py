@@ -9,51 +9,42 @@ from core.ai import Ai
 
 class TestAi(TestCase):
 
+    def setUp(self):
+        self.ships = Ships()
+        self.validate = Validate()
+        self.board_helper = BoardHelper(self.ships)
+        self.human_board = Board(self.ships)
+        self.ui = TerminalUi()
+        self.ai = Ai(self.validate)
+
     def test_ai_shoots_at_board_runs_the_correct_methods(self):
-        ships = Ships()
-        validate = Validate()
-        board_helper = BoardHelper(ships)
-        human_board = Board(ships)
-        ui = TerminalUi()
-        ai = Ai(validate)
-        
         ai_shot = 'A2'
         shot_result = 'Hit' 
-        board_with_ships = board_helper.generate_board_with_ships()
-        board_after_ai_shot = board_helper.generate_board_with_hit()
+        board_with_ships = self.board_helper.generate_board_with_ships()
+        board_after_ai_shot = self.board_helper.generate_board_with_hit()
 
-        human_board.state = MagicMock(return_value=board_with_ships) 
-        human_board.update = MagicMock()
-        ai.choose_random_spot = MagicMock(return_value = ai_shot) 
-        validate.hit_ship = MagicMock(return_value = 'Hit')
+        self.human_board.state = MagicMock(return_value=board_with_ships) 
+        self.human_board.update = MagicMock()
+        self.ai.choose_random_spot = MagicMock(return_value = ai_shot) 
+        self.validate.hit_ship = MagicMock(return_value = 'Hit')
 
-        ai.shoots_at_board(human_board, ui)
+        self.ai.shoots_at_board(self.human_board, self.ui)
         
-        ai.choose_random_spot.assert_called()
-        human_board.update.assert_called_with(ai_shot, validate.hit_ship(human_board.state, ai_shot, human_board.ships.all_ships, ui))
+        self.ai.choose_random_spot.assert_called()
+        self.human_board.update.assert_called_with(ai_shot, self.validate.hit_ship(self.human_board.state, ai_shot, self.human_board.ships.all_ships, self.ui))
     
     def test_choose_random_spot_picks_a_spot_chooses_spaces_from_available_spaces(self):
-        validate = Validate()
-        ai = Ai(validate)
-        ships = Ships()
-        board_helper = BoardHelper(ships)
-        all_spots_list = board_helper.generate_all_spots()
+        all_spots_list = self.board_helper.generate_all_spots()
 
-        random_spot = ai.choose_random_spot()
+        random_spot = self.ai.choose_random_spot()
         self.assertIn(random_spot, all_spots_list)
     
     @patch('core.ai.Ai.choose_random_spot', return_value='B1')
     def test_shoots_at_board_updates_the_board_to_Hit_if_it_hits_a_ship(self, mock):
-        ui = TerminalUi()
-        validate = Validate()
-        ai = Ai(validate)
-        ships = Ships()
-        human_board = Board(ships)
-        board_helper = BoardHelper(ships)
-        all_spots_list = board_helper.generate_all_spots()
-        human_board.state = board_helper.generate_board_with_ships()
-        board_with_a_hit = board_helper.generate_board_with_hit()
+        all_spots_list = self.board_helper.generate_all_spots()
+        self.human_board.state = self.board_helper.generate_board_with_ships()
+        board_with_a_hit = self.board_helper.generate_board_with_hit()
 
-        ai.shoots_at_board(human_board, ui)
-        self.assertEqual(human_board.state, board_with_a_hit)
+        self.ai.shoots_at_board(self.human_board, self.ui)
+        self.assertEqual(self.human_board.state, board_with_a_hit)
         
