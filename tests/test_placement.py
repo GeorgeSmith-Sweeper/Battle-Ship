@@ -1,16 +1,14 @@
 from unittest import TestCase, mock
 from unittest.mock import patch, MagicMock
 from core.board import Board
-from core.ships import Ships
 from core.placement import Place
 from helpers.board_helper import BoardHelper
 
 class TestPlace(TestCase):
     def setUp(self):
-        self.ships = Ships()
-        self.board = Board(self.ships)
+        self.board = Board()
         self.place = Place()
-        self.board_helper = BoardHelper(self.ships)
+        self.board_helper = BoardHelper(self.board.all_ships)
 
     def test_create_random_generates_a_num_from_0_to_9(self):
         zero_to_nine_list = [0, 1, 2, 3, 4, 5, 6, 7 ,8, 9]
