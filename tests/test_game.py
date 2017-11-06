@@ -13,8 +13,8 @@ class TestPlayGame(TestCase):
     def test_play_runs_the_correct_methods(self):
         ships = Ships()
         ui = TerminalUi()
-        human_board = Board(ships)
-        comp_board = Board(ships)
+        human_board = Board()
+        comp_board = Board()
         validate = Validate()
         place = Place()
         ai = Ai(validate)
@@ -44,8 +44,8 @@ class TestPlayGame(TestCase):
 
         comp_board.add_to_board.assert_called_with(place, ship_orientation)
         ui.display.assert_called()
-        validate.spot_occupied.assert_called_with(comp_board.state, ui, comp_board.ships.all_ships)
-        validate.hit_ship(comp_board.state, user_shot_choice, comp_board.ships.all_ships) 
+        validate.spot_occupied.assert_called_with(comp_board.state, ui, comp_board.all_ships)
+        validate.hit_ship(comp_board.state, user_shot_choice, comp_board.all_ships) 
         comp_board.update.assert_called_with(user_shot_choice, shot_result)
         validate.all_ships_sunk.assert_called()
         ai.shoots_at_board.assert_called_with(human_board, ui)

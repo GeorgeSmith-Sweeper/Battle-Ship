@@ -8,7 +8,7 @@ from helpers.board_helper import BoardHelper
 class TestPlace(TestCase):
     def setUp(self):
         self.ships = Ships()
-        self.board = Board(self.ships)
+        self.board = Board()
         self.place = Place()
         self.board_helper = BoardHelper(self.ships)
 

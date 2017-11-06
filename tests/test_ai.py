@@ -3,17 +3,16 @@ from unittest.mock import patch, MagicMock
 from core.board import Board
 from core.ui import TerminalUi
 from core.validate import Validate
-from core.ships import Ships
 from helpers.board_helper import BoardHelper
 from core.ai import Ai
 
 class TestAi(TestCase):
 
     def setUp(self):
-        self.ships = Ships()
+        self.board = Board()
         self.validate = Validate()
-        self.board_helper = BoardHelper(self.ships)
-        self.human_board = Board(self.ships)
+        self.board_helper = BoardHelper(self.board.all_ships)
+        self.human_board = Board()
         self.ui = TerminalUi()
         self.ai = Ai(self.validate)
 
@@ -31,7 +30,7 @@ class TestAi(TestCase):
         self.ai.shoots_at_board(self.human_board, self.ui)
         
         self.ai.choose_random_spot.assert_called()
-        self.human_board.update.assert_called_with(ai_shot, self.validate.hit_ship(self.human_board.state, ai_shot, self.human_board.ships.all_ships, self.ui))
+        self.human_board.update.assert_called_with(ai_shot, self.validate.hit_ship(self.human_board.state, ai_shot, self.human_board.all_ships, self.ui))
     
     def test_choose_random_spot_picks_a_spot_chooses_spaces_from_available_spaces(self):
         all_spots_list = self.board_helper.generate_all_spots()

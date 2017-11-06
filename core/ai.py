@@ -14,6 +14,6 @@ class Ai:
 
     def shoots_at_board(self, human_board, ui):
         random_spot = self.choose_random_spot()
-        shot_result = self.validate.hit_ship(human_board.state, random_spot, human_board.ships.all_ships, ui)
+        shot_result = self.validate.hit_ship(human_board.state, random_spot, human_board.all_ships, ui)
         human_board.update(random_spot, shot_result)
 

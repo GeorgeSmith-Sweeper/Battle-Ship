@@ -3,7 +3,6 @@ from unittest.mock import patch, MagicMock
 from core.ui import TerminalUi
 from core.board import Board
 from io import StringIO
-from core.ships import Ships
 from helpers.board_helper import BoardHelper
 
 class TestTerminalUi(TestCase):
@@ -38,8 +37,8 @@ class TestTerminalUi(TestCase):
 class TestFormat(TestCase):
     def setUp(self):
         self.ui = TerminalUi()
-        self.ships = Ships()
-        self.board_helper = BoardHelper(self.ships)
+        self.board = Board()
+        self.board_helper = BoardHelper(self.board.all_ships)
         self.missed_marker = '[' + '\033[35m' + 'M' + '\033[0m' + ']'
         self.hit_marker =  '[' + '\033[36m' + 'H' + '\033[0m' + ']'
         self.sunk_marker = '\033[41m' + '[S]' + '\033[0m'
@@ -80,7 +79,7 @@ class TestFormat(TestCase):
         empty_marker = '[ ]'
         row = 2
         column = 0
-        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.ships.all_ships)
+        formated_marker = self.ui.add_shot_marker(self.board_with_ships_and_moves, row, column, self.board.all_ships)
 
         self.assertEqual(formated_marker, empty_marker)
 
@@ -89,7 +88,7 @@ class TestFormat(TestCase):
         row = 1
         column = 0
         board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
-        formated_marker = self.ui.add_shot_marker(board_with_hit_and_miss, row, column, self.ships.all_ships)
+        formated_marker = self.ui.add_shot_marker(board_with_hit_and_miss, row, column, self.board.all_ships)
 
         self.assertEqual(formated_marker, missed_marker)
 
@@ -98,7 +97,7 @@ class TestFormat(TestCase):
         row = 0
         column = 0
         board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
-        formated_marker = self.ui.add_shot_marker(board_with_hit_and_miss, row, column, self.ships.all_ships)
+        formated_marker = self.ui.add_shot_marker(board_with_hit_and_miss, row, column, self.board.all_ships)
 
         self.assertEqual(formated_marker, hit_marker)
         
@@ -107,7 +106,7 @@ class TestFormat(TestCase):
         row = 0
         column = 0
         board_with_a_sunken_ship = self.board_helper.generate_board_with_a_sunken_ship()
-        formated_marker = self.ui.add_shot_marker(board_with_a_sunken_ship, row, column, self.ships.all_ships)
+        formated_marker = self.ui.add_shot_marker(board_with_a_sunken_ship, row, column, self.board.all_ships)
 
         self.assertEqual(formated_marker, sunk_marker)
      
@@ -126,7 +125,7 @@ class TestFormat(TestCase):
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """
         board_with_ships = self.board_helper.generate_board_with_ships()
-        formatted_board = self.ui.format(board_with_ships, self.ships.all_ships)
+        formatted_board = self.ui.format(board_with_ships, self.board.all_ships)
         self.assertEqual(formatted_board, board_with_hidden_ships)
 
     def test_board_is_formatted_correctly_with_an_shots_taken(self):
@@ -146,7 +145,7 @@ class TestFormat(TestCase):
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """ % (H, M)
         board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
-        formatted_board = self.ui.format(board_with_hit_and_miss, self.ships.all_ships)
+        formatted_board = self.ui.format(board_with_hit_and_miss, self.board.all_ships)
 
         self.assertEqual(formatted_board, occupied_board)
 
@@ -166,7 +165,7 @@ class TestFormat(TestCase):
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """ % (S, S, S, S, S)
         board_with_hit_and_miss = self.board_helper.generate_board_with_a_sunken_ship()
-        formatted_board = self.ui.format(board_with_hit_and_miss, self.ships.all_ships)
+        formatted_board = self.ui.format(board_with_hit_and_miss, self.board.all_ships)
 
         self.assertEqual(formatted_board, occupied_board)
 
@@ -187,6 +186,6 @@ class TestFormat(TestCase):
 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
 """ % (H, M)
         board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
-        formatted_board = self.ui.format(board_with_hit_and_miss, self.ships.all_ships)
+        formatted_board = self.ui.format(board_with_hit_and_miss, self.board.all_ships)
 
         self.assertEqual(formatted_board, occupied_board)

@@ -1,5 +1,5 @@
 class Board:
-    def __init__(self, ships):
+    def __init__(self):
         self.state = [[None for ele in range(10)] for index in range(10)]
         self.rows = {
                 '1': 0,
@@ -25,7 +25,38 @@ class Board:
                 'I': 8,
                 'J': 9,
                 }
-        self.ships = ships
+        self.aircraft_carrier = {
+                'name': 'Aircraft Carrier',
+                'size': 5,
+                'hit_locations': [],
+                }
+        self.battleship = {
+                'name': 'Battleship',
+                'size': 4,
+                'hit_locations': [],
+                }
+        self.cruiser = {
+                'name': 'Cruiser',
+                'size': 3,
+                'hit_locations': [],
+                }
+        self.submarine = {
+                'name': 'Submarine',
+                'size': 3,
+                'hit_locations': [],
+                }
+        self.destroyer = {
+                'name': 'Destroyer',
+                'size': 2,
+                'hit_locations': [],
+                }
+        self.all_ships = [
+                self.aircraft_carrier, 
+                self.battleship, 
+                self.cruiser,
+                self.submarine,
+                self.destroyer,
+                ]
 
     def update_spot_to_sunk(self, y_coordinate, x_coordinate):
         for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:
@@ -47,7 +78,7 @@ class Board:
             self.update_spot_to_sunk(y_coordinate, x_coordinate)
 
     def add_to_board(self, place, ship_orientation):
-        all_ships_copy = self.ships.all_ships.copy()
+        all_ships_copy = self.all_ships.copy()
         while len(all_ships_copy) > 0:
             ship = 0
             if ship_orientation == 'row':                
