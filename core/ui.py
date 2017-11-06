@@ -5,6 +5,8 @@ class TerminalUi:
         self.ENDCOLOR = '\033[0m'
         self.MAGENTA = '\033[35m'
         self.CYAN = '\033[36m'
+        self.COMP_WIN_MSG = 'The Computer has sunk all the ships! Game Over!'
+        self.HUMAN_WIN_MSG = 'Congratulations, you\'ve has sunk all the computers ships! Game Over!'
 
     def display(self, message):
        print(message)
@@ -41,3 +43,4 @@ class TerminalUi:
         return formatted_board
   
     
+

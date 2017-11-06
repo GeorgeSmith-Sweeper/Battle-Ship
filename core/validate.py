@@ -39,14 +39,6 @@ class Validate:
         column = self.columns[user_let]
         return board_state[row][column]
 
-    def board_full(self, board_state):
-        full = True
-        for row in range(0, len(board_state)):
-            for ele in board_state[row]:
-                if ele is None:
-                    return False
-        return full
-
     def spot_exists(self, ui):
         user_shot_choice = ui.get_input('>>')
 
@@ -77,12 +69,6 @@ class Validate:
         ui.display('Miss!')
         return 'Miss'
 
-    def is_ship_sunk(self, current_ship, ui):
-        if len(current_ship['hit_locations']) == current_ship['size']: 
-            ui.display("You sunk the " + current_ship['name'] + '!')
-            return True
-        return False 
-
     def store_hits(self, current_ship, shot):
         user_let, user_num = self.split_user_shot(shot)
         row = self.rows[user_num]
@@ -90,6 +76,21 @@ class Validate:
 
         current_ship['hit_locations'].append([row, column])  
         return current_ship
+
+    def is_ship_sunk(self, current_ship, ui):
+        if len(current_ship['hit_locations']) == current_ship['size']: 
+            ui.display("You sunk the " + current_ship['name'] + '!')
+            return True
+        return False 
+
+    def all_ships_sunk(self, board_state, all_ships):
+        all_sunk = True
+        for row in range(0, len(board_state)):
+            for ele in board_state[row]:
+                if ele in all_ships:
+                   return False
+        return all_sunk 
+
         
 
     
