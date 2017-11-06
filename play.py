@@ -25,9 +25,17 @@ class Game:
             self.comp_board.update(spot_choice, shot_result)
 
             all_sunk = self.validate.all_ships_sunk(self.comp_board.state, self.comp_board.all_ships) 
+            if all_sunk == True:
+                self.ui.display(self.ui.HUMAN_WIN_MSG)
+                self.ui.display(self.ui.format(self.comp_board.state, self.comp_board.all_ships))
+                break
             self.ai.shoots_at_board(self.human_board, self.ui)
             self.ui.display(self.ui.format(self.human_board.state, self.human_board.all_ships))
             all_sunk = self.validate.all_ships_sunk(self.human_board.state, self.human_board.all_ships) 
+            if all_sunk == True:
+                self.ui.display(self.ui.COMP_WIN_MSG)
+                self.ui.display(self.ui.format(self.human_board.state, self.human_board.all_ships))
+                break
 
 if __name__ == "__main__":
     comp_board = board.Board()
