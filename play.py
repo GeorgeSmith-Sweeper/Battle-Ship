@@ -23,8 +23,8 @@ class Game:
             spot_choice = self.validate.spot_occupied(self.comp_board.state, self.ui, self.comp_board.ships.all_ships)
             shot_result = self.validate.hit_ship(self.comp_board.state, spot_choice, self.comp_board.ships.all_ships, self.ui)
             self.comp_board.update(spot_choice, shot_result)
-            all_sunk = self.validate.all_ships_sunk(self.comp_board.state, self.comp_board.ships.all_ships) 
 
+            all_sunk = self.validate.all_ships_sunk(self.comp_board.state, self.comp_board.ships.all_ships) 
             self.ai.shoots_at_board(self.human_board, self.ui)
             self.ui.display(self.ui.format(self.human_board.state, self.human_board.ships.all_ships))
             all_sunk = self.validate.all_ships_sunk(self.human_board.state, self.human_board.ships.all_ships) 

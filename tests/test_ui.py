@@ -22,6 +22,18 @@ class TestTerminalUi(TestCase):
     @patch('core.ui.TerminalUi.get_input', return_value='hello')
     def test_get_input_returns_a_users_input(self, mock):
         self.assertEqual(self.correct_response(), 'it works')
+    
+    def test_ui_is_initialized_with_a_winning_msg_for_the_computer(self):
+        ui = TerminalUi()
+        COMP_WIN_MSG = 'The Computer has sunk all the ships! Game Over!'
+
+        self.assertEqual(ui.COMP_WIN_MSG, COMP_WIN_MSG)
+
+    def test_ui_is_initialized_with_a_winning_msg_for_humans(self):
+        ui = TerminalUi()
+        HUMAN_WIN_MSG = 'Congratulations, you\'ve has sunk all the computers ships! Game Over!'
+
+        self.assertEqual(ui.HUMAN_WIN_MSG, HUMAN_WIN_MSG)
 
 class TestFormat(TestCase):
     def setUp(self):

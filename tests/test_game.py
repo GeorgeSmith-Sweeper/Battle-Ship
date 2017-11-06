@@ -8,7 +8,6 @@ from core.placement import Place
 from core.ai import Ai
 from play import Game
 
-
 class TestPlayGame(TestCase):
 
     def test_play_runs_the_correct_methods(self):
@@ -28,7 +27,7 @@ class TestPlayGame(TestCase):
         ship_orientation = 'row'
         ship_size = 5
         shot_result = 'Hit' 
-
+        
         comp_board.state = MagicMock(return_value = board_state)
         comp_board.add_to_board = MagicMock(return_value = board_state_after_ship_placed)
         comp_board.update = MagicMock()
