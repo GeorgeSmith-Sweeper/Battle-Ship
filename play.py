@@ -1,4 +1,4 @@
-from core import board, ui, validate, ships, placement, ai
+from core import board, ui, validate, placement, ai
 import copy
 
 class Game:
@@ -19,21 +19,19 @@ class Game:
 
         while not all_sunk:
             self.ui.display("Take your best shot")
-            self.ui.display(self.ui.format(self.comp_board.state, self.comp_board.ships.all_ships))
-            spot_choice = self.validate.spot_occupied(self.comp_board.state, self.ui, self.comp_board.ships.all_ships)
-            shot_result = self.validate.hit_ship(self.comp_board.state, spot_choice, self.comp_board.ships.all_ships, self.ui)
+            self.ui.display(self.ui.format(self.comp_board.state, self.comp_board.all_ships))
+            spot_choice = self.validate.spot_occupied(self.comp_board.state, self.ui, self.comp_board.all_ships)
+            shot_result = self.validate.hit_ship(self.comp_board.state, spot_choice, self.comp_board.all_ships, self.ui)
             self.comp_board.update(spot_choice, shot_result)
 
-            all_sunk = self.validate.all_ships_sunk(self.comp_board.state, self.comp_board.ships.all_ships) 
+            all_sunk = self.validate.all_ships_sunk(self.comp_board.state, self.comp_board.all_ships) 
             self.ai.shoots_at_board(self.human_board, self.ui)
-            self.ui.display(self.ui.format(self.human_board.state, self.human_board.ships.all_ships))
-            all_sunk = self.validate.all_ships_sunk(self.human_board.state, self.human_board.ships.all_ships) 
+            self.ui.display(self.ui.format(self.human_board.state, self.human_board.all_ships))
+            all_sunk = self.validate.all_ships_sunk(self.human_board.state, self.human_board.all_ships) 
 
 if __name__ == "__main__":
-    ships = ships.Ships()
-    human_ships = copy.deepcopy(ships)
-    comp_board = board.Board(ships)
-    human_board = board.Board(human_ships)
+    comp_board = board.Board()
+    human_board = board.Board()
     ui = ui.TerminalUi()
     validate = validate.Validate()
     place = placement.Place()
