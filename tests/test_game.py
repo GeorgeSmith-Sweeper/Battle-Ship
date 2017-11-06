@@ -3,7 +3,6 @@ from unittest.mock import patch, MagicMock
 from core.board import Board
 from core.ui import TerminalUi
 from core.validate import Validate
-from core.ships import Ships
 from core.placement import Place
 from core.ai import Ai
 from play import Game
@@ -11,7 +10,6 @@ from play import Game
 class TestPlayGame(TestCase):
 
     def test_play_runs_the_correct_methods(self):
-        ships = Ships()
         ui = TerminalUi()
         human_board = Board()
         comp_board = Board()

@@ -3,18 +3,15 @@ from unittest.mock import patch, MagicMock
 from core.board import Board
 from core.placement import Place
 from core.validate import Validate
-from core.ships import Ships
 from helpers.board_helper import BoardHelper
 
 class TestBoard(TestCase):
 
     def setUp(self):
-       self.ships = Ships()
        self.board = Board()
        self.board_helper = BoardHelper(self.board.all_ships)
 
     def test_all_ships_contains_all_5_ships(self):
-        ships = Ships()
         self.assertEqual(len(self.board.all_ships), 5)
 
     def test_each_ship_has_a_hit_location_array(self):

@@ -1,4 +1,4 @@
-from core import board, ui, validate, ships, placement, ai
+from core import board, ui, validate, placement, ai
 import copy
 
 class Game:
@@ -30,7 +30,6 @@ class Game:
             all_sunk = self.validate.all_ships_sunk(self.human_board.state, self.human_board.all_ships) 
 
 if __name__ == "__main__":
-    ships = ships.Ships()
     comp_board = board.Board()
     human_board = board.Board()
     ui = ui.TerminalUi()
