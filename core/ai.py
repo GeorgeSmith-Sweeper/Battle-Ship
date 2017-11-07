@@ -45,7 +45,7 @@ class Ai:
         spot_below = self.get_spot_below(user_letter, user_num, human_board)
         spot_left = self.get_spot_to_left(user_letter, user_num, human_board)
         spot_right = self.get_spot_to_right(user_letter, user_num, human_board)
-        gathered_spots = [spot_above, spot_below, spot_left, spot_right]
+        gathered_spots = [spot_above, spot_left, spot_below, spot_right]
         for ele in gathered_spots:
             if ele != None:
                 self.next_shots_list.append(ele)

@@ -61,7 +61,7 @@ class TestAi(TestCase):
 
     def test_get_surrounding_spots_adds_the_spots_to_the_next_shot_list(self):
         selected_spot = 'B2'
-        correct_spots = ['B1', 'B3', 'A2', 'C2']
+        correct_spots = ['B1', 'A2', 'B3', 'C2']
         self.ai.get_surrounding_spots(selected_spot, self.human_board.state)
         
         self.assertEqual(self.ai.next_shots_list, correct_spots)
