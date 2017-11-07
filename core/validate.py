@@ -57,11 +57,11 @@ class Validate:
             current_spot = self.get_current_spot(board_state, user_shot_choice)
         return user_shot_choice
    
-    def hit_ship(self, board_state, shot, all_ships, ui):
-        current_spot = self.get_current_spot(board_state, shot)
+    def hit_ship(self, board_state, spot_choice, all_ships, ui):
+        current_spot = self.get_current_spot(board_state, spot_choice)
         for ship in range(len(all_ships)):
             if current_spot == all_ships[ship]:
-                all_ships[ship] = self.store_hits(all_ships[ship], shot)
+                all_ships[ship] = self.store_hits(all_ships[ship], spot_choice)
                 if self.is_ship_sunk(all_ships[ship], ui):
                     return 'Sunk'
                 ui.display('You hit the ' + all_ships[ship]['name'] + '!')
