@@ -70,17 +70,10 @@ class Ai:
           
         if shot_result == 'Hit':
             self.get_surrounding_spots(smart_spot, human_board.state)
-            self.next_shots_list = list(filter(lambda shot: shot != smart_spot, self.next_shots_list))
         human_board.update(smart_spot, shot_result)
-        self.all_spots.pop(self.all_spots.index(smart_spot))
-        '''
-        if shot_result == 'Miss':
-            human_board.update(smart_spot, shot_result)
-            self.all_spots.pop(self.all_spots.index(smart_spot)) 
-        if shot_result == 'Sunk':
-            human_board.update(smart_spot, shot_result)
-            self.next_shots_list = []
-        '''
+        self.next_shots_list = list(filter(lambda spot: spot != smart_spot, self.next_shots_list))
+        self.all_spots.remove(smart_spot)
+
     def random_shot(self, human_board, ui):
         random_spot = self.choose_random_spot()
         shot_result = self.validate.hit_ship(human_board, random_spot, ui)
