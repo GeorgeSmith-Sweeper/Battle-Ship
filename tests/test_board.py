@@ -43,6 +43,8 @@ class TestBoard(TestCase):
         submarine_name = 'Submarine'
         destroyer_name = 'Destroyer'
 
+        self.assertEqual(self.board.aircraft_carrier['name'], aircraft_carrier_name)
+        self.assertEqual(self.board.battleship['name'], battleship_name)
         self.assertEqual(self.board.cruiser['name'], cruiser_name)
         self.assertEqual(self.board.submarine['name'], submarine_name)
         self.assertEqual(self.board.destroyer['name'], destroyer_name)
