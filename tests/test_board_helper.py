@@ -139,4 +139,3 @@ class TestBoardHelper(TestCase):
 
         self.assertEqual(self.board_helper.generate_board_with_a_sunken_ship(), board_with_a_sunken_ship)
         
-        
