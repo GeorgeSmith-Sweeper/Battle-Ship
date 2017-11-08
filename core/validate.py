@@ -47,14 +47,14 @@ class Validate:
             user_shot_choice = ui.get_input('>>')
         return user_shot_choice
  
-    def spot_occupied(self, board_state, ui, all_ships):
+    def spot_occupied(self, board, ui):
         user_shot_choice = self.spot_exists(ui)
-        current_spot = self.get_current_spot(board_state, user_shot_choice)
+        current_spot = self.get_current_spot(board.state, user_shot_choice)
 
-        while current_spot is not None and current_spot not in all_ships: 
+        while current_spot is not None and current_spot not in board.all_ships: 
             ui.display('That spot is occupied. Pick a different spot')
             user_shot_choice = self.spot_exists(ui)
-            current_spot = self.get_current_spot(board_state, user_shot_choice)
+            current_spot = self.get_current_spot(board.state, user_shot_choice)
         return user_shot_choice
    
     def hit_ship(self, board_state, spot_choice, all_ships, ui):

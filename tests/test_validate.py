@@ -58,17 +58,19 @@ class TestValidations(TestCase):
     @patch('core.validate.Validate.spot_exists', return_value= 'A2')
     def test_user_choice_is_returned_when_spot_is_not_occupied(self, mock1):
         user_shot_choice = 'A2'
-        self.board.state = self.board_helper.generate_all_but_one()
+        all_but_one = self.board_helper.generate_all_but_one() 
+        board = MagicMock(state=all_but_one, all_ships=self.board.all_ships)
 
-        self.assertEqual(self.validate.spot_occupied(self.board.state, self.ui, self.board.all_ships), 'A2')
+        self.assertEqual(self.validate.spot_occupied(board, self.ui), 'A2')
 
     @patch('core.validate.Validate.spot_exists', side_effect = ['A1', 'A2'])
     @patch('core.ui.TerminalUi.get_input', side_effect = ['A2'])
     def test_spot_occupied_prompts_the_user_if_spot_is_occupied(self, mock1, mock2):
        invalid_msg = 'That spot is occupied. Pick a different spot'
        self.ui.display = MagicMock()
-       self.board.state = self.board_helper.generate_all_but_one()
-       self.validate.spot_occupied(self.board.state, self.ui, self.board.all_ships)
+       all_but_one = self.board_helper.generate_all_but_one()
+       board = MagicMock(state=all_but_one, all_ships=self.board.all_ships)
+       self.validate.spot_occupied(board, self.ui)
 
        self.ui.display.assert_called_with(invalid_msg)
     
