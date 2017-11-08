@@ -39,7 +39,7 @@ class TestAi(TestCase):
         letter = 'B'
         number = '2'
 
-        self.assertEqual(self.ai.get_spot_above(letter, number, self.board.state), 'B1')
+        self.assertEqual(self.ai.get_spot_above(letter, number), 'B1')
     
     def test_get_spot_below_returns_the_space_below_selected_spot(self):
         letter = 'B'
@@ -51,7 +51,7 @@ class TestAi(TestCase):
         letter = 'B'
         number = '2'
 
-        self.assertEqual(self.ai.get_spot_to_left(letter, number, self.board.state), 'A2')
+        self.assertEqual(self.ai.get_spot_to_left(letter, number), 'A2')
 
     def test_get_spot_to_right_returns_the_space_to_the_right_of_selected_spot(self):
         letter = 'B'

@@ -75,22 +75,22 @@ class TestValidations(TestCase):
        self.ui.display.assert_called_with(invalid_msg)
     
     def test_all_ships_sunk_returns_True_if_there_are_no_ships_left(self):
-        self.board.state = self.board_helper.generate_full_board() 
-        
-        self.assertEqual(self.validate.all_ships_sunk(self.board.state, self.board.all_ships), True)
+        full_board = self.board_helper.generate_full_board() 
+        board = MagicMock(state=full_board, all_ships=self.board.all_ships) 
+        self.assertEqual(self.validate.all_ships_sunk(board), True)
 
     def test_all_ships_sunk_returns_False_if_there_are_ships_left(self):
-        self.board.state = self.board_helper.generate_board_with_ships() 
-        
-        self.assertEqual(self.validate.all_ships_sunk(self.board.state, self.board.all_ships), False)
+        board_with_ships = self.board_helper.generate_board_with_ships() 
+        board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships) 
+        self.assertEqual(self.validate.all_ships_sunk(board), False)
 
     def test_hitting_a_ship_displays_msg_and_returns_str_Hit(self):
         self.ui.display = MagicMock()
         shot = 'A1'
-        all_ships = self.board.all_ships
         ship_hit_msg = 'You hit the Aircraft Carrier!'
         board_with_ships = self.board_helper.generate_board_with_ships() 
-        is_hit = self.validate.hit_ship(board_with_ships, shot, all_ships, self.ui)
+        board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
+        is_hit = self.validate.hit_ship(board, shot, self.ui)
 
         self.ui.display.assert_called_with(ship_hit_msg)
         self.assertEqual(is_hit, 'Hit')
@@ -98,10 +98,10 @@ class TestValidations(TestCase):
     def test_missing_a_ship_displays_miss_msg_and_returns_str_Miss(self):
         self.ui.display = MagicMock()
         shot = 'A9'
-        all_ships = self.board.all_ships
-        board_with_ships = self.board_helper.generate_board_with_ships() 
         ship_hit_msg = 'Miss!'
-        is_hit = self.validate.hit_ship(board_with_ships, shot, all_ships, self.ui)
+        board_with_ships = self.board_helper.generate_board_with_ships() 
+        board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
+        is_hit = self.validate.hit_ship(board, shot, self.ui)
 
         self.ui.display.assert_called_with(ship_hit_msg)
         self.assertEqual(is_hit, 'Miss')

@@ -57,14 +57,14 @@ class Validate:
             current_spot = self.get_current_spot(board.state, user_shot_choice)
         return user_shot_choice
    
-    def hit_ship(self, board_state, spot_choice, all_ships, ui):
-        current_spot = self.get_current_spot(board_state, spot_choice)
-        for ship in range(len(all_ships)):
-            if current_spot == all_ships[ship]:
-                all_ships[ship] = self.store_hits(all_ships[ship], spot_choice)
-                if self.is_ship_sunk(all_ships[ship], ui):
+    def hit_ship(self, board, spot_choice, ui):
+        current_spot = self.get_current_spot(board.state, spot_choice)
+        for ship in range(len(board.all_ships)):
+            if current_spot == board.all_ships[ship]:
+                board.all_ships[ship] = self.store_hits(board.all_ships[ship], spot_choice)
+                if self.is_ship_sunk(board.all_ships[ship], ui):
                     return 'Sunk'
-                ui.display('You hit the ' + all_ships[ship]['name'] + '!')
+                ui.display('You hit the ' + board.all_ships[ship]['name'] + '!')
                 return 'Hit'      
         ui.display('Miss!')
         return 'Miss'
@@ -83,11 +83,11 @@ class Validate:
             return True
         return False 
 
-    def all_ships_sunk(self, board_state, all_ships):
+    def all_ships_sunk(self, board):
         all_sunk = True
-        for row in range(0, len(board_state)):
-            for ele in board_state[row]:
-                if ele in all_ships:
+        for row in range(0, len(board.state)):
+            for ele in board.state[row]:
+                if ele in board.all_ships:
                    return False
         return all_sunk 
 
