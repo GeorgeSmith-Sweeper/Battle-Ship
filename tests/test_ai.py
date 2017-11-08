@@ -24,16 +24,15 @@ class TestAi(TestCase):
         shot_result = 'Hit' 
         board_with_ships = self.board_helper.generate_board_with_ships()
         board_after_ai_shot = self.board_helper.generate_board_with_hit()
-
-        self.human_board.state = MagicMock(return_value=board_with_ships) 
-        self.human_board.update = MagicMock()
+        
+        self.human_board = MagicMock(state=board_with_ships, all_ships=self.human_board.all_ships)
         self.ai.choose_random_spot = MagicMock(return_value = ai_shot) 
         self.validate.hit_ship = MagicMock(return_value = 'Hit')
 
         self.ai.shoots_at_board(self.human_board, self.ui)
-        
+
         self.ai.choose_random_spot.assert_called()
-        self.human_board.update.assert_called_with(ai_shot, self.validate.hit_ship(self.human_board.state, ai_shot, self.human_board.all_ships, self.ui))
+        self.human_board.update.assert_called_with(ai_shot, self.validate.hit_ship(self.human_board, ai_shot, self.ui))
     
     def test_get_spot_above_returns_the_space_above_selected_spot(self):
         letter = 'B'

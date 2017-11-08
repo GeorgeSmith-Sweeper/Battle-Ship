@@ -26,18 +26,26 @@ class Ai:
                 return spot_to_left
     
     def get_spot_below(self, letter, number, human_board_state):
-        if (self.row_nums.index(number) + 1) <= len(human_board_state):
+        spot_below = ""
+        if (self.row_nums.index(number) + 1) < len(human_board_state):
             shot_num = self.row_nums[self.row_nums.index(number) + 1]
             spot_below = letter + shot_num
-            if spot_below in self.all_spots:
-                return spot_below
+        else:
+            shot_num = self.row_nums[self.row_nums.index(number)]
+            spot_below = letter + shot_num
+        if spot_below in self.all_spots:
+            return spot_below
     
     def get_spot_to_right(self, letter, number, human_board_state):
-        if (self.col_lets.index(letter) + 1) <= len(human_board_state):
+        spot_to_right = ""
+        if (self.col_lets.index(letter) + 1) < len(human_board_state):
             shot_letter = self.col_lets[self.col_lets.index(letter) + 1]
             spot_to_right = shot_letter + number 
-            if spot_to_right in self.all_spots:
-                return spot_to_right
+        else: 
+            shot_letter = self.col_lets[self.col_lets.index(letter)]
+            spot_to_right = shot_letter + number  
+        if spot_to_right in self.all_spots:
+            return spot_to_right
 
     def get_surrounding_spots(self, selected_spot, human_board_state):
         user_letter, user_num = self.validate.split_user_shot(selected_spot)
@@ -62,9 +70,17 @@ class Ai:
           
         if shot_result == 'Hit':
             self.get_surrounding_spots(smart_spot, human_board.state)
+            self.next_shots_list = list(filter(lambda shot: shot != smart_spot, self.next_shots_list))
         human_board.update(smart_spot, shot_result)
         self.all_spots.pop(self.all_spots.index(smart_spot))
-    
+        '''
+        if shot_result == 'Miss':
+            human_board.update(smart_spot, shot_result)
+            self.all_spots.pop(self.all_spots.index(smart_spot)) 
+        if shot_result == 'Sunk':
+            human_board.update(smart_spot, shot_result)
+            self.next_shots_list = []
+        '''
     def random_shot(self, human_board, ui):
         random_spot = self.choose_random_spot()
         shot_result = self.validate.hit_ship(human_board, random_spot, ui)
