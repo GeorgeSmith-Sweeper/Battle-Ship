@@ -7,6 +7,17 @@ class TerminalUi:
         self.CYAN = '\033[36m'
         self.COMP_WIN_MSG = 'The Computer has sunk all the ships! Game Over!'
         self.HUMAN_WIN_MSG = 'Congratulations, you\'ve has sunk all the computers ships! Game Over!'
+        self.WELCOME_MSG = 'Welcome to BattleShip!'
+        self.INSTRUCTIONS = ('\n' +
+                            'Your shots will appear on the bottem board.' +
+                            '\n' +
+                            'The computers shots will appear on the upper board.' +
+                            '\n' +
+                            '\n' +
+                            'Mark your board by selecting a column & row. (A1, B1, etc)' +
+                            '\n' +
+                            'The game ends when you OR your opponent sink all five ships')
+
 
     def display(self, message):
        print(message)
@@ -31,7 +42,7 @@ class TerminalUi:
         if board.state[row][column] == 'Sunk':
             return self.REDBGCOLOR + '[S]' + self.ENDCOLOR
 
-    def format(self, board):
+    def terminal_board(self, board):
         formatted_board = '\n' + '    A  B  C  D  E  F  G  H  I  J'
         
         for row in range(0, len(board.state)):
@@ -42,5 +53,3 @@ class TerminalUi:
         formatted_board += '\n'
         return formatted_board
   
-    
-
