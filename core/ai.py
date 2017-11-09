@@ -72,7 +72,7 @@ class Ai:
             self.get_surrounding_spots(smart_spot, human_board.state)
         human_board.update(smart_spot, shot_result)
         self.next_shots_list = list(filter(lambda spot: spot != smart_spot, self.next_shots_list))
-        self.all_spots.remove(smart_spot)
+        self.all_spots.pop(self.all_spots.index(smart_spot))
 
     def random_shot(self, human_board, ui):
         random_spot = self.choose_random_spot()
@@ -81,6 +81,7 @@ class Ai:
         if shot_result == 'Hit':
             self.get_surrounding_spots(random_spot, human_board.state)
         human_board.update(random_spot, shot_result)
+        self.next_shots_list = list(filter(lambda spot: spot != random_spot, self.next_shots_list))
         self.all_spots.pop(self.all_spots.index(random_spot))
     
     def shoots_at_board(self, human_board, ui):
