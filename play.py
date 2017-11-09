@@ -1,5 +1,4 @@
 from core import board, ui, validate, placement, ai
-import copy
 
 class Game:
     def __init__(self, comp_board, human_board, ai, ui, validate, place):

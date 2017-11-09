@@ -1,4 +1,7 @@
+import copy
+
 class Board:
+
     def __init__(self):
         self.state = [[None for ele in range(10)] for index in range(10)]
         self.rows = {
@@ -78,7 +81,7 @@ class Board:
             self.update_spot_to_sunk(y_coordinate, x_coordinate)
 
     def add_to_board(self, place, ship_orientation):
-        all_ships_copy = self.all_ships.copy()
+        all_ships_copy = copy.copy(self.all_ships)
         orientation = ship_orientation
         while len(all_ships_copy) > 0:
             ship = 0
