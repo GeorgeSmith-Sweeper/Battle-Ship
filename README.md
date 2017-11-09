@@ -5,7 +5,7 @@
 This game requires that you have `python3` installed on your machine.
 Please run `python3 --version` to check if you have the required version.
 
-In the event that you do not have python3, please follow this guide to install it.
+In the event that you don't have python3, please follow this guide to install it.
 [Installing Python3](http://docs.python-guide.org/en/latest/starting/install3/osx/)
 
 ### Getting started
@@ -29,12 +29,13 @@ Ships can only take a certain number of hits before sinking. If you happen to si
 
 ![sunk_ship](/images/sunk_ship.png?raw=true)
 
+The game will end when a player has successfully destroyed all five of the opponents ships.
 
-### Running Tests
+### Tests
 
 The tests for this game can be run with the command `pytest`, at the root in the __Battle-Ship__ folder.
 
-### Running Coverage
+### Code Coverage
 
 1. Run `coverage run -m pytest` at the root to gather test data.
 
