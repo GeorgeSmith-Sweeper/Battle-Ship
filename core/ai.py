@@ -10,7 +10,6 @@ class Ai:
         self.all_spots = [(let + num) for let in self.col_lets for num in self.row_nums]
         self.next_shots_list = []
 
-
     def get_spot_above(self, column, row):
         if (self.row_nums.index(row) - 1) >= 0:
             shot_row = self.row_nums[self.row_nums.index(row) - 1]
@@ -56,8 +55,8 @@ class Ai:
         spot_left = self.get_spot_to_left(user_letter, user_num)
         spot_below = self.get_spot_below(user_letter, user_num, human_board_state)
         spot_right = self.get_spot_to_right(user_letter, user_num, human_board_state)
-        gathered_spots = [spot_above, spot_left, spot_below, spot_right]
-        self.next_shots_list = self.remove_none_from_list(gathered_spots)
+        gathered_spots = [spot_above, spot_below, spot_left, spot_right]
+        self.next_shots_list.extend(self.remove_none_from_list(gathered_spots))
 
     def choose_random_spot(self):
         all_spots_copy = copy.copy(self.all_spots)
@@ -66,6 +65,7 @@ class Ai:
         return random_spot 
 
     def intelligent_shot(self, human_board, ui):
+        print(self.next_shots_list)
         smart_spot = self.next_shots_list.pop()
         shot_result = self.validate.hit_ship(human_board, smart_spot, ui)
           
