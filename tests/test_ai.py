@@ -16,18 +16,14 @@ class TestAi(TestCase):
         self.ui = TerminalUi()
         self.ai = Ai(self.validate)
    
-    def test_ai_can_keep_track_of_its_next_shot(self):
-        self.assertEqual(self.ai.next_shots_list, [])
-
     def test_ai_shoots_at_board_runs_the_correct_methods(self):
         ai_shot = 'A2'
         shot_result = 'Hit' 
         board_with_ships = self.board_helper.generate_board_with_ships()
         board_after_ai_shot = self.board_helper.generate_board_with_hit()
-        
         self.human_board = MagicMock(state=board_with_ships, all_ships=self.human_board.all_ships)
         self.ai.choose_random_spot = MagicMock(return_value = ai_shot) 
-        self.validate.hit_ship = MagicMock(return_value = 'Hit')
+        self.validate.hit_ship = MagicMock(return_value = shot_result)
 
         self.ai.shoots_at_board(self.human_board, self.ui)
 
@@ -35,29 +31,48 @@ class TestAi(TestCase):
         self.human_board.update.assert_called_with(ai_shot, self.validate.hit_ship(self.human_board, ai_shot, self.ui))
     
     def test_get_spot_above_returns_the_space_above_selected_spot(self):
-        letter = 'B'
-        number = '2'
+        column = 'B'
+        row = '2'
 
-        self.assertEqual(self.ai.get_spot_above(letter, number), 'B1')
+        self.assertEqual(self.ai.get_spot_above(column, row), 'B1')
     
     def test_get_spot_below_returns_the_space_below_selected_spot(self):
-        letter = 'B'
-        number = '2'
+        column = 'B'
+        row = '2'
 
-        self.assertEqual(self.ai.get_spot_below(letter, number, self.board.state), 'B3')
+        self.assertEqual(self.ai.get_spot_below(column, row, self.board.state), 'B3')
+        
+    def test_get_spot_below_returns_selected_spot_if_there_is_no_space_below(self):
+        column = 'B'
+        row = '10'
+
+        self.assertEqual(self.ai.get_spot_below(column, row, self.board.state), 'B10')
 
     def test_get_spot_to_left_returns_the_space_to_the_left_of_selected_spot(self):
-        letter = 'B'
-        number = '2'
+        column = 'B'
+        row = '2'
 
-        self.assertEqual(self.ai.get_spot_to_left(letter, number), 'A2')
+        self.assertEqual(self.ai.get_spot_to_left(column, row), 'A2')
 
     def test_get_spot_to_right_returns_the_space_to_the_right_of_selected_spot(self):
-        letter = 'B'
-        number = '2'
+        column = 'B'
+        row = '2'
 
-        self.assertEqual(self.ai.get_spot_to_right(letter, number, self.board.state), 'C2')
+        self.assertEqual(self.ai.get_spot_to_right(column, row, self.board.state), 'C2')
+    
+    def test_get_spot_to_right_returns_selected_spot_if_there_is_no_spot_to_right(self):
+        column = 'J' 
+        row = '10'
 
+        self.assertEqual(self.ai.get_spot_below(column, row, self.board.state), 'J10')
+
+    def test_remove_none_from_list_returns_a_list_without_nones(self):
+        list_with_nones = ['B1', 'B2', None, None]
+        list_without_nones = ['B1', 'B2']
+        result = self.ai.remove_none_from_list(list_with_nones)
+
+        self.assertEqual(result, list_without_nones)
+        
     def test_get_surrounding_spots_adds_the_spots_to_the_next_shot_list(self):
         selected_spot = 'B2'
         correct_spots = ['B1', 'A2', 'B3', 'C2']
