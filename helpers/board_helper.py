@@ -126,3 +126,4 @@ class BoardHelper:
                 [None, None, None, None, None, None, None, None, None, None],
                 ]
         return board_with_a_sunken_ship
+

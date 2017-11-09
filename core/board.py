@@ -1,4 +1,7 @@
+import copy
+
 class Board:
+
     def __init__(self):
         self.state = [[None for ele in range(10)] for index in range(10)]
         self.rows = {
@@ -78,10 +81,11 @@ class Board:
             self.update_spot_to_sunk(y_coordinate, x_coordinate)
 
     def add_to_board(self, place, ship_orientation):
-        all_ships_copy = self.all_ships.copy()
+        all_ships_copy = copy.copy(self.all_ships)
+        orientation = ship_orientation
         while len(all_ships_copy) > 0:
             ship = 0
-            if ship_orientation == 'row':                
+            if orientation == 'row':                
                 row_int, col_int = place.find_space_in_row(self.state, all_ships_copy[ship]['size'])
                 for ele in range(all_ships_copy[ship]['size']):
                     self.state[row_int][ele - (len(self.state) - col_int)] = all_ships_copy[ship]
@@ -91,4 +95,4 @@ class Board:
                     self.state[ele - (len(self.state) - row_int)][col_int] = all_ships_copy[ship]
 
             all_ships_copy.pop(0)
-            ship_orientation = 'column' if ship_orientation == 'row' else 'row'
+            orientation = 'column' if orientation == 'row' else 'row'
