@@ -7,7 +7,7 @@ class Ai:
         self.validate = validate
         self.col_lets = [chr(i) for i in range(ord('A'), ord('J')+1)]
         self.row_nums = [str(i) for i in range(1, 11)]
-        self.all_spots = [(let + num) for let in self.col_lets for num in self.row_nums]
+        self.legal_spots = [(let + num) for let in self.col_lets for num in self.row_nums]
         self.next_shots_list = []
 
 
@@ -15,14 +15,14 @@ class Ai:
         if (self.row_nums.index(row) - 1) >= 0:
             shot_row = self.row_nums[self.row_nums.index(row) - 1]
             spot_above = column + shot_row
-            if spot_above in self.all_spots:
+            if spot_above in self.legal_spots:
                 return spot_above
     
     def get_spot_to_left(self, column, row):
         if (self.col_lets.index(column) - 1) >= 0:
             shot_column = self.col_lets[self.col_lets.index(column) - 1]
             spot_to_left = shot_column + row 
-            if spot_to_left in self.all_spots:
+            if spot_to_left in self.legal_spots:
                 return spot_to_left
     
     def get_spot_below(self, column, row, human_board_state):
@@ -32,7 +32,7 @@ class Ai:
             spot_below = column + shot_num
         else:
             spot_below = column + row
-        if spot_below in self.all_spots:
+        if spot_below in self.legal_spots:
             return spot_below
     
     def get_spot_to_right(self, column, row, human_board_state):
@@ -43,7 +43,7 @@ class Ai:
         else: 
             shot_column = self.col_lets[self.col_lets.index(column)]
             spot_to_right = shot_column + row  
-        if spot_to_right in self.all_spots:
+        if spot_to_right in self.legal_spots:
             return spot_to_right
 
     def remove_none_from_list(self, spots_list):
@@ -60,9 +60,9 @@ class Ai:
         self.next_shots_list = self.remove_none_from_list(gathered_spots)
 
     def choose_random_spot(self):
-        all_spots_copy = copy.copy(self.all_spots)
-        random_index = random.randint(0, len(all_spots_copy) - 1)
-        random_spot = all_spots_copy.pop(random_index)
+        legal_spots_copy = copy.copy(self.legal_spots)
+        random_index = random.randint(0, len(legal_spots_copy) - 1)
+        random_spot = legal_spots_copy.pop(random_index)
         return random_spot 
 
     def intelligent_shot(self, human_board, ui):
@@ -73,7 +73,7 @@ class Ai:
             self.get_surrounding_spots(smart_spot, human_board.state)
         human_board.update(smart_spot, shot_result)
         self.next_shots_list = list(filter(lambda spot: spot != smart_spot, self.next_shots_list))
-        self.all_spots.pop(self.all_spots.index(smart_spot))
+        self.legal_spots.pop(self.legal_spots.index(smart_spot))
 
     def random_shot(self, human_board, ui):
         random_spot = self.choose_random_spot()
@@ -83,7 +83,7 @@ class Ai:
             self.get_surrounding_spots(random_spot, human_board.state)
         human_board.update(random_spot, shot_result)
         self.next_shots_list = list(filter(lambda spot: spot != random_spot, self.next_shots_list))
-        self.all_spots.pop(self.all_spots.index(random_spot))
+        self.legal_spots.pop(self.legal_spots.index(random_spot))
     
     def shoots_at_board(self, human_board, ui):
         if len(self.next_shots_list) > 0:
