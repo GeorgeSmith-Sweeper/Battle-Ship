@@ -3,19 +3,21 @@ from unittest.mock import patch, MagicMock
 from core.board import Board
 from core.ui import TerminalUi
 from core.validate import Validate
-from core.ships import Ships
 from core.placement import Place
+from core.ai import Ai
+from helpers.board_helper import BoardHelper
 from play import Game
-
 
 class TestPlayGame(TestCase):
 
     def test_play_runs_the_correct_methods(self):
         ui = TerminalUi()
-        board = Board()
+        human_board = Board()
+        comp_board = Board()
+        board_helper = BoardHelper(comp_board.all_ships)
         validate = Validate()
-        ships = Ships()
         place = Place()
+        ai = Ai(validate)
 
         board_state = [[None]]
         board_state_after_ship_placed = [['AC', 'AC', 'AC', 'AC', 'AC']]
@@ -24,24 +26,31 @@ class TestPlayGame(TestCase):
         formatted_board = '[]'
         ship_orientation = 'row'
         ship_size = 5
-        hit = False
-
-        board.state = MagicMock(return_value = board_state)
-        board.add_to_board = MagicMock(return_value = board_state_after_ship_placed)
-        board.update = MagicMock()
+        shot_result = 'Hit' 
+       
+        comp_board = MagicMock()
+        comp_board.state = MagicMock(return_value = board_state)
+        comp_board.add_to_board = MagicMock(return_value = board_state_after_ship_placed)
+        comp_board.update = MagicMock()
+        comp_board.all_ships = MagicMock(return_value = board_helper.all_ships)
         validate.spot_occupied = MagicMock(return_value = user_shot_choice)
-        validate.board_full = MagicMock(return_value = True)
-        validate.hit_ship = MagicMock(return_value = False)
-        
+        validate.all_ships_sunk = MagicMock()
+        validate.side_effect = [False, True]
+        validate.hit_ship = MagicMock(return_value = 'Hit')
+        ai.shoots_at_board = MagicMock()
         ui.get_input = MagicMock(return_value = user_shot_choice)
         ui.display = MagicMock()
+        ui.terminal_board = MagicMock()
 
-        new_game = Game(board, ui, validate, ships, place)
+        new_game = Game(comp_board, human_board, ai, ui, validate, place)
         new_game.play()
-        
-        board.add_to_board.assert_called_with(ships.all_ships, place, ship_orientation)
-        ui.display.assert_called()
-        validate.board_full.assert_called_with(board.state)
-        validate.spot_occupied.assert_called_with(board.state, ui, ships.all_ships)
-        validate.hit_ship(board.state, user_shot_choice, ships.all_ships) 
-        board.update.assert_called_with(user_shot_choice, hit)
+
+        comp_board.add_to_board.assert_called_with(place, ship_orientation)
+        ui.display.assert_called_with(ui.terminal_board(comp_board))
+        validate.spot_occupied.assert_called_with(comp_board, ui)
+        validate.hit_ship(comp_board, user_shot_choice, ui) 
+        comp_board.update.assert_called_with(user_shot_choice, shot_result)
+        validate.all_ships_sunk.assert_called()
+        ai.shoots_at_board.assert_called_with(human_board, ui)
+
+       
