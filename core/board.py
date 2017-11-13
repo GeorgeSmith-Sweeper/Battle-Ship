@@ -1,51 +1,52 @@
 import copy
 import helpers.constants as constants
 
+
 class Board:
 
     def __init__(self):
         self.state = [[None for ele in range(10)] for index in range(10)]
-        self.rows = constants.ROWS 
-        self.columns = constants.COLUMNS 
+        self.rows = constants.ROWS
+        self.columns = constants.COLUMNS
         self.aircraft_carrier = {
-                'name': 'Aircraft Carrier',
-                'size': 5,
-                'hit_locations': [],
-                }
+            'name': 'Aircraft Carrier',
+            'size': 5,
+            'hit_locations': [],
+        }
         self.battleship = {
-                'name': 'Battleship',
-                'size': 4,
-                'hit_locations': [],
-                }
+            'name': 'Battleship',
+            'size': 4,
+            'hit_locations': [],
+        }
         self.cruiser = {
-                'name': 'Cruiser',
-                'size': 3,
-                'hit_locations': [],
-                }
+            'name': 'Cruiser',
+            'size': 3,
+            'hit_locations': [],
+        }
         self.submarine = {
-                'name': 'Submarine',
-                'size': 3,
-                'hit_locations': [],
-                }
+            'name': 'Submarine',
+            'size': 3,
+            'hit_locations': [],
+        }
         self.destroyer = {
-                'name': 'Destroyer',
-                'size': 2,
-                'hit_locations': [],
-                }
+            'name': 'Destroyer',
+            'size': 2,
+            'hit_locations': [],
+        }
         self.all_ships = [
-                self.aircraft_carrier, 
-                self.battleship, 
-                self.cruiser,
-                self.submarine,
-                self.destroyer,
-                ]
+            self.aircraft_carrier,
+            self.battleship,
+            self.cruiser,
+            self.submarine,
+            self.destroyer,
+        ]
 
     def update_spot_to_sunk(self, y_coordinate, x_coordinate):
         for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:
             row = each_hit[0]
             column = each_hit[1]
             self.state[row][column] = 'Sunk'
-    
+
     def update(self, user_shot_choice, shot_result):
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]
@@ -53,9 +54,9 @@ class Board:
         x_coordinate = self.columns[user_letter]
 
         if shot_result == 'Hit':
-            self.state[y_coordinate][x_coordinate] = 'Hit' 
-        elif shot_result == 'Miss': 
-            self.state[y_coordinate][x_coordinate] = 'Miss' 
+            self.state[y_coordinate][x_coordinate] = 'Hit'
+        elif shot_result == 'Miss':
+            self.state[y_coordinate][x_coordinate] = 'Miss'
         else:
             self.update_spot_to_sunk(y_coordinate, x_coordinate)
 
@@ -64,7 +65,7 @@ class Board:
         orientation = ship_orientation
         while len(all_ships_copy) > 0:
             ship = 0
-            if orientation == 'row':                
+            if orientation == 'row':
                 row_int, col_int = place.find_space_in_row(self.state, all_ships_copy[ship]['size'])
                 for ele in range(all_ships_copy[ship]['size']):
                     self.state[row_int][ele - (len(self.state) - col_int)] = all_ships_copy[ship]
