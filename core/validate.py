@@ -1,33 +1,14 @@
+import helpers.constants as constants
+
 class Validate:
+
     def __init__(self):
-        self.col_lets = [chr(i) for i in range(ord('A'), ord('J')+1)]
-        self.row_nums = [str(i) for i in range(1, 11)]
+        self.col_lets = constants.COL_LETS 
+        self.row_nums = constants.ROW_NUMS 
         self.all_spots = [(let + num) for let in self.col_lets for num in self.row_nums]
-        self.rows = {
-                '1': 0,
-                '2': 1,
-                '3': 2,
-                '4': 3,
-                '5': 4,
-                '6': 5,
-                '7': 6,
-                '8': 7,
-                '9': 8,
-                '10': 9
-                }
-        self.columns = {
-                'A': 0,
-                'B': 1,
-                'C': 2,
-                'D': 3,
-                'E': 4,
-                'F': 5,
-                'G': 6,
-                'H': 7,
-                'I': 8,
-                'J': 9
-                }
-    
+        self.rows = constants.ROWS 
+        self.columns = constants.COLUMNS 
+
     def split_user_shot(self, shot_choice):
         user_let = shot_choice[0]
         user_num = shot_choice[1:]
@@ -90,7 +71,4 @@ class Validate:
                 if ele in board.all_ships:
                    return False
         return all_sunk 
-
-        
-
-    
+ 

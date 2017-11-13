@@ -1,12 +1,13 @@
 import random 
 import copy
+import helpers.constants as constants
 
 class Ai: 
 
     def __init__(self, validate):
         self.validate = validate
-        self.col_lets = [chr(i) for i in range(ord('A'), ord('J')+1)]
-        self.row_nums = [str(i) for i in range(1, 11)]
+        self.col_lets = constants.COL_LETS 
+        self.row_nums = constants.ROW_NUMS 
         self.all_spots = [(let + num) for let in self.col_lets for num in self.row_nums]
         self.next_shots_list = []
 
