@@ -5,7 +5,7 @@ class Validate:
     def __init__(self):
         self.col_lets = constants.COL_LETS 
         self.row_nums = constants.ROW_NUMS 
-        self.all_spots = [(let + num) for let in self.col_lets for num in self.row_nums]
+        self.all_spots = constants.ALL_SPOTS 
         self.rows = constants.ROWS 
         self.columns = constants.COLUMNS 
 

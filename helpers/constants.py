@@ -26,4 +26,4 @@ COLUMNS = {
 
 COL_LETS = [chr(i) for i in range(ord('A'), ord('J')+1)]
 ROW_NUMS = [str(i) for i in range(1, 11)]
-all_spots = [(let + num) for let in COL_LETS for num in ROW_NUMS]
+ALL_SPOTS = [(let + num) for let in COL_LETS for num in ROW_NUMS]
