@@ -45,7 +45,7 @@ class Board:
         for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:
             row = each_hit[0]
             column = each_hit[1]
-            self.state[row][column] = 'Sunk'
+            self.state[row][column] = constants.SUNK
 
     def update(self, user_shot_choice, shot_result):
         user_letter = user_shot_choice[0]
@@ -53,10 +53,10 @@ class Board:
         y_coordinate = self.rows[user_num]
         x_coordinate = self.columns[user_letter]
 
-        if shot_result == 'Hit':
-            self.state[y_coordinate][x_coordinate] = 'Hit'
-        elif shot_result == 'Miss':
-            self.state[y_coordinate][x_coordinate] = 'Miss'
+        if shot_result == constants.HIT:
+            self.state[y_coordinate][x_coordinate] = constants.HIT
+        elif shot_result == constants.MISS:
+            self.state[y_coordinate][x_coordinate] = constants.MISS
         else:
             self.update_spot_to_sunk(y_coordinate, x_coordinate)
 

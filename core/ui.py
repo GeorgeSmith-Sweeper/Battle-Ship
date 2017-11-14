@@ -1,3 +1,6 @@
+import helpers.constants as constants
+
+
 class TerminalUi:
 
     def __init__(self):
@@ -5,18 +8,10 @@ class TerminalUi:
         self.ENDCOLOR = '\033[0m'
         self.MAGENTA = '\033[35m'
         self.CYAN = '\033[36m'
-        self.COMP_WIN_MSG = 'The Computer has sunk all the ships! Game Over!'
-        self.HUMAN_WIN_MSG = 'Congratulations, you\'ve has sunk all the computers ships! Game Over!'
-        self.WELCOME_MSG = 'Welcome to BattleShip!'
-        self.INSTRUCTIONS = ('\n' +
-                             'Your shots will appear on the bottem board.' +
-                             '\n' +
-                             'The computers shots will appear on the upper board.' +
-                             '\n' +
-                             '\n' +
-                             'Mark your board by selecting a column & row. (A1, B1, etc)' +
-                             '\n' +
-                             'The game ends when you OR your opponent sink all five ships')
+        self.COMP_WIN_MSG = constants.COMP_WIN_MSG
+        self.HUMAN_WIN_MSG = constants.HUMAN_WIN_MSG
+        self.WELCOME_MSG = constants.WELCOME_MSG
+        self.INSTRUCTIONS = constants.INSTRUCTIONS
 
     def display(self, message):
         print(message)
@@ -34,11 +29,11 @@ class TerminalUi:
     def add_shot_marker(self, board, row, column):
         if board.state[row][column] is None or board.state[row][column] in board.all_ships:
             return '[ ]'
-        if board.state[row][column] == 'Miss':
+        if board.state[row][column] == constants.MISS:
             return '[' + self.MAGENTA + 'M' + self.ENDCOLOR + ']'
-        if board.state[row][column] == 'Hit':
+        if board.state[row][column] == constants.HIT:
             return '[' + self.CYAN + 'H' + self.ENDCOLOR + ']'
-        if board.state[row][column] == 'Sunk':
+        if board.state[row][column] == constants.SUNK:
             return self.REDBGCOLOR + '[S]' + self.ENDCOLOR
 
     def terminal_board(self, board):
