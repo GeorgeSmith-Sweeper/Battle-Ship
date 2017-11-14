@@ -4,6 +4,7 @@ from core.board import Board
 from core.ui import TerminalUi
 from core.validate import Validate
 from helpers.board_helper import BoardHelper
+from helpers.constants import HIT
 from core.ai import Ai
 
 
@@ -19,7 +20,7 @@ class TestAi(TestCase):
 
     def test_ai_shoots_at_board_runs_the_correct_methods(self):
         ai_shot = 'A2'
-        shot_result = 'Hit'
+        shot_result = HIT
         board_with_ships = self.board_helper.generate_board_with_ships()
         self.human_board = MagicMock(state=board_with_ships, all_ships=self.human_board.all_ships)
         self.ai.choose_random_spot = MagicMock(return_value=ai_shot)
@@ -29,6 +30,20 @@ class TestAi(TestCase):
 
         self.ai.choose_random_spot.assert_called()
         self.human_board.update.assert_called_with(ai_shot, self.validate.hit_ship(self.human_board, ai_shot, self.ui))
+
+    def test_not_end_of_row_returns_True_if_spot_is_not_the_end_of_row(self):
+        empty_board = self.board_helper.generate_empty_board()
+        self.human_board = MagicMock(state=empty_board)
+        column = 'I'
+
+        self.assertTrue(self.ai.not_end_of_row(column, self.human_board.state))
+
+    def test_not_end_of_row_returns_False_if_spot_is_at_end_of_row(self):
+        empty_board = self.board_helper.generate_empty_board()
+        self.human_board = MagicMock(state=empty_board)
+        column = 'J'
+
+        self.assertFalse(self.ai.not_end_of_row(column, self.human_board.state))
 
     def test_get_spot_above_returns_the_space_above_selected_spot(self):
         column = 'B'
