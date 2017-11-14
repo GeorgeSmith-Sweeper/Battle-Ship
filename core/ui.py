@@ -1,4 +1,4 @@
-import helpers.constants as constants
+from helpers.constants import COMP_WIN_MSG, HUMAN_WIN_MSG, WELCOME_MSG, INSTRUCTIONS, MISS, HIT, SUNK
 
 
 class TerminalUi:
@@ -8,10 +8,10 @@ class TerminalUi:
         self.ENDCOLOR = '\033[0m'
         self.MAGENTA = '\033[35m'
         self.CYAN = '\033[36m'
-        self.COMP_WIN_MSG = constants.COMP_WIN_MSG
-        self.HUMAN_WIN_MSG = constants.HUMAN_WIN_MSG
-        self.WELCOME_MSG = constants.WELCOME_MSG
-        self.INSTRUCTIONS = constants.INSTRUCTIONS
+        self.COMP_WIN_MSG = COMP_WIN_MSG
+        self.HUMAN_WIN_MSG = HUMAN_WIN_MSG
+        self.WELCOME_MSG = WELCOME_MSG
+        self.INSTRUCTIONS = INSTRUCTIONS
 
     def display(self, message):
         print(message)
@@ -29,11 +29,11 @@ class TerminalUi:
     def add_shot_marker(self, board, row, column):
         if board.state[row][column] is None or board.state[row][column] in board.all_ships:
             return '[ ]'
-        if board.state[row][column] == constants.MISS:
+        if board.state[row][column] == MISS:
             return '[' + self.MAGENTA + 'M' + self.ENDCOLOR + ']'
-        if board.state[row][column] == constants.HIT:
+        if board.state[row][column] == HIT:
             return '[' + self.CYAN + 'H' + self.ENDCOLOR + ']'
-        if board.state[row][column] == constants.SUNK:
+        if board.state[row][column] == SUNK:
             return self.REDBGCOLOR + '[S]' + self.ENDCOLOR
 
     def terminal_board(self, board):

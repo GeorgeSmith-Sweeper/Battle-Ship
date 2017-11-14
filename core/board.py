@@ -1,13 +1,13 @@
 import copy
-import helpers.constants as constants
+from helpers.constants import ROWS, COLUMNS, HIT, MISS, SUNK
 
 
 class Board:
 
     def __init__(self):
         self.state = [[None for ele in range(10)] for index in range(10)]
-        self.rows = constants.ROWS
-        self.columns = constants.COLUMNS
+        self.rows = ROWS
+        self.columns = COLUMNS
         self.aircraft_carrier = {
             'name': 'Aircraft Carrier',
             'size': 5,
@@ -45,7 +45,7 @@ class Board:
         for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:
             row = each_hit[0]
             column = each_hit[1]
-            self.state[row][column] = constants.SUNK
+            self.state[row][column] = SUNK
 
     def update(self, user_shot_choice, shot_result):
         user_letter = user_shot_choice[0]
@@ -53,10 +53,10 @@ class Board:
         y_coordinate = self.rows[user_num]
         x_coordinate = self.columns[user_letter]
 
-        if shot_result == constants.HIT:
-            self.state[y_coordinate][x_coordinate] = constants.HIT
-        elif shot_result == constants.MISS:
-            self.state[y_coordinate][x_coordinate] = constants.MISS
+        if shot_result == HIT:
+            self.state[y_coordinate][x_coordinate] = HIT
+        elif shot_result == MISS:
+            self.state[y_coordinate][x_coordinate] = MISS
         else:
             self.update_spot_to_sunk(y_coordinate, x_coordinate)
 
