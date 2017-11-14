@@ -26,15 +26,27 @@ class TerminalUi:
         else:
             return str(row_int + 1) + ' '
 
+    def miss_marker(self):
+        return '[' + self.MAGENTA + 'M' + self.ENDCOLOR + ']'
+
+    def hit_marker(self):
+        return '[' + self.CYAN + 'H' + self.ENDCOLOR + ']'
+
+    def sunk_marker(self):
+        return self.REDBGCOLOR + '[S]' + self.ENDCOLOR
+
+    def blank_space(self):
+        return '[ ]'
+
     def add_shot_marker(self, board, row, column):
         if board.state[row][column] is None or board.state[row][column] in board.all_ships:
-            return '[ ]'
+            return self.blank_space()
         if board.state[row][column] == MISS:
-            return '[' + self.MAGENTA + 'M' + self.ENDCOLOR + ']'
+            return self.miss_marker()
         if board.state[row][column] == HIT:
-            return '[' + self.CYAN + 'H' + self.ENDCOLOR + ']'
+            return self.hit_marker()
         if board.state[row][column] == SUNK:
-            return self.REDBGCOLOR + '[S]' + self.ENDCOLOR
+            return self.sunk_marker()
 
     def terminal_board(self, board):
         formatted_board = '\n' + '    A  B  C  D  E  F  G  H  I  J'

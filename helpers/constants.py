@@ -10,6 +10,7 @@ ROWS = {
     '9': 8,
     '10': 9,
 }
+
 COLUMNS = {
     'A': 0,
     'B': 1,
@@ -22,15 +23,25 @@ COLUMNS = {
     'I': 8,
     'J': 9,
 }
+
 COL_LETS = [chr(i) for i in range(ord('A'), ord('J') + 1)]
+
 ROW_NUMS = [str(i) for i in range(1, 11)]
+
 ALL_SPOTS = [(let + num) for let in COL_LETS for num in ROW_NUMS]
+
 SUNK = 'Sunk'
+
 HIT = 'Hit'
+
 MISS = 'Miss'
+
 COMP_WIN_MSG = 'The Computer has sunk all the ships! Game Over!'
+
 HUMAN_WIN_MSG = 'Congratulations, you\'ve has sunk all the computers ships! Game Over!'
+
 WELCOME_MSG = 'Welcome to BattleShip!'
+
 INSTRUCTIONS = ('\n' +
                 'Your shots will appear on the bottem board.' +
                 '\n' +
