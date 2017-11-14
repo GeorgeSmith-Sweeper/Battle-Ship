@@ -60,16 +60,22 @@ class Board:
         else:
             self.update_spot_to_sunk(y_coordinate, x_coordinate)
 
+    def add_ship_to_row(self, ship, all_ships_copy, place):
+        row_int, col_int = place.find_space_in_row(self.state, all_ships_copy[ship]['size'])
+        for ele in range(all_ships_copy[ship]['size']):
+            self.state[row_int][ele - (len(self.state) - col_int)] = all_ships_copy[ship]
+
+    def add_ship_to_column(self, ship, all_ships_copy, place):
+        row_int, col_int = place.find_space_in_column(self.state, all_ships_copy[ship]['size'])
+        for ele in range(all_ships_copy[ship]['size']):
+            self.state[ele - (len(self.state) - row_int)][col_int] = all_ships_copy[ship]
+
     def add_to_board(self, place, ship_orientation):
         all_ships_copy = copy.copy(self.all_ships)
         orientation = ship_orientation
         for ship in range(len(all_ships_copy)):
             if orientation == 'row':
-                row_int, col_int = place.find_space_in_row(self.state, all_ships_copy[ship]['size'])
-                for ele in range(all_ships_copy[ship]['size']):
-                    self.state[row_int][ele - (len(self.state) - col_int)] = all_ships_copy[ship]
+                self.add_ship_to_row(ship, all_ships_copy, place)
             else:
-                row_int, col_int = place.find_space_in_column(self.state, all_ships_copy[ship]['size'])
-                for ele in range(all_ships_copy[ship]['size']):
-                    self.state[ele - (len(self.state) - row_int)][col_int] = all_ships_copy[ship]
+                self.add_ship_to_column(ship, all_ships_copy, place)
             orientation = 'column' if orientation == 'row' else 'row'

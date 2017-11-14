@@ -88,8 +88,7 @@ class TestBoard(TestCase):
         self.board.all_ships = [{
             'name': 'Aircraft Carrier',
             'size': 5,
-            'health': 5,
-            'sunk': False,
+            'hit_locations': [],
         }]
         state_after_move = [
             [self.board.all_ships[0], self.board.all_ships[0], self.board.all_ships[0], self.board.all_ships[0], self.board.all_ships[0], None, None, None, None, None],
@@ -115,8 +114,7 @@ class TestBoard(TestCase):
         self.board.all_ships = [{
             'name': 'Aircraft Carrier',
             'size': 5,
-            'health': 5,
-            'sunk': False,
+            'hit_locations': [],
         }]
         state_after_move = [
             [self.board.all_ships[0], None, None, None, None, None, None, None, None, None],
@@ -132,5 +130,5 @@ class TestBoard(TestCase):
         ]
         ship_orientation = 'column'
         self.board.add_to_board(place, ship_orientation)
-
+        self.maxDiff = None
         self.assertEqual(self.board.state, state_after_move)
