@@ -45,11 +45,11 @@ class Validate:
             if current_spot == board.all_ships[ship]:
                 board.all_ships[ship] = self.store_hits(board.all_ships[ship], spot_choice)
                 if self.is_ship_sunk(board.all_ships[ship], ui):
-                    return 'Sunk'
+                    return constants.SUNK
                 ui.display('You hit the ' + board.all_ships[ship]['name'] + '!')
-                return 'Hit'
+                return constants.HIT
         ui.display('Miss!')
-        return 'Miss'
+        return constants.MISS
 
     def store_hits(self, current_ship, shot):
         user_let, user_num = self.split_user_shot(shot)
