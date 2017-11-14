@@ -6,7 +6,7 @@ from core.validate import Validate
 from core.placement import Place
 from core.ai import Ai
 from helpers.board_helper import BoardHelper
-from play import Game
+from core.game import Game
 
 
 class TestPlayGame(TestCase):
