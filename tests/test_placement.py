@@ -13,8 +13,16 @@ class TestPlace(TestCase):
 
     def test_create_random_generates_a_num_from_0_to_9(self):
         zero_to_nine_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        random_num = self.place.create_random_num()
+        empty_board = self.board_helper.generate_empty_board()
+        random_num = self.place.create_random_num(empty_board)
         self.assertIn(random_num, zero_to_nine_list)
+
+    def test_get_random_row_and_column_returns_numbers_within_board_size(self):
+        zero_to_nine_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        empty_board = self.board_helper.generate_empty_board()
+        row, column = self.place.get_random_row_and_column(empty_board)
+        self.assertIn(row, zero_to_nine_list)
+        self.assertIn(column, zero_to_nine_list)
 
     @patch('core.placement.Place.create_random_num', side_effect=[0, 0])
     def test_space_for_ship_in_row_returns_location_where_ship_fit_if_there_is_space(self, mock):

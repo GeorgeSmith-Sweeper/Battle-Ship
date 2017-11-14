@@ -63,8 +63,7 @@ class Board:
     def add_to_board(self, place, ship_orientation):
         all_ships_copy = copy.copy(self.all_ships)
         orientation = ship_orientation
-        while len(all_ships_copy) > 0:
-            ship = 0
+        for ship in range(len(all_ships_copy)):
             if orientation == 'row':
                 row_int, col_int = place.find_space_in_row(self.state, all_ships_copy[ship]['size'])
                 for ele in range(all_ships_copy[ship]['size']):
@@ -73,6 +72,4 @@ class Board:
                 row_int, col_int = place.find_space_in_column(self.state, all_ships_copy[ship]['size'])
                 for ele in range(all_ships_copy[ship]['size']):
                     self.state[ele - (len(self.state) - row_int)][col_int] = all_ships_copy[ship]
-
-            all_ships_copy.pop(0)
             orientation = 'column' if orientation == 'row' else 'row'
