@@ -67,7 +67,7 @@ class Validate:
 
     def all_ships_sunk(self, board):
         all_sunk = True
-        for row in range(0, len(board.state)):
+        for row in range(len(board.state)):
             for ele in board.state[row]:
                 if ele in board.all_ships:
                     return False
