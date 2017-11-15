@@ -28,31 +28,32 @@ class Ai:
             shot_column = self.col_lets[self.col_lets.index(column) - 1]
             spot_to_left = shot_column + row
             return self.legal_space(spot_to_left)
+    # spots below
 
-    def get_spot_below(self, column, row, human_board_state):
-        spot_below = ""
-        if (self.row_nums.index(row) + 1) < len(human_board_state):
-            shot_num = self.row_nums[self.row_nums.index(row) + 1]
-            spot_below = column + shot_num
-        else:
-            spot_below = column + row
-        return self.legal_space(spot_below)
+    def room_from_bottom_edge(self, row, human_board_state):
+        return (self.row_nums.index(row) + 1) < len(human_board_state)
 
-    def spot_away_from_edge(self, column, row):
-        shot_column = self.col_lets[self.col_lets.index(column) + 1]
-        return shot_column + row
-
-    def spot_at_right_edge(self, column, row):
-        shot_column = self.col_lets[self.col_lets.index(column)]
-        return shot_column + row
-
-    def not_end_of_row(self, column, human_board_state):
+    def room_from_right_edge(self, column, human_board_state):
         return (self.col_lets.index(column) + 1) < len(human_board_state)
 
+    def bottom_spot_coordinates(self, row, column):
+        shot_num = self.row_nums[self.row_nums.index(row) + 1]
+        return column + shot_num
+
+    def right_spot_coordinates(self, column, row, offset):
+        shot_column = self.col_lets[self.col_lets.index(column) + offset]
+        return shot_column + row
+
+    def get_spot_below(self, column, row, human_board_state):
+        if self.room_from_bottom_edge(row, human_board_state):
+            return self.legal_space(self.bottom_spot_coordinates(row, column))
+        spot_below = column + row
+        return self.legal_space(spot_below)
+
     def get_spot_to_right(self, column, row, human_board_state):
-        if self.not_end_of_row(column, human_board_state):
-            return self.legal_space(self.spot_away_from_edge(column, row))
-        return self.legal_space(self.spot_at_right_edge(column, row))
+        if self.room_from_right_edge(column, human_board_state):
+            return self.legal_space(self.right_spot_coordinates(column, row, 1))
+        return self.legal_space(self.right_spot_coordinates(column, row, 0))
 
     def remove_none_from_list(self, spots_list):
         list_without_nones = list(filter(lambda ele: ele is not None, spots_list))
