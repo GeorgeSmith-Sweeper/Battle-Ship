@@ -1,3 +1,4 @@
+# Board & Spots
 ROWS = {
     '1': 0,
     '2': 1,
@@ -28,6 +29,8 @@ ALL_SPOTS = [(let + num) for let in COL_LETS for num in ROW_NUMS]
 SUNK = 'Sunk'
 HIT = 'Hit'
 MISS = 'Miss'
+
+# Board Markers
 REDBGCOLOR = '\033[41m'
 ENDCOLOR = '\033[0m'
 MAGENTA = '\033[35m'
@@ -36,9 +39,13 @@ MISS_MARKER = '[' + MAGENTA + 'M' + ENDCOLOR + ']'
 HIT_MARKER = '[' + CYAN + 'H' + ENDCOLOR + ']'
 SUNK_MARKER = REDBGCOLOR + '[S]' + ENDCOLOR
 BLANK_SPACE = '[ ]'
+
+# User Messages
 COMP_WIN_MSG = 'The Computer has sunk all the ships! Game Over!'
 HUMAN_WIN_MSG = 'Congratulations, you\'ve has sunk all the computers ships! Game Over!'
 WELCOME_MSG = 'Welcome to BattleShip!'
+DOES_NOT_EXIST_MSG = 'Spot does not exist, Try again'
+OCCUPIED_MSG = 'That spot is occupied. Pick a different spot'
 INSTRUCTIONS = ('\n' +
                 'Your shots will appear on the bottem board.' +
                 '\n' +

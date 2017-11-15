@@ -49,7 +49,7 @@ class TerminalUi:
             return self.MISS_MARKER
         if self.is_space_hit(spot_value):
             return self.HIT_MARKER
-        if self.spot_value(board, row, column) == consts.SUNK:
+        if self.is_space_sunk(spot_value):
             return self.SUNK_MARKER
 
     def terminal_board(self, board):

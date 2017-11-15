@@ -1,14 +1,14 @@
-import helpers.constants as constants
+import helpers.constants as consts
 
 
 class Validate:
 
     def __init__(self):
-        self.col_lets = constants.COL_LETS
-        self.row_nums = constants.ROW_NUMS
-        self.all_spots = constants.ALL_SPOTS
-        self.rows = constants.ROWS
-        self.columns = constants.COLUMNS
+        self.col_lets = consts.COL_LETS
+        self.row_nums = consts.ROW_NUMS
+        self.all_spots = consts.ALL_SPOTS
+        self.rows = consts.ROWS
+        self.columns = consts.COLUMNS
 
     def split_user_shot(self, shot_choice):
         user_let = shot_choice[0]
@@ -25,7 +25,7 @@ class Validate:
         user_shot_choice = ui.get_input('>>')
 
         while user_shot_choice not in self.all_spots:
-            ui.display('Spot does not exist, Try again')
+            ui.display(consts.DOES_NOT_EXIST_MSG)
             user_shot_choice = ui.get_input('>>')
         return user_shot_choice
 
@@ -34,7 +34,7 @@ class Validate:
         current_spot = self.get_current_spot(board.state, user_shot_choice)
 
         while current_spot is not None and current_spot not in board.all_ships:
-            ui.display('That spot is occupied. Pick a different spot')
+            ui.display(consts.OCCUPIED_MSG)
             user_shot_choice = self.spot_exists(ui)
             current_spot = self.get_current_spot(board.state, user_shot_choice)
         return user_shot_choice
@@ -45,11 +45,11 @@ class Validate:
             if current_spot == board.all_ships[ship]:
                 board.all_ships[ship] = self.store_hits(board.all_ships[ship], spot_choice)
                 if self.is_ship_sunk(board.all_ships[ship], ui):
-                    return constants.SUNK
+                    return consts.SUNK
                 ui.display('You hit the ' + board.all_ships[ship]['name'] + '!')
-                return constants.HIT
+                return consts.HIT
         ui.display('Miss!')
-        return constants.MISS
+        return consts.MISS
 
     def store_hits(self, current_ship, shot):
         user_let, user_num = self.split_user_shot(shot)
