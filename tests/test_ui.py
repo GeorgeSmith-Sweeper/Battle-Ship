@@ -4,6 +4,7 @@ from core.ui import TerminalUi
 from core.board import Board
 from io import StringIO
 from helpers.board_helper import BoardHelper
+import helpers.constants as consts
 
 
 class TestTerminalUi(TestCase):
@@ -55,25 +56,9 @@ class TestFormat(TestCase):
         self.ui = TerminalUi()
         self.board = Board()
         self.board_helper = BoardHelper(self.board.all_ships)
-        self.missed_marker = '[' + '\033[35m' + 'M' + '\033[0m' + ']'
-        self.hit_marker = '[' + '\033[36m' + 'H' + '\033[0m' + ']'
-        self.sunk_marker = '\033[41m' + '[S]' + '\033[0m'
-
-    def test_ui_contains_the_ANSI_red_background_as_REDBG(self):
-        redbg = '\033[41m'
-        self.assertEqual(self.ui.REDBGCOLOR, redbg)
-
-    def test_ui_contains_the_ANSI_magenta_text_as_MAGENTA(self):
-        magenta = '\033[35m'
-        self.assertEqual(self.ui.MAGENTA, magenta)
-
-    def test_ui_contains_the_ANSI_cyan_text_as_CYAN(self):
-        cyan = '\033[36m'
-        self.assertEqual(self.ui.CYAN, cyan)
-
-    def test_ui_contains_the_ANSI_attr_off_as_ENDCOLORS(self):
-        attr_off = '\033[0m'
-        self.assertEqual(self.ui.ENDCOLOR, attr_off)
+        self.missed_marker = consts.MISS_MARKER
+        self.hit_marker = consts.HIT_MARKER
+        self.sunk_marker = consts.SUNK_MARKER
 
     def test_less_then_board_len_add_row_numbers_returns_correctly_formatted_row(self):
         current_row = 0
