@@ -17,42 +17,53 @@ class Ai:
         if spot in self.all_spots:
             return spot
 
+    def room_from_top_edge(self, row):
+        return (self.row_nums.index(row) - 1) >= 0
+
+    def room_from_left_edge(self, column):
+        return (self.col_lets.index(column) - 1) >= 0
+
+    def room_from_bottom_edge(self, row, human_board_state):
+        return (self.row_nums.index(row) + 1) < len(human_board_state)
+
+    def room_from_right_edge(self, column, human_board_state):
+        return (self.col_lets.index(column) + 1) < len(human_board_state)
+
+    def top_spot_coordinates(self, row, column, offset):
+        shot_row = self.row_nums[self.row_nums.index(row) - offset]
+        return column + shot_row
+
+    def left_spot_coordinates(self, row, column, offset):
+        shot_column = self.col_lets[self.col_lets.index(column) - offset]
+        return shot_column + row
+
+    def bottom_spot_coordinates(self, row, column, offset):
+        shot_num = self.row_nums[self.row_nums.index(row) + offset]
+        return column + shot_num
+
+    def right_spot_coordinates(self, column, row, offset):
+        shot_column = self.col_lets[self.col_lets.index(column) + offset]
+        return shot_column + row
+
     def get_spot_above(self, column, row):
         if (self.row_nums.index(row) - 1) >= 0:
-            shot_row = self.row_nums[self.row_nums.index(row) - 1]
-            spot_above = column + shot_row
+            spot_above = self.top_spot_coordinates(row, column, 1)
             return self.legal_space(spot_above)
 
     def get_spot_to_left(self, column, row):
-        if (self.col_lets.index(column) - 1) >= 0:
-            shot_column = self.col_lets[self.col_lets.index(column) - 1]
-            spot_to_left = shot_column + row
+        if self.room_from_left_edge(column):
+            spot_to_left = self.left_spot_coordinates(row, column, 1)
             return self.legal_space(spot_to_left)
 
     def get_spot_below(self, column, row, human_board_state):
-        spot_below = ""
-        if (self.row_nums.index(row) + 1) < len(human_board_state):
-            shot_num = self.row_nums[self.row_nums.index(row) + 1]
-            spot_below = column + shot_num
-        else:
-            spot_below = column + row
-        return self.legal_space(spot_below)
-
-    def spot_away_from_edge(self, column, row):
-        shot_column = self.col_lets[self.col_lets.index(column) + 1]
-        return shot_column + row
-
-    def spot_at_right_edge(self, column, row):
-        shot_column = self.col_lets[self.col_lets.index(column)]
-        return shot_column + row
-
-    def not_end_of_row(self, column, human_board_state):
-        return (self.col_lets.index(column) + 1) < len(human_board_state)
+        if self.room_from_bottom_edge(row, human_board_state):
+            return self.legal_space(self.bottom_spot_coordinates(row, column, 1))
+        return self.legal_space(self.bottom_spot_coordinates(row, column, 0))
 
     def get_spot_to_right(self, column, row, human_board_state):
-        if self.not_end_of_row(column, human_board_state):
-            return self.legal_space(self.spot_away_from_edge(column, row))
-        return self.legal_space(self.spot_at_right_edge(column, row))
+        if self.room_from_right_edge(column, human_board_state):
+            return self.legal_space(self.right_spot_coordinates(column, row, 1))
+        return self.legal_space(self.right_spot_coordinates(column, row, 0))
 
     def remove_none_from_list(self, spots_list):
         list_without_nones = list(filter(lambda ele: ele is not None, spots_list))
