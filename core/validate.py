@@ -58,7 +58,6 @@ class Validate:
         user_let, user_num = self.split_user_shot(shot)
         row = self.rows[user_num]
         column = self.columns[user_let]
-
         current_ship['hit_locations'].append([row, column])
         return current_ship
 
@@ -70,8 +69,8 @@ class Validate:
 
     def all_ships_sunk(self, board):
         all_sunk = True
-        for row in range(len(board.state)):
-            for ele in board.state[row]:
+        for row in board.state:
+            for ele in row:
                 if ele in board.all_ships:
                     return False
         return all_sunk
