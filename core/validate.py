@@ -38,12 +38,13 @@ class Validate:
             user_shot_choice = self.spot_exists(ui)
             current_spot = self.get_current_spot(board.state, user_shot_choice)
         return user_shot_choice
-
-    def really_hit_ship(self, current_spot, board, ship, spot_choice):
+    '''
+    def hit_ship(self, current_spot, board, ship, spot_choice):
         if current_spot == board.all_ships[ship]:
             self.store_hits(board.all_ships[ship], spot_choice)
             return consts.HIT
-
+        return consts.MISS
+    '''
     def shot_result(self, board, user_shot_choice, ui):
         current_spot = self.get_current_spot(board.state, user_shot_choice)
         for ship in range(len(board.all_ships)):
