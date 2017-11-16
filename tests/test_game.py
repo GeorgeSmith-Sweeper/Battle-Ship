@@ -25,6 +25,7 @@ class TestPlayGame(TestCase):
         user_shot_choice = 'A1'
         ship_orientation = 'row'
         shot_result = 'Hit'
+        current_ship = {'name': 'Aircraft Carrier', 'size': 5, 'hit_locations': [[0, 0]]}
 
         comp_board = MagicMock()
         comp_board.state = MagicMock(return_value=board_state)
@@ -34,7 +35,7 @@ class TestPlayGame(TestCase):
         validate.spot_occupied = MagicMock(return_value=user_shot_choice)
         validate.all_ships_sunk = MagicMock()
         validate.side_effect = [False, True]
-        validate.shot_result = MagicMock(return_value='Hit')
+        validate.shot_result = MagicMock(return_value=('Hit', {}))
         ai.shoots_at_board = MagicMock()
         ui.get_input = MagicMock(return_value=user_shot_choice)
         ui.display = MagicMock()

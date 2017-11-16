@@ -86,8 +86,8 @@ class Ai:
 
     def intelligent_shot(self, human_board, ui):
         smart_spot = self.next_shots_list.pop()
-        shot_result = self.validate.shot_result(human_board, smart_spot, ui)
-
+        results = self.validate.shot_result(human_board, smart_spot, ui)
+        shot_result = results[0]
         if shot_result == HIT:
             self.get_surrounding_spots(smart_spot, human_board.state)
         human_board.update(smart_spot, shot_result)
@@ -96,8 +96,8 @@ class Ai:
 
     def random_shot(self, human_board, ui):
         random_spot = self.choose_random_spot()
-        shot_result = self.validate.shot_result(human_board, random_spot, ui)
-
+        results = self.validate.shot_result(human_board, random_spot, ui)
+        shot_result = results[0]
         if shot_result == HIT:
             self.get_surrounding_spots(random_spot, human_board.state)
         human_board.update(random_spot, shot_result)

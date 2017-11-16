@@ -20,16 +20,17 @@ class TestAi(TestCase):
 
     def test_ai_shoots_at_board_runs_the_correct_methods(self):
         ai_shot = 'A2'
-        shot_result = HIT
+        result = (HIT, {})
+        shot_result, current_ship = result
         board_with_ships = self.board_helper.generate_board_with_ships()
         self.human_board = MagicMock(state=board_with_ships, all_ships=self.human_board.all_ships)
         self.ai.choose_random_spot = MagicMock(return_value=ai_shot)
-        self.validate.hit_ship = MagicMock(return_value=shot_result)
+        self.validate.shot_result = MagicMock(return_value=result)
 
         self.ai.shoots_at_board(self.human_board, self.ui)
 
         self.ai.choose_random_spot.assert_called()
-        self.human_board.update.assert_called_with(ai_shot, self.validate.shot_result(self.human_board, ai_shot, self.ui))
+        self.human_board.update.assert_called_with(ai_shot, shot_result)
 
     def test_room_from_top_edge_returns_True_if_spot_is_not_on_the_edge(self):
         row = '2'
@@ -147,6 +148,6 @@ class TestAi(TestCase):
     def test_random_shot_updates_the_board_with_a_random_shot(self, mock):
         board_with_a_hit = self.board_helper.generate_board_with_hit()
         self.board.state = self.board_helper.generate_board_with_ships()
-
+        self.maxDiff = None
         self.ai.random_shot(self.board, self.ui)
         self.assertEqual(self.board.state, board_with_a_hit)

@@ -19,7 +19,18 @@ class Game:
         while not all_sunk:
             self.ui.display(self.ui.terminal_board(self.comp_board))
             user_spot = self.validate.spot_occupied(self.comp_board, self.ui)
-            shot_result = self.validate.shot_result(self.comp_board, user_spot, self.ui)
+            shot_result, current_ship = self.validate.shot_result(self.comp_board, user_spot, self.ui)
+
+            '''
+            need acccess to the current_ship
+
+            if shot_result == HIT:
+                display('you hit the ' + current_ship + '!')
+            if shot_result == MISS:
+                display('MISS')
+            if shot_result == SUNK:
+                display('you sunk the ' + current_ship + '!')
+            '''
             self.comp_board.update(user_spot, shot_result)
             all_sunk = self.validate.all_ships_sunk(self.comp_board)
 
