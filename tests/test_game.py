@@ -35,7 +35,7 @@ class TestPlayGame(TestCase):
         validate.spot_occupied = MagicMock(return_value=user_shot_choice)
         validate.all_ships_sunk = MagicMock()
         validate.side_effect = [False, True]
-        validate.shot_result = MagicMock(return_value=('Hit', {}))
+        validate.shot_result = MagicMock(return_value=('Hit', current_ship))
         ai.shoots_at_board = MagicMock()
         ui.get_input = MagicMock(return_value=user_shot_choice)
         ui.display = MagicMock()

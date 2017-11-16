@@ -50,6 +50,30 @@ class TestTerminalUi(TestCase):
 
         self.assertEqual(ui.INSTRUCTIONS, INSTRUCTIONS)
 
+    def test_ship_messages_displays_the_ship_that_was_hit(self):
+        ui = TerminalUi()
+        shot_result = consts.HIT
+        current_ship = {'name': 'Aircraft Carrier', 'size': 5, 'hit_locations': [[0, 0]]}
+        message = ui.ship_messages(shot_result, current_ship)
+        correct_message = 'You hit the Aircraft Carrier!'
+        self.assertEqual(message, correct_message)
+
+    def test_ship_messages_displays_the_ship_that_was_sunk(self):
+        ui = TerminalUi()
+        shot_result = consts.SUNK
+        current_ship = {'name': 'Aircraft Carrier', 'size': 5, 'hit_locations': [[0, 0]]}
+        message = ui.ship_messages(shot_result, current_ship)
+        correct_message = 'You sunk the Aircraft Carrier!'
+        self.assertEqual(message, correct_message)
+
+    def test_ship_messages_displays_miss_if_no_ship_was_hit(self):
+        ui = TerminalUi()
+        shot_result = consts.MISS
+        current_ship = False
+        message = ui.ship_messages(shot_result, current_ship)
+        correct_message = 'Miss!'
+        self.assertEqual(message, correct_message)
+
 
 class TestFormat(TestCase):
     def setUp(self):
