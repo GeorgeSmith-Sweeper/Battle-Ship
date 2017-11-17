@@ -4,6 +4,7 @@ from core.validate import Validate
 from core.board import Board
 from core.ui import TerminalUi
 from helpers.board_helper import BoardHelper
+import helpers.constants as consts
 
 
 class TestValidations(TestCase):
@@ -92,9 +93,9 @@ class TestValidations(TestCase):
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
         shot_result = self.validate.shot_result(board, shot, self.ui)
-
+        result = (consts.HIT, {'name': 'Aircraft Carrier', 'size': 5, 'hit_locations': [[0, 0]]})
         self.ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(shot_result, 'Hit')
+        self.assertEqual(shot_result, result)
 
     def test_missing_a_ship_displays_miss_msg_and_returns_str_Miss(self):
         self.ui.display = MagicMock()
@@ -103,9 +104,9 @@ class TestValidations(TestCase):
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
         shot_result = self.validate.shot_result(board, shot, self.ui)
-
+        result = (consts.MISS, False)
         self.ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(shot_result, 'Miss')
+        self.assertEqual(shot_result, result)
 
     def test_ship_is_sunk_when_len_hit_locations_equals_ship_size(self):
         sunken_ship = {

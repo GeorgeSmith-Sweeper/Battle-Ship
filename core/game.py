@@ -19,8 +19,9 @@ class Game:
         while not all_sunk:
             self.ui.display(self.ui.terminal_board(self.comp_board))
             user_spot = self.validate.spot_occupied(self.comp_board, self.ui)
-            shot_result = self.validate.shot_result(self.comp_board, user_spot, self.ui)
+            shot_result, current_ship = self.validate.shot_result(self.comp_board, user_spot, self.ui)
             self.comp_board.update(user_spot, shot_result)
+            self.ui.display(self.ui.ship_messages(shot_result, current_ship))
             all_sunk = self.validate.all_ships_sunk(self.comp_board)
 
             if all_sunk is True:

@@ -16,6 +16,14 @@ class TerminalUi:
     def display(self, message):
         print(message)
 
+    def ship_messages(self, shot_result, current_ship):
+        if shot_result == consts.HIT:
+            return 'You hit the {}!'.format(current_ship['name'])
+        if shot_result == consts.SUNK:
+            return 'You sunk the {}!'.format(current_ship['name'])
+        if shot_result == consts.MISS:
+            return '{}!'.format(consts.MISS)
+
     def get_input(self, prompt_string):
         response = input(prompt_string)
         return response
