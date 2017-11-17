@@ -12,11 +12,6 @@ class Ai:
         self.all_spots = [(let + num) for let in self.col_lets for num in self.row_nums]
         self.next_shots_list = []
 
-    # Test
-    def legal_space(self, spot):
-        if spot in self.all_spots:
-            return spot
-
     def room_from_top_edge(self, row):
         return (self.row_nums.index(row) - 1) >= 0
 
@@ -30,20 +25,20 @@ class Ai:
         return (self.col_lets.index(column) + 1) < len(human_board_state)
 
     def top_spot_coordinates(self, row, column, offset):
-        shot_row = self.row_nums[self.row_nums.index(row) - offset]
-        return column + shot_row
+        return column + self.row_nums[self.row_nums.index(row) - offset]
 
     def left_spot_coordinates(self, row, column, offset):
-        shot_column = self.col_lets[self.col_lets.index(column) - offset]
-        return shot_column + row
+        return self.col_lets[self.col_lets.index(column) - offset] + row
 
     def bottom_spot_coordinates(self, row, column, offset):
-        shot_num = self.row_nums[self.row_nums.index(row) + offset]
-        return column + shot_num
+        return column + self.row_nums[self.row_nums.index(row) + offset]
 
     def right_spot_coordinates(self, column, row, offset):
-        shot_column = self.col_lets[self.col_lets.index(column) + offset]
-        return shot_column + row
+        return self.col_lets[self.col_lets.index(column) + offset] + row
+
+    def legal_space(self, spot):
+        if spot in self.all_spots:
+            return spot
 
     def get_spot_above(self, column, row):
         if (self.row_nums.index(row) - 1) >= 0:
@@ -66,8 +61,7 @@ class Ai:
         return self.legal_space(self.right_spot_coordinates(column, row, 0))
 
     def remove_none_from_list(self, spots_list):
-        list_without_nones = list(filter(lambda ele: ele is not None, spots_list))
-        return list_without_nones
+        return list(filter(lambda ele: ele is not None, spots_list))
 
     def get_surrounding_spots(self, selected_spot, human_board_state):
         user_letter, user_num = self.validate.split_user_shot(selected_spot)
@@ -85,30 +79,30 @@ class Ai:
         return random_spot
 
     def _remove_duplicated_spots(self, spot_type, shots_list):
-        return list(filter(lambda spot: spot != spot_type, shots_list))
+        self.next_shots_list = list(filter(lambda spot: spot != spot_type, shots_list))
 
     def _remove_spot_from_choices(self, spot):
         self.all_spots.pop(self.all_spots.index(spot))
 
+    def _plan_next_moves(self, shot_result, shot_location, human_board):
+        if shot_result == HIT:
+            self.get_surrounding_spots(shot_location, human_board.state)
+
     def intelligent_shot(self, human_board):
         smart_spot = self.next_shots_list.pop()
         shot_result, current_ship = self.validate.shot_result(human_board, smart_spot)
-
-        if shot_result == HIT:
-            self.get_surrounding_spots(smart_spot, human_board.state)
+        self._plan_next_moves(shot_result, smart_spot, human_board)
         human_board.update(smart_spot, shot_result)
-        self.next_shots_list = self._remove_duplicated_spots(smart_spot, self.next_shots_list)
+        self._remove_duplicated_spots(smart_spot, self.next_shots_list)
         self._remove_spot_from_choices(smart_spot)
         return shot_result, current_ship
 
     def random_shot(self, human_board):
         random_spot = self.choose_random_spot()
         shot_result, current_ship = self.validate.shot_result(human_board, random_spot)
-
-        if shot_result == HIT:
-            self.get_surrounding_spots(random_spot, human_board.state)
+        self._plan_next_moves(shot_result, random_spot, human_board)
         human_board.update(random_spot, shot_result)
-        self.next_shots_list = self._remove_duplicated_spots(random_spot, self.next_shots_list)
+        self._remove_duplicated_spots(random_spot, self.next_shots_list)
         self._remove_spot_from_choices(random_spot)
         return shot_result, current_ship
 
