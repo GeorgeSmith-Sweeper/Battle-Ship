@@ -20,7 +20,7 @@ class TestAi(TestCase):
 
     def test_ai_shoots_at_board_runs_the_correct_methods(self):
         ai_shot = 'A2'
-        result = (HIT, {})
+        result = (HIT, {'name': 'Aircraft Carrier', 'size': 5, 'hit_locations': [[0, 0]]})
         shot_result, current_ship = result
         board_with_ships = self.board_helper.generate_board_with_ships()
         self.human_board = MagicMock(state=board_with_ships, all_ships=self.human_board.all_ships)
@@ -148,6 +148,5 @@ class TestAi(TestCase):
     def test_random_shot_updates_the_board_with_a_random_shot(self, mock):
         board_with_a_hit = self.board_helper.generate_board_with_hit()
         self.board.state = self.board_helper.generate_board_with_ships()
-        self.maxDiff = None
         self.ai.random_shot(self.board)
         self.assertEqual(self.board.state, board_with_a_hit)

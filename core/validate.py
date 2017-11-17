@@ -23,7 +23,6 @@ class Validate:
 
     def spot_exists(self, ui):
         user_shot_choice = ui.get_input('>>')
-
         while user_shot_choice not in self.all_spots:
             ui.display(consts.DOES_NOT_EXIST_MSG)
             user_shot_choice = ui.get_input('>>')
@@ -32,7 +31,6 @@ class Validate:
     def spot_occupied(self, board, ui):
         user_shot_choice = self.spot_exists(ui)
         current_spot = self.get_current_spot(board.state, user_shot_choice)
-
         while current_spot is not None and current_spot not in board.all_ships:
             ui.display(consts.OCCUPIED_MSG)
             user_shot_choice = self.spot_exists(ui)

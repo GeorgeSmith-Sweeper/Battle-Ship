@@ -86,26 +86,28 @@ class Ai:
 
     def intelligent_shot(self, human_board):
         smart_spot = self.next_shots_list.pop()
-        results = self.validate.shot_result(human_board, smart_spot)
-        shot_result = results[0]
+        shot_result, current_ship = self.validate.shot_result(human_board, smart_spot)
+
         if shot_result == HIT:
             self.get_surrounding_spots(smart_spot, human_board.state)
         human_board.update(smart_spot, shot_result)
         self.next_shots_list = list(filter(lambda spot: spot != smart_spot, self.next_shots_list))
         self.all_spots.pop(self.all_spots.index(smart_spot))
+        return shot_result, current_ship
 
     def random_shot(self, human_board):
         random_spot = self.choose_random_spot()
-        results = self.validate.shot_result(human_board, random_spot)
-        shot_result = results[0]
+        shot_result, current_ship = self.validate.shot_result(human_board, random_spot)
+
         if shot_result == HIT:
             self.get_surrounding_spots(random_spot, human_board.state)
         human_board.update(random_spot, shot_result)
         self.next_shots_list = list(filter(lambda spot: spot != random_spot, self.next_shots_list))
         self.all_spots.pop(self.all_spots.index(random_spot))
+        return shot_result, current_ship
 
     def shoots_at_board(self, human_board):
         if len(self.next_shots_list) > 0:
-            self.intelligent_shot(human_board)
+            return self.intelligent_shot(human_board)
         else:
-            self.random_shot(human_board)
+            return self.random_shot(human_board)
