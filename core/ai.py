@@ -84,6 +84,12 @@ class Ai:
         random_spot = all_spots_copy.pop(random_index)
         return random_spot
 
+    def _remove_duplicated_spots(self, spot_type, shots_list):
+        return list(filter(lambda spot: spot != spot_type, shots_list))
+
+    def _remove_spot_from_choices(self, spot):
+        self.all_spots.pop(self.all_spots.index(spot))
+
     def intelligent_shot(self, human_board):
         smart_spot = self.next_shots_list.pop()
         shot_result, current_ship = self.validate.shot_result(human_board, smart_spot)
@@ -91,8 +97,8 @@ class Ai:
         if shot_result == HIT:
             self.get_surrounding_spots(smart_spot, human_board.state)
         human_board.update(smart_spot, shot_result)
-        self.next_shots_list = list(filter(lambda spot: spot != smart_spot, self.next_shots_list))
-        self.all_spots.pop(self.all_spots.index(smart_spot))
+        self.next_shots_list = self._remove_duplicated_spots(smart_spot, self.next_shots_list)
+        self._remove_spot_from_choices(smart_spot)
         return shot_result, current_ship
 
     def random_shot(self, human_board):
@@ -102,8 +108,8 @@ class Ai:
         if shot_result == HIT:
             self.get_surrounding_spots(random_spot, human_board.state)
         human_board.update(random_spot, shot_result)
-        self.next_shots_list = list(filter(lambda spot: spot != random_spot, self.next_shots_list))
-        self.all_spots.pop(self.all_spots.index(random_spot))
+        self.next_shots_list = self._remove_duplicated_spots(random_spot, self.next_shots_list)
+        self._remove_spot_from_choices(random_spot)
         return shot_result, current_ship
 
     def shoots_at_board(self, human_board):

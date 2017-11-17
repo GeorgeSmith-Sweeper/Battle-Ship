@@ -132,16 +132,16 @@ class TestAi(TestCase):
 
     def test_choose_random_spot_picks_a_spot_chooses_spaces_from_available_spaces(self):
         all_spots_list = self.board_helper.generate_all_spots()
-
         random_spot = self.ai.choose_random_spot()
+
         self.assertIn(random_spot, all_spots_list)
 
     def test_intelligent_shot_updates_the_board_with_shots_from_nxt_shot_list(self):
         self.ai.next_shots_list = ['B1']
         board_with_a_hit = self.board_helper.generate_board_with_hit()
         self.board.state = self.board_helper.generate_board_with_ships()
-
         self.ai.intelligent_shot(self.board)
+
         self.assertEqual(self.board.state, board_with_a_hit)
 
     @patch('core.ai.Ai.choose_random_spot', return_value='B1')
@@ -149,4 +149,5 @@ class TestAi(TestCase):
         board_with_a_hit = self.board_helper.generate_board_with_hit()
         self.board.state = self.board_helper.generate_board_with_ships()
         self.ai.random_shot(self.board)
+
         self.assertEqual(self.board.state, board_with_a_hit)

@@ -12,6 +12,17 @@ class Place:
         col_int = self.create_random_num(board_state)
         return row_int, col_int
 
+    def _are_spaces_open(self, location):
+        return all([spot is None for spot in location])
+
+    def _is_ship_too_long(self, start, ship_size, board_state):
+        if (start + ship_size) > len(board_state):
+            return False
+        return True
+
+    def _location_for_ship(self, requested_location, row_int, ship_size):
+        return requested_location[row_int: row_int + (len(requested_location) - ship_size)]
+
     def find_space_in_row(self, board_state, ship_size):
         ship_fits = ''
         while ship_fits is not True:
@@ -31,14 +42,3 @@ class Place:
             ship_fits = self._is_ship_too_long(row_int, ship_size, board_state)
             ship_fits = self._are_spaces_open(slice_of_col)
         return row_int, col_int
-
-    def _are_spaces_open(self, location):
-        return all([spot is None for spot in location])
-
-    def _is_ship_too_long(self, start, ship_size, board_state):
-        if (start + ship_size) > len(board_state):
-            return False
-        return True
-
-    def _location_for_ship(self, requested_location, row_int, ship_size):
-        return requested_location[row_int: row_int + (len(requested_location) - ship_size)]
