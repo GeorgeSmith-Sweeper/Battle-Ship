@@ -10,25 +10,22 @@ class TestPlace(TestCase):
         self.board = Board()
         self.place = Place()
         self.board_helper = BoardHelper(self.board.all_ships)
+        self.zero_to_nine_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        self.empty_board = self.board_helper.generate_empty_board()
 
     def test_create_random_generates_a_num_from_0_to_9(self):
-        zero_to_nine_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        empty_board = self.board_helper.generate_empty_board()
-        random_num = self.place.create_random_num(empty_board)
-        self.assertIn(random_num, zero_to_nine_list)
+        random_num = self.place.create_random_num(self.empty_board)
+        self.assertIn(random_num, self.zero_to_nine_list)
 
     def test_get_random_row_and_column_returns_numbers_within_board_size(self):
-        zero_to_nine_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        empty_board = self.board_helper.generate_empty_board()
-        row, column = self.place.get_random_row_and_column(empty_board)
-        self.assertIn(row, zero_to_nine_list)
-        self.assertIn(column, zero_to_nine_list)
+        row, column = self.place.get_random_row_and_column(self.empty_board)
+        self.assertIn(row, self.zero_to_nine_list)
+        self.assertIn(column, self.zero_to_nine_list)
 
     @patch('core.placement.Place.create_random_num', side_effect=[0, 0])
     def test_space_for_ship_in_row_returns_location_where_ship_fit_if_there_is_space(self, mock):
         ship_size = 5
-        empty_board = self.board_helper.generate_empty_board()
-        row_coordinate, column_coordinate = self.place.find_space_in_row(empty_board, ship_size)
+        row_coordinate, column_coordinate = self.place.find_space_in_row(self.empty_board, ship_size)
 
         self.assertEqual(row_coordinate, 0)
         self.assertEqual(column_coordinate, 0)
@@ -56,8 +53,7 @@ class TestPlace(TestCase):
     @patch('core.placement.Place.create_random_num', side_effect=[4, 1])
     def test_space_for_ship_in_column_returns_coordinates_where_ship_fit_when_there_is_space(self, mock_coordinates):
         ship_size = 5
-        empty_board = self.board_helper.generate_empty_board()
-        row_coordinate, column_coordinate = self.place.find_space_in_column(empty_board, ship_size)
+        row_coordinate, column_coordinate = self.place.find_space_in_column(self.empty_board, ship_size)
 
         self.assertEqual(row_coordinate, 4)
         self.assertEqual(column_coordinate, 1)
