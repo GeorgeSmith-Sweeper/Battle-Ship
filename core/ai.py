@@ -109,5 +109,4 @@ class Ai:
     def shoots_at_board(self, human_board):
         if len(self.next_shots_list) > 0:
             return self.intelligent_shot(human_board)
-        else:
-            return self.random_shot(human_board)
+        return self.random_shot(human_board)
