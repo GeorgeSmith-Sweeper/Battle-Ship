@@ -23,15 +23,13 @@ class Game:
             self.comp_board.update(user_spot, shot_result)
             self.ui.display(self.ui.ship_messages(shot_result, current_ship))
             all_sunk = self.validate.all_ships_sunk(self.comp_board)
-
             if all_sunk is True:
                 self.ui.display(self.ui.HUMAN_WIN_MSG)
                 break
-
             self.ai.shoots_at_board(self.human_board, self.ui)
+
             self.ui.display(self.ui.terminal_board(self.human_board))
             all_sunk = self.validate.all_ships_sunk(self.human_board)
-
             if all_sunk is True:
                 self.ui.display(self.ui.COMP_WIN_MSG)
                 break

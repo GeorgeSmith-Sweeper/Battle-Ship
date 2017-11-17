@@ -40,17 +40,17 @@ class Validate:
         return user_shot_choice
 
     # Test
-    def hit_ship(self, ship, spot_choice, ui):
+    def hit_ship(self, ship, spot_choice):
         current_ship = self.store_hits(ship, spot_choice)
-        if self.is_ship_sunk(current_ship, ui):
+        if self.is_ship_sunk(current_ship):
             return consts.SUNK, current_ship
         return consts.HIT, current_ship
 
-    def shot_result(self, board, user_shot_choice, ui):
+    def shot_result(self, board, user_shot_choice):
         current_spot = self.get_current_spot(board.state, user_shot_choice)
         if current_spot in board.all_ships:
             ship = current_spot
-            return self.hit_ship(ship, user_shot_choice, ui)
+            return self.hit_ship(ship, user_shot_choice)
         return consts.MISS, False
 
     def store_hits(self, current_ship, shot):
@@ -60,7 +60,7 @@ class Validate:
         current_ship['hit_locations'].append([row, column])
         return current_ship
 
-    def is_ship_sunk(self, current_ship, ui):
+    def is_ship_sunk(self, current_ship):
         if len(current_ship['hit_locations']) == current_ship['size']:
             return True
         return False

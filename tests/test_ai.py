@@ -27,7 +27,7 @@ class TestAi(TestCase):
         self.ai.choose_random_spot = MagicMock(return_value=ai_shot)
         self.validate.shot_result = MagicMock(return_value=result)
 
-        self.ai.shoots_at_board(self.human_board, self.ui)
+        self.ai.shoots_at_board(self.human_board)
 
         self.ai.choose_random_spot.assert_called()
         self.human_board.update.assert_called_with(ai_shot, shot_result)
@@ -141,7 +141,7 @@ class TestAi(TestCase):
         board_with_a_hit = self.board_helper.generate_board_with_hit()
         self.board.state = self.board_helper.generate_board_with_ships()
 
-        self.ai.intelligent_shot(self.board, self.ui)
+        self.ai.intelligent_shot(self.board)
         self.assertEqual(self.board.state, board_with_a_hit)
 
     @patch('core.ai.Ai.choose_random_spot', return_value='B1')
@@ -149,5 +149,5 @@ class TestAi(TestCase):
         board_with_a_hit = self.board_helper.generate_board_with_hit()
         self.board.state = self.board_helper.generate_board_with_ships()
         self.maxDiff = None
-        self.ai.random_shot(self.board, self.ui)
+        self.ai.random_shot(self.board)
         self.assertEqual(self.board.state, board_with_a_hit)

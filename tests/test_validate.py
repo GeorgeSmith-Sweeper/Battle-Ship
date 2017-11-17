@@ -91,7 +91,7 @@ class TestValidations(TestCase):
         shot = 'A1'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
-        shot_result = self.validate.shot_result(board, shot, self.ui)
+        shot_result = self.validate.shot_result(board, shot)
         result = (consts.HIT, {'name': 'Aircraft Carrier', 'size': 5, 'hit_locations': [[0, 0]]})
         self.assertEqual(shot_result, result)
 
@@ -100,7 +100,7 @@ class TestValidations(TestCase):
         shot = 'A9'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
-        shot_result = self.validate.shot_result(board, shot, self.ui)
+        shot_result = self.validate.shot_result(board, shot)
         result = (consts.MISS, False)
         self.assertEqual(shot_result, result)
 
@@ -110,7 +110,7 @@ class TestValidations(TestCase):
             'size': 5,
             'hit_locations': [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5]],
         }
-        is_sunk = self.validate.is_ship_sunk(sunken_ship, self.ui)
+        is_sunk = self.validate.is_ship_sunk(sunken_ship)
 
         self.assertEqual(is_sunk, True)
 
@@ -121,7 +121,7 @@ class TestValidations(TestCase):
             'hit_locations': [],
         }
 
-        self.assertFalse(self.validate.is_ship_sunk(ship_with_no_hits, self.ui))
+        self.assertFalse(self.validate.is_ship_sunk(ship_with_no_hits))
 
     def test_when_a_ship_is_hit_it_stores_the_location_of_the_hit(self):
         current_ship = {
