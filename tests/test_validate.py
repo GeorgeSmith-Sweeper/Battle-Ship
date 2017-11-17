@@ -91,10 +91,10 @@ class TestValidations(TestCase):
         ship_hit_msg = 'You hit the Aircraft Carrier!'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
-        is_hit = self.validate.hit_ship(board, shot, self.ui)
+        shot_result = self.validate.shot_result(board, shot, self.ui)
 
         self.ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(is_hit, 'Hit')
+        self.assertEqual(shot_result, 'Hit')
 
     def test_missing_a_ship_displays_miss_msg_and_returns_str_Miss(self):
         self.ui.display = MagicMock()
@@ -102,10 +102,10 @@ class TestValidations(TestCase):
         ship_hit_msg = 'Miss!'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
-        is_hit = self.validate.hit_ship(board, shot, self.ui)
+        shot_result = self.validate.shot_result(board, shot, self.ui)
 
         self.ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(is_hit, 'Miss')
+        self.assertEqual(shot_result, 'Miss')
 
     def test_ship_is_sunk_when_len_hit_locations_equals_ship_size(self):
         sunken_ship = {

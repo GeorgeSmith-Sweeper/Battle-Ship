@@ -29,7 +29,7 @@ class TestAi(TestCase):
         self.ai.shoots_at_board(self.human_board, self.ui)
 
         self.ai.choose_random_spot.assert_called()
-        self.human_board.update.assert_called_with(ai_shot, self.validate.hit_ship(self.human_board, ai_shot, self.ui))
+        self.human_board.update.assert_called_with(ai_shot, self.validate.shot_result(self.human_board, ai_shot, self.ui))
 
     def test_room_from_top_edge_returns_True_if_spot_is_not_on_the_edge(self):
         row = '2'

@@ -1,17 +1,17 @@
-from helpers.constants import COMP_WIN_MSG, HUMAN_WIN_MSG, WELCOME_MSG, INSTRUCTIONS, MISS, HIT, SUNK
+import helpers.constants as consts
 
 
 class TerminalUi:
 
     def __init__(self):
-        self.REDBGCOLOR = '\033[41m'
-        self.ENDCOLOR = '\033[0m'
-        self.MAGENTA = '\033[35m'
-        self.CYAN = '\033[36m'
-        self.COMP_WIN_MSG = COMP_WIN_MSG
-        self.HUMAN_WIN_MSG = HUMAN_WIN_MSG
-        self.WELCOME_MSG = WELCOME_MSG
-        self.INSTRUCTIONS = INSTRUCTIONS
+        self.COMP_WIN_MSG = consts.COMP_WIN_MSG
+        self.HUMAN_WIN_MSG = consts.HUMAN_WIN_MSG
+        self.WELCOME_MSG = consts.WELCOME_MSG
+        self.INSTRUCTIONS = consts.INSTRUCTIONS
+        self.HIT_MARKER = consts.HIT_MARKER
+        self.MISS_MARKER = consts.MISS_MARKER
+        self.SUNK_MARKER = consts.SUNK_MARKER
+        self.BLANK_SPACE = consts.BLANK_SPACE
 
     def display(self, message):
         print(message)
@@ -26,27 +26,31 @@ class TerminalUi:
         else:
             return str(row_int + 1) + ' '
 
-    def miss_marker(self):
-        return '[' + self.MAGENTA + 'M' + self.ENDCOLOR + ']'
+    def spot_value(self, board, row, column):
+        return board.state[row][column]
 
-    def hit_marker(self):
-        return '[' + self.CYAN + 'H' + self.ENDCOLOR + ']'
+    def is_space_blank(self, spot_value, board):
+        return spot_value is None or spot_value in board.all_ships
 
-    def sunk_marker(self):
-        return self.REDBGCOLOR + '[S]' + self.ENDCOLOR
+    def is_space_miss(self, spot_value):
+        return spot_value == consts.MISS
 
-    def blank_space(self):
-        return '[ ]'
+    def is_space_hit(self, spot_value):
+        return spot_value == consts.HIT
+
+    def is_space_sunk(self, spot_value):
+        return spot_value == consts.SUNK
 
     def add_shot_marker(self, board, row, column):
-        if board.state[row][column] is None or board.state[row][column] in board.all_ships:
-            return self.blank_space()
-        if board.state[row][column] == MISS:
-            return self.miss_marker()
-        if board.state[row][column] == HIT:
-            return self.hit_marker()
-        if board.state[row][column] == SUNK:
-            return self.sunk_marker()
+        spot_value = self.spot_value(board, row, column)
+        if self.is_space_blank(spot_value, board):
+            return self.BLANK_SPACE
+        if self.is_space_miss(spot_value):
+            return self.MISS_MARKER
+        if self.is_space_hit(spot_value):
+            return self.HIT_MARKER
+        if self.is_space_sunk(spot_value):
+            return self.SUNK_MARKER
 
     def terminal_board(self, board):
         formatted_board = '\n' + '    A  B  C  D  E  F  G  H  I  J'
