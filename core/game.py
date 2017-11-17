@@ -26,6 +26,7 @@ class Game:
             if all_sunk is True:
                 self.ui.display(self.ui.HUMAN_WIN_MSG)
                 break
+            # Computer Turn
             shot_result, current_ship = self.ai.shoots_at_board(self.human_board)
             self.ui.display(self.ui.ship_messages(shot_result, current_ship))
             self.ui.display(self.ui.terminal_board(self.human_board))
