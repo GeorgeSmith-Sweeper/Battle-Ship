@@ -33,7 +33,7 @@ class Ai:
     def bottom_spot_coordinates(self, row, column, offset):
         return column + self.row_nums[self.row_nums.index(row) + offset]
 
-    def right_spot_coordinates(self, column, row, offset):
+    def right_spot_coordinates(self, row, column, offset):
         return self.col_lets[self.col_lets.index(column) + offset] + row
 
     def legal_space(self, spot):
@@ -57,8 +57,8 @@ class Ai:
 
     def get_spot_to_right(self, column, row, human_board_state):
         if self.room_from_right_edge(column, human_board_state):
-            return self.legal_space(self.right_spot_coordinates(column, row, 1))
-        return self.legal_space(self.right_spot_coordinates(column, row, 0))
+            return self.legal_space(self.right_spot_coordinates(row, column, 1))
+        return self.legal_space(self.right_spot_coordinates(row, column, 0))
 
     def remove_none_from_list(self, spots_list):
         return list(filter(lambda ele: ele is not None, spots_list))

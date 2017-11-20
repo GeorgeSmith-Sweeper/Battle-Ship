@@ -37,7 +37,6 @@ class Validate:
             current_spot = self.get_current_spot(board.state, user_shot_choice)
         return user_shot_choice
 
-    # Test
     def hit_ship(self, ship, spot_choice):
         current_ship = self.store_hits(ship, spot_choice)
         if self.is_ship_sunk(current_ship):
