@@ -37,6 +37,13 @@ class Validate:
             current_spot = self.get_current_spot(board.state, user_shot_choice)
         return user_shot_choice
 
+    def store_hits(self, current_ship, shot):
+        user_let, user_num = self.split_user_shot(shot)
+        row = self.rows[user_num]
+        column = self.columns[user_let]
+        current_ship['hit_locations'].append([row, column])
+        return current_ship
+
     def hit_ship(self, ship, spot_choice):
         current_ship = self.store_hits(ship, spot_choice)
         if self.is_ship_sunk(current_ship):
@@ -49,13 +56,6 @@ class Validate:
             ship = current_spot
             return self.hit_ship(ship, user_shot_choice)
         return consts.MISS, False
-
-    def store_hits(self, current_ship, shot):
-        user_let, user_num = self.split_user_shot(shot)
-        row = self.rows[user_num]
-        column = self.columns[user_let]
-        current_ship['hit_locations'].append([row, column])
-        return current_ship
 
     def is_ship_sunk(self, current_ship):
         if len(current_ship['hit_locations']) == current_ship['size']:
