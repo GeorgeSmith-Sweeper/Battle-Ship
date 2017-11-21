@@ -111,7 +111,7 @@ class TestValidations(TestCase):
             'size': 5,
             'hit_locations': [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5]],
         }
-        is_sunk = self.validate.is_ship_sunk(sunken_ship)
+        is_sunk = self.validate._is_ship_sunk(sunken_ship)
 
         self.assertEqual(is_sunk, True)
 
@@ -122,7 +122,7 @@ class TestValidations(TestCase):
             'hit_locations': [],
         }
 
-        self.assertFalse(self.validate.is_ship_sunk(ship_with_no_hits))
+        self.assertFalse(self.validate._is_ship_sunk(ship_with_no_hits))
 
     def test_when_a_ship_is_hit_it_stores_the_location_of_the_hit(self):
         current_ship = {
@@ -137,4 +137,4 @@ class TestValidations(TestCase):
         }
         shot = 'A1'
 
-        self.assertEqual(self.validate.store_hits(current_ship, shot), ship_after_hit)
+        self.assertEqual(self.validate._store_hits(current_ship, shot), ship_after_hit)
