@@ -60,10 +60,19 @@ class Validate:
     def is_ship_sunk(self, current_ship):
         return len(current_ship['hit_locations']) == current_ship['size']
 
+    '''
     def all_ships_sunk(self, board):
         all_sunk = True
         for row in board.state:
             for ele in row:
                 if ele in board.all_ships:
                     return False
+        return all_sunk
+    '''
+
+    def all_ships_sunk(self, board):
+        all_sunk = True
+        for ship in board.all_ships:
+            if self.is_ship_sunk(ship) is False:
+                return False
         return all_sunk

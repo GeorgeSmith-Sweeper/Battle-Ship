@@ -78,7 +78,8 @@ class TestValidations(TestCase):
 
     def test_all_ships_sunk_returns_True_if_there_are_no_ships_left(self):
         full_board = self.board_helper.generate_full_board()
-        board = MagicMock(state=full_board, all_ships=self.board.all_ships)
+        all_sunken_ships = self.board_helper.generate_sunken_ships()
+        board = MagicMock(state=full_board, all_ships=all_sunken_ships)
         self.assertEqual(self.validate.all_ships_sunk(board), True)
 
     def test_all_ships_sunk_returns_False_if_there_are_ships_left(self):

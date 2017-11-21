@@ -126,3 +126,41 @@ class BoardHelper:
             [None, None, None, None, None, None, None, None, None, None],
         ]
         return board_with_a_sunken_ship
+
+    def generate_sunken_ships(self):
+        x = 'x'
+        aircraft_carrier = {
+            'name': 'Aircraft Carrier',
+            'size': 5,
+            'hit_locations': [x, x, x, x, x],
+        }
+        battleship = {
+            'name': 'Battleship',
+            'size': 4,
+            'hit_locations': [x, x, x, x],
+        }
+        cruiser = {
+            'name': 'Cruiser',
+            'size': 3,
+            'hit_locations': [x, x, x],
+        }
+        submarine = {
+            'name': 'Submarine',
+            'size': 3,
+            'hit_locations': [x, x, x],
+        }
+        destroyer = {
+            'name': 'Destroyer',
+            'size': 2,
+            'hit_locations': [x, x],
+        }
+
+        all_sunken_ships = [
+            aircraft_carrier,
+            battleship,
+            cruiser,
+            submarine,
+            destroyer,
+        ]
+
+        return all_sunken_ships
