@@ -78,3 +78,24 @@ class TestPlace(TestCase):
 
         self.assertEqual(row_coordinate, 0)
         self.assertEqual(column_coordinate, 2)
+
+    @patch('core.placement.Place.get_random_row_and_column', side_effect=[(0, 2), (0, 3)])
+    def test_if_ships_will_not_hang_off_the_edge(self, mock_coordinates):
+        ship_size = 5
+        self.board.state = [
+            ['ship', 'ship', None, None, 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+            ['ship', 'ship', None, None, 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+            ['ship', 'ship', None, None, 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+            ['ship', 'ship', None, None, 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+            ['ship', 'ship', 'ship', None, 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+            ['ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+            ['ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+            ['ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+            ['ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+            ['ship', 'ship', None, 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+        ]
+
+        row_coordinate, column_coordinate = self.place.find_space_in_column(self.board.state, ship_size)
+
+        self.assertEqual(row_coordinate, 0)
+        self.assertEqual(column_coordinate, 3)
