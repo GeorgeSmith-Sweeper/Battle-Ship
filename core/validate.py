@@ -67,5 +67,5 @@ class Validate:
         for row in board.state:
             for ele in row:
                 if ele in board.all_ships:
-                    return False
+                   return False
         return all_sunk

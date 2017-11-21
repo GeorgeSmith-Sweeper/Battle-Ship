@@ -13,7 +13,7 @@ class Place:
         return row_int, col_int
 
     def _are_spaces_open(self, location):
-        return all([spot is None for spot in location])
+        return all([spot == None for spot in location])
 
     def _is_ship_too_long(self, start, ship_size, board_state):
         return (start + ship_size) > len(board_state)
@@ -23,9 +23,10 @@ class Place:
 
     def find_space_in_row(self, board_state, ship_size, result=''):
         ship_fits = result
-        while ship_fits is not True:
+        while ship_fits != True:
             row_int, col_int = self.get_random_row_and_column(board_state)
             requested_row = board_state[row_int]
+            print('requested row: ', requested_row, ship_size)
             slice_of_row = self._location_for_ship(requested_row, row_int, ship_size)
             ship_fits = self._are_spaces_open(slice_of_row)
             if (col_int + ship_size) > len(board_state):
@@ -34,7 +35,7 @@ class Place:
 
     def find_space_in_column(self, board_state, ship_size, result=''):
         ship_fits = result
-        while ship_fits is not True:
+        while ship_fits != True:
             row_int, col_int = self.get_random_row_and_column(board_state)
             requested_col = [sub_list[col_int] for sub_list in board_state]
             slice_of_col = self._location_for_ship(requested_col, row_int, ship_size)
