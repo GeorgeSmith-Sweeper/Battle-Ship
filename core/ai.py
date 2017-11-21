@@ -88,6 +88,7 @@ class Ai:
         if shot_result == HIT:
             self.get_surrounding_spots(shot_location, human_board.state)
 
+    ''' 
     def intelligent_shot(self, human_board):
         smart_spot = self.next_shots_list.pop()
         shot_result, current_ship = self.validate.shot_result(human_board, smart_spot)
@@ -105,8 +106,26 @@ class Ai:
         self._remove_duplicated_spots(random_spot, self.next_shots_list)
         self._remove_spot_from_choices(random_spot)
         return shot_result, current_ship
+    '''
 
+    def unified_shot(self, human_board, spot):
+        shot_result, current_ship = self.validate.shot_result(human_board, spot)
+        self._plan_next_moves(shot_result, spot, human_board)
+        human_board.update(spot, shot_result)
+        self._remove_duplicated_spots(spot, self.next_shots_list)
+        self._remove_spot_from_choices(spot)
+        return shot_result, current_ship
+
+    def shoots_at_board(self, human_board):
+        if len(self.next_shots_list) > 0:
+            smart_spot = self.next_shots_list.pop()
+            return self.unified_shot(human_board, smart_spot)
+        random_spot = self.choose_random_spot()
+        return self.unified_shot(human_board, random_spot)
+
+    ''' 
     def shoots_at_board(self, human_board):
         if len(self.next_shots_list) > 0:
             return self.intelligent_shot(human_board)
         return self.random_shot(human_board)
+    '''

@@ -136,6 +136,25 @@ class TestAi(TestCase):
 
         self.assertIn(random_spot, all_spots_list)
 
+    def test_unified_shot_updates_the_board_with_shots_from_nxt_shot_list(self):
+        self.ai.next_shots_list = ['B1']
+        spot = 'B1'
+        board_with_a_hit = self.board_helper.generate_board_with_hit()
+        self.board.state = self.board_helper.generate_board_with_ships()
+        self.ai.unified_shot(self.board, spot)
+
+        self.assertEqual(self.board.state, board_with_a_hit)
+
+    @patch('core.ai.Ai.choose_random_spot', return_value='B1')
+    def test_unified_shot_updates_the_board_with_a_random_shot(self, mock):
+        board_with_a_hit = self.board_helper.generate_board_with_hit()
+        self.board.state = self.board_helper.generate_board_with_ships()
+        random_spot = 'B1'
+        self.ai.unified_shot(self.board, random_spot)
+
+        self.assertEqual(self.board.state, board_with_a_hit)
+
+    '''
     def test_intelligent_shot_updates_the_board_with_shots_from_nxt_shot_list(self):
         self.ai.next_shots_list = ['B1']
         board_with_a_hit = self.board_helper.generate_board_with_hit()
@@ -151,3 +170,4 @@ class TestAi(TestCase):
         self.ai.random_shot(self.board)
 
         self.assertEqual(self.board.state, board_with_a_hit)
+    '''
