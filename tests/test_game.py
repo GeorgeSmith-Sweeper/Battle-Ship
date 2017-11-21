@@ -36,7 +36,7 @@ class TestPlayGame(TestCase):
         validate.all_ships_sunk = MagicMock()
         validate.side_effect = [False, True]
         validate.shot_result = MagicMock(return_value=('Hit', current_ship))
-        ai.shoots_at_board = MagicMock(return_value=('Hit', current_ship))
+        ai.shoot_at_board = MagicMock(return_value=('Hit', current_ship))
         ui.get_input = MagicMock(return_value=user_shot_choice)
         ui.display = MagicMock()
         ui.terminal_board = MagicMock()
@@ -50,4 +50,4 @@ class TestPlayGame(TestCase):
         validate.shot_result(comp_board, user_shot_choice, ui)
         comp_board.update.assert_called_with(user_shot_choice, shot_result)
         validate.all_ships_sunk.assert_called()
-        ai.shoots_at_board.assert_called_with(human_board)
+        ai.shoot_at_board.assert_called_with(human_board)
