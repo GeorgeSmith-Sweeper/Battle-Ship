@@ -17,21 +17,20 @@ class Game:
         self.human_board.add_to_board(self.place, ship_orientation)
 
         while not all_sunk:
+            print(self.comp_board.state)
             self.ui.display(self.ui.terminal_board(self.comp_board))
             user_spot = self.validate.spot_occupied(self.comp_board, self.ui)
-            shot_result, current_ship = self.validate.shot_result(self.comp_board, user_spot, self.ui)
+            shot_result, current_ship = self.validate.shot_result(self.comp_board, user_spot)
             self.comp_board.update(user_spot, shot_result)
             self.ui.display(self.ui.ship_messages(shot_result, current_ship))
             all_sunk = self.validate.all_ships_sunk(self.comp_board)
-
             if all_sunk is True:
                 self.ui.display(self.ui.HUMAN_WIN_MSG)
                 break
-
-            self.ai.shoots_at_board(self.human_board, self.ui)
+            shot_result, current_ship = self.ai.shoots_at_board(self.human_board)
+            self.ui.display(self.ui.ship_messages(shot_result, current_ship))
             self.ui.display(self.ui.terminal_board(self.human_board))
             all_sunk = self.validate.all_ships_sunk(self.human_board)
-
             if all_sunk is True:
                 self.ui.display(self.ui.COMP_WIN_MSG)
                 break

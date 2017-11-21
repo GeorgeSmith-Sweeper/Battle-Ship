@@ -89,63 +89,51 @@ class TestValidations(TestCase):
     def test_hitting_a_ship_displays_msg_and_returns_str_Hit(self):
         self.ui.display = MagicMock()
         shot = 'A1'
-        ship_hit_msg = 'You hit the Aircraft Carrier!'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
-        shot_result = self.validate.shot_result(board, shot, self.ui)
+        shot_result = self.validate.shot_result(board, shot)
         result = (consts.HIT, {'name': 'Aircraft Carrier', 'size': 5, 'hit_locations': [[0, 0]]})
-        self.ui.display.assert_called_with(ship_hit_msg)
         self.assertEqual(shot_result, result)
 
-    def test_missing_a_ship_displays_miss_msg_and_returns_str_Miss(self):
+    def test_missing_a_ship_returns_str_Miss_and_False(self):
         self.ui.display = MagicMock()
         shot = 'A9'
-        ship_hit_msg = 'Miss!'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
-        shot_result = self.validate.shot_result(board, shot, self.ui)
+        shot_result = self.validate.shot_result(board, shot)
         result = (consts.MISS, False)
-        self.ui.display.assert_called_with(ship_hit_msg)
         self.assertEqual(shot_result, result)
 
     def test_ship_is_sunk_when_len_hit_locations_equals_ship_size(self):
         sunken_ship = {
             'name': 'Aircraft Carrier',
             'size': 5,
-            'sunk': True,
             'hit_locations': [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5]],
         }
+        is_sunk = self.validate.is_ship_sunk(sunken_ship)
 
-        self.ui.display = MagicMock()
-        ship_sunk_msg = 'You sunk the Aircraft Carrier!'
-        is_sunk = self.validate.is_ship_sunk(sunken_ship, self.ui)
-
-        self.ui.display.assert_called_with(ship_sunk_msg)
         self.assertEqual(is_sunk, True)
 
     def test_ship_is_not_sunk_when_len_hit_locations_doesnt_equal_ship_size(self):
         ship_with_no_hits = {
             'name': 'Aircraft Carrier',
             'size': 5,
-            'sunk': False,
             'hit_locations': [],
         }
 
-        self.assertFalse(self.validate.is_ship_sunk(ship_with_no_hits, self.ui))
+        self.assertFalse(self.validate.is_ship_sunk(ship_with_no_hits))
 
     def test_when_a_ship_is_hit_it_stores_the_location_of_the_hit(self):
         current_ship = {
             'name': 'Aircraft Carrier',
             'size': 5,
-            'sunk': False,
             'hit_locations': [],
         }
-
         ship_after_hit = {
             'name': 'Aircraft Carrier',
             'size': 5,
-            'sunk': False,
             'hit_locations': [[0, 0]]
         }
         shot = 'A1'
+
         self.assertEqual(self.validate.store_hits(current_ship, shot), ship_after_hit)
