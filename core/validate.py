@@ -58,9 +58,7 @@ class Validate:
         return consts.MISS, False
 
     def is_ship_sunk(self, current_ship):
-        if len(current_ship['hit_locations']) == current_ship['size']:
-            return True
-        return False
+        return len(current_ship['hit_locations']) == current_ship['size']
 
     def all_ships_sunk(self, board):
         all_sunk = True
