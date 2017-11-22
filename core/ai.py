@@ -12,28 +12,28 @@ class Ai:
         self.all_spots = [(let + num) for let in self.col_lets for num in self.row_nums]
         self.next_shots_list = []
 
-    def room_from_top_edge(self, row):
+    def _room_from_top_edge(self, row):
         return (self.row_nums.index(row) - 1) >= 0
 
-    def room_from_left_edge(self, column):
+    def _room_from_left_edge(self, column):
         return (self.col_lets.index(column) - 1) >= 0
 
-    def room_from_bottom_edge(self, row, human_board_state):
+    def _room_from_bottom_edge(self, row, human_board_state):
         return (self.row_nums.index(row) + 1) < len(human_board_state)
 
-    def room_from_right_edge(self, column, human_board_state):
+    def _room_from_right_edge(self, column, human_board_state):
         return (self.col_lets.index(column) + 1) < len(human_board_state)
 
-    def top_spot_coordinates(self, row, column, offset):
+    def _top_spot_coordinates(self, row, column, offset):
         return column + self.row_nums[self.row_nums.index(row) - offset]
 
-    def bottom_spot_coordinates(self, row, column, offset):
+    def _bottom_spot_coordinates(self, row, column, offset):
         return column + self.row_nums[self.row_nums.index(row) + offset]
 
-    def left_spot_coordinates(self, row, column, offset):
+    def _left_spot_coordinates(self, row, column, offset):
         return self.col_lets[self.col_lets.index(column) - offset] + row
 
-    def right_spot_coordinates(self, row, column, offset):
+    def _right_spot_coordinates(self, row, column, offset):
         return self.col_lets[self.col_lets.index(column) + offset] + row
 
     def _legal_space(self, spot):
@@ -41,24 +41,24 @@ class Ai:
             return spot
 
     def _get_spot_above(self, column, row):
-        if self.room_from_top_edge(row):
-            spot_above = self.top_spot_coordinates(row, column, 1)
+        if self._room_from_top_edge(row):
+            spot_above = self._top_spot_coordinates(row, column, 1)
             return self._legal_space(spot_above)
 
     def _get_spot_to_left(self, column, row):
-        if self.room_from_left_edge(column):
-            spot_to_left = self.left_spot_coordinates(row, column, 1)
+        if self._room_from_left_edge(column):
+            spot_to_left = self._left_spot_coordinates(row, column, 1)
             return self._legal_space(spot_to_left)
 
     def _get_spot_below(self, column, row, human_board_state):
-        if self.room_from_bottom_edge(row, human_board_state):
-            return self._legal_space(self.bottom_spot_coordinates(row, column, 1))
-        return self._legal_space(self.bottom_spot_coordinates(row, column, 0))
+        if self._room_from_bottom_edge(row, human_board_state):
+            return self._legal_space(self._bottom_spot_coordinates(row, column, 1))
+        return self._legal_space(self._bottom_spot_coordinates(row, column, 0))
 
     def _get_spot_to_right(self, column, row, human_board_state):
-        if self.room_from_right_edge(column, human_board_state):
-            return self._legal_space(self.right_spot_coordinates(row, column, 1))
-        return self._legal_space(self.right_spot_coordinates(row, column, 0))
+        if self._room_from_right_edge(column, human_board_state):
+            return self._legal_space(self._right_spot_coordinates(row, column, 1))
+        return self._legal_space(self._right_spot_coordinates(row, column, 0))
 
     def _remove_none_from_list(self, spots_list):
         return list(filter(lambda ele: ele is not None, spots_list))
