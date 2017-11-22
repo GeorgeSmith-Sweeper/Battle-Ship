@@ -40,7 +40,7 @@ class Board:
             self.destroyer,
         ]
 
-    def update_spot_to_sunk(self, y_coordinate, x_coordinate):
+    def _update_spot_to_sunk(self, y_coordinate, x_coordinate):
         for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:
             row = each_hit[0]
             column = each_hit[1]
@@ -57,46 +57,25 @@ class Board:
         elif shot_result == MISS:
             self.state[y_coordinate][x_coordinate] = MISS
         else:
-            self.update_spot_to_sunk(y_coordinate, x_coordinate)
+            self._update_spot_to_sunk(y_coordinate, x_coordinate)
 
-    def add_ship_to_row(self, ship, place):
-        row_int, col_int = place.find_space_in_row(self.state, ship['size'])
+    def _add_ship_to_row(self, ship, place, row_int, col_int):
         for ele in range(ship['size']):
             self.state[row_int][ele - (len(self.state) - col_int)] = ship
 
-    def add_ship_to_column(self, ship, place):
-        row_int, col_int = place.find_space_in_column(self.state, ship['size'])
+    def _add_ship_to_column(self, ship, place, row_int, col_int):
         for ele in range(ship['size']):
             self.state[ele - (len(self.state) - row_int)][col_int] = ship
 
-    def add_to_board(self, place, ship_orientation):
-        orientation = ship_orientation
-        for ship in self.all_ships:
-            if orientation == 'row':
-                self.add_ship_to_row(ship, place)
-            else:
-                self.add_ship_to_column(ship, place)
-            orientation = 'column' if orientation == 'row' else 'row'
-    #######
-    '''
-    def add_ship_to_row(self, ship, place, row_int, col_int):
-        for ele in range(ship['size']):
-            self.state[row_int][ele - (len(self.state) - col_int)] = ship
-
-    def add_ship_to_column(self, ship, place, row_int, col_int):
-        for ele in range(ship['size']):
-            self.state[ele - (len(self.state) - row_int)][col_int] = ship
-
-    def add_ship(self, orientation, ship, place):
+    def _add_ship(self, orientation, ship, place):
         row_int, col_int = place.find_space_for_ship(self.state, ship['size'], orientation)
-        if orientation = 'row':
-            self.add_ship_to_row(ship, place, row_int, col_int)
+        if orientation == 'row':
+            self._add_ship_to_row(ship, place, row_int, col_int)
         else:
-            self.add_ship_to_column(ship, place, row_int, col_int)
+            self._add_ship_to_column(ship, place, row_int, col_int)
 
     def add_to_board(self, place, ship_orientation):
         orientation = ship_orientation
         for ship in self.all_ships:
-            self.add_ship(orientation, ship, place)
+            self._add_ship(orientation, ship, place)
             orientation = 'column' if orientation == 'row' else 'row'
-    '''
