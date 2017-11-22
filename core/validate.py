@@ -11,14 +11,14 @@ class Validate:
         self.columns = consts.COLUMNS
 
     def split_user_shot(self, shot_choice):
-        user_let = shot_choice[0]
+        user_letter = shot_choice[0]
         user_num = shot_choice[1:]
-        return user_let, user_num
+        return user_letter, user_num
 
     def get_current_spot(self, board_state, user_shot_choice):
-        user_let, user_num = self.split_user_shot(user_shot_choice)
+        user_letter, user_num = self.split_user_shot(user_shot_choice)
         row = self.rows[user_num]
-        column = self.columns[user_let]
+        column = self.columns[user_letter]
         return board_state[row][column]
 
     def spot_exists(self, ui):
@@ -38,9 +38,9 @@ class Validate:
         return user_shot_choice
 
     def _store_hits(self, current_ship, shot):
-        user_let, user_num = self.split_user_shot(shot)
+        user_letter, user_num = self.split_user_shot(shot)
         row = self.rows[user_num]
-        column = self.columns[user_let]
+        column = self.columns[user_letter]
         current_ship['hit_locations'].append([row, column])
         return current_ship
 
