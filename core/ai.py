@@ -7,22 +7,22 @@ class Ai:
 
     def __init__(self, validate):
         self.validate = validate
-        self.col_lets = COL_LETS
+        self.col_letters = COL_LETS
         self.row_nums = ROW_NUMS
-        self.all_spots = [(let + num) for let in self.col_lets for num in self.row_nums]
+        self.all_spots = [(letter + num) for letter in self.col_letters for num in self.row_nums]
         self.next_shots_list = []
 
     def _room_from_top_edge(self, row):
         return (self.row_nums.index(row) - 1) >= 0
 
     def _room_from_left_edge(self, column):
-        return (self.col_lets.index(column) - 1) >= 0
+        return (self.col_letters.index(column) - 1) >= 0
 
     def _room_from_bottom_edge(self, row, human_board_state):
         return (self.row_nums.index(row) + 1) < len(human_board_state)
 
     def _room_from_right_edge(self, column, human_board_state):
-        return (self.col_lets.index(column) + 1) < len(human_board_state)
+        return (self.col_letters.index(column) + 1) < len(human_board_state)
 
     def _top_spot_coordinates(self, row, column, offset):
         return column + self.row_nums[self.row_nums.index(row) - offset]
@@ -31,10 +31,10 @@ class Ai:
         return column + self.row_nums[self.row_nums.index(row) + offset]
 
     def _left_spot_coordinates(self, row, column, offset):
-        return self.col_lets[self.col_lets.index(column) - offset] + row
+        return self.col_letters[self.col_letters.index(column) - offset] + row
 
     def _right_spot_coordinates(self, row, column, offset):
-        return self.col_lets[self.col_lets.index(column) + offset] + row
+        return self.col_letters[self.col_letters.index(column) + offset] + row
 
     def _legal_space(self, spot):
         if spot in self.all_spots:
