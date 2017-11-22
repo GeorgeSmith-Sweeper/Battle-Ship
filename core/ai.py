@@ -90,7 +90,6 @@ class Ai:
     def _plan_next_moves(self, shot_result, shot_location, human_board):
         if shot_result == HIT:
             self._get_surrounding_spots(shot_location, human_board.state)
-        return None
 
     def _computer_shot(self, human_board, spot):
         shot_result, current_ship = self.validate.shot_result(human_board, spot)

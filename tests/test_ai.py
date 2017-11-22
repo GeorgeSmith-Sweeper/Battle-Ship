@@ -52,6 +52,14 @@ class TestAi(TestCase):
 
         self.assertFalse(self.ai._room_from_left_edge(column))
 
+    def test_legal_spot_returns_the_spot_if_it_exists(self):
+        spot = 'A1'
+        self.assertEqual(spot, self.ai._legal_space(spot))
+
+    def test_legal_spot_returns_None_if_spot_does_not_exist(self):
+        spot = 'Z1'
+        self.assertEqual(None, self.ai._legal_space(spot))
+
     def test_room_from_bottom_edge_returns_True_if_spot_is_not_on_the_edge(self):
         empty_board = self.board_helper.generate_empty_board()
         self.human_board = MagicMock(state=empty_board)
