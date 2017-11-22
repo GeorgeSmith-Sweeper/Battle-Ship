@@ -4,7 +4,7 @@ import helpers.constants as consts
 class Validate:
 
     def __init__(self):
-        self.col_lets = consts.COL_LETS
+        self.col_letters = consts.COL_LETTERS
         self.row_nums = consts.ROW_NUMS
         self.all_spots = consts.ALL_SPOTS
         self.rows = consts.ROWS

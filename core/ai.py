@@ -1,13 +1,13 @@
 import random
 import copy
-from helpers.constants import COL_LETS, ROW_NUMS, HIT
+from helpers.constants import COL_LETTERS, ROW_NUMS, HIT
 
 
 class Ai:
 
     def __init__(self, validate):
         self.validate = validate
-        self.col_letters = COL_LETS
+        self.col_letters = COL_LETTERS
         self.row_nums = ROW_NUMS
         self.all_spots = [(letter + num) for letter in self.col_letters for num in self.row_nums]
         self.next_shots_list = []

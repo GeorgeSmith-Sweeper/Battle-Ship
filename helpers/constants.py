@@ -23,9 +23,9 @@ COLUMNS = {
     'I': 8,
     'J': 9,
 }
-COL_LETS = [letter for letter in COLUMNS]
+COL_LETTERS = [letter for letter in COLUMNS]
 ROW_NUMS = [number for number in ROWS]
-ALL_SPOTS = [(let + num) for let in COL_LETS for num in ROW_NUMS]
+ALL_SPOTS = [(let + num) for let in COL_LETTERS for num in ROW_NUMS]
 SUNK = 'Sunk'
 HIT = 'Hit'
 MISS = 'Miss'
