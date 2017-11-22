@@ -140,3 +140,41 @@ class TestBoardHelper(TestCase):
         ]
 
         self.assertEqual(self.board_helper.generate_board_with_a_sunken_ship(), board_with_a_sunken_ship)
+
+    def test_generate_sunken_ships(self):
+        x = 'x'
+        aircraft_carrier = {
+            'name': 'Aircraft Carrier',
+            'size': 5,
+            'hit_locations': [x, x, x, x, x],
+        }
+        battleship = {
+            'name': 'Battleship',
+            'size': 4,
+            'hit_locations': [x, x, x, x],
+        }
+        cruiser = {
+            'name': 'Cruiser',
+            'size': 3,
+            'hit_locations': [x, x, x],
+        }
+        submarine = {
+            'name': 'Submarine',
+            'size': 3,
+            'hit_locations': [x, x, x],
+        }
+        destroyer = {
+            'name': 'Destroyer',
+            'size': 2,
+            'hit_locations': [x, x],
+        }
+
+        all_sunken_ships = [
+            aircraft_carrier,
+            battleship,
+            cruiser,
+            submarine,
+            destroyer,
+        ]
+
+        self.assertEqual(self.board_helper.generate_sunken_ships(), all_sunken_ships)

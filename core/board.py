@@ -77,3 +77,26 @@ class Board:
             else:
                 self.add_ship_to_column(ship, place)
             orientation = 'column' if orientation == 'row' else 'row'
+    #######
+    '''
+    def add_ship_to_row(self, ship, place, row_int, col_int):
+        for ele in range(ship['size']):
+            self.state[row_int][ele - (len(self.state) - col_int)] = ship
+
+    def add_ship_to_column(self, ship, place, row_int, col_int):
+        for ele in range(ship['size']):
+            self.state[ele - (len(self.state) - row_int)][col_int] = ship
+
+    def add_ship(self, orientation, ship, place):
+        row_int, col_int = place.find_space_for_ship(self.state, ship['size'], orientation)
+        if orientation = 'row':
+            self.add_ship_to_row(ship, place, row_int, col_int)
+        else:
+            self.add_ship_to_column(ship, place, row_int, col_int)
+
+    def add_to_board(self, place, ship_orientation):
+        orientation = ship_orientation
+        for ship in self.all_ships:
+            self.add_ship(orientation, ship, place)
+            orientation = 'column' if orientation == 'row' else 'row'
+    '''
