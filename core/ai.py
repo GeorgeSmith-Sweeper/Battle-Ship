@@ -39,16 +39,19 @@ class Ai:
     def _legal_space(self, spot):
         if spot in self.all_spots:
             return spot
+        return None
 
     def _get_spot_above(self, column, row):
         if self._room_from_top_edge(row):
             spot_above = self._top_spot_coordinates(row, column, 1)
             return self._legal_space(spot_above)
+        return None
 
     def _get_spot_to_left(self, column, row):
         if self._room_from_left_edge(column):
             spot_to_left = self._left_spot_coordinates(row, column, 1)
             return self._legal_space(spot_to_left)
+        return None
 
     def _get_spot_below(self, column, row, human_board_state):
         if self._room_from_bottom_edge(row, human_board_state):
@@ -87,6 +90,7 @@ class Ai:
     def _plan_next_moves(self, shot_result, shot_location, human_board):
         if shot_result == HIT:
             self._get_surrounding_spots(shot_location, human_board.state)
+        return None
 
     def _computer_shot(self, human_board, spot):
         shot_result, current_ship = self.validate.shot_result(human_board, spot)
