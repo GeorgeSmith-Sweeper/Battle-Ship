@@ -48,3 +48,19 @@ class Place:
             open_spaces = self._are_spaces_open(slice_of_col)
             ship_fits = self._ship_over_edge(row_int, ship_size, board_state, open_spaces)
         return row_int, col_int
+    ########
+    '''
+    def find_space_for_ship(self, board_state, ship_size, orientation, result=''):
+        ship_fits = result
+        requested_location = ""
+        while ship_fits is not True:
+            row_int, col_int = self.get_random_row_and_column(board_state)
+            if orientation == 'row':
+                requested_location = self._get_row(row_int, board_state)
+            else:
+                requested_location = self._get_column(col_int, board_state)
+            slice_of_location = self._location_for_ship(requested_location, row_int, ship_size)
+            open_spaces = self._are_spaces_open(slice_of_location)
+            ship_fits = self._ship_over_edge(row_int, ship_size, board_state, open_spaces)
+        return row_int, col_int
+    '''
