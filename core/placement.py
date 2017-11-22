@@ -42,5 +42,8 @@ class Place:
             requested_location = self._location_type(orientation, row_int, col_int, board_state)
             slice_of_location = self._location_for_ship(requested_location, row_int, ship_size)
             open_spaces = self._are_spaces_open(slice_of_location)
-            ship_fits = self._ship_over_edge(row_int, ship_size, board_state, open_spaces)
+            if orientation == 'row':
+                ship_fits = self._ship_over_edge(col_int, ship_size, board_state, open_spaces)
+            else:
+                ship_fits = self._ship_over_edge(row_int, ship_size, board_state, open_spaces)
         return row_int, col_int
