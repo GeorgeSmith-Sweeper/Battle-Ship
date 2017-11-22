@@ -37,7 +37,6 @@ class Place:
 
     def find_space_for_ship(self, board_state, ship_size, orientation, result=''):
         ship_fits = result
-        requested_location = ""
         while ship_fits is not True:
             row_int, col_int = self.get_random_row_and_column(board_state)
             requested_location = self._location_type(orientation, row_int, col_int, board_state)
