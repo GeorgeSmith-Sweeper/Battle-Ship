@@ -25,6 +25,7 @@ class Game:
             all_sunk = self.validate.all_ships_sunk(self.comp_board)
             if all_sunk is True:
                 self.ui.display(self.ui.HUMAN_WIN_MSG)
+                self.ui.display(self.ui.terminal_board(self.comp_board))
                 break
             shot_result, current_ship = self.ai.shoot_at_board(self.human_board)
             self.ui.display(self.ui.ship_messages(shot_result, current_ship))
@@ -32,4 +33,5 @@ class Game:
             all_sunk = self.validate.all_ships_sunk(self.human_board)
             if all_sunk is True:
                 self.ui.display(self.ui.COMP_WIN_MSG)
+                self.ui.display(self.ui.terminal_board(self.human_board))
                 break
