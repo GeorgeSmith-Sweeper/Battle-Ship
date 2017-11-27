@@ -3,7 +3,7 @@ import random
 
 class Place:
 
-    def get_random_row_and_column(self, board_state):
+    def _get_random_row_and_column(self, board_state):
         row = random.randint(0, (len(board_state) - 1))
         column = random.randint(0, (len(board_state) - 1))
         return row, column
@@ -30,15 +30,17 @@ class Place:
             return self._get_row(row_int, board_state)
         return self._get_column(col_int, board_state)
 
+    def _ship_fits(self, row_int, col_int, ship_size, board_state, open_spaces, orientation):
+        if orientation == 'row':
+            return self._ship_over_edge(col_int, ship_size, board_state, open_spaces)
+        return self._ship_over_edge(row_int, ship_size, board_state, open_spaces)
+
     def find_space_for_ship(self, board_state, ship_size, orientation, result=''):
         ship_fits = result
         while ship_fits is not True:
-            row_int, col_int = self.get_random_row_and_column(board_state)
+            row_int, col_int = self._get_random_row_and_column(board_state)
             requested_location = self._location_type(orientation, row_int, col_int, board_state)
             slice_of_location = self._location_for_ship(requested_location, row_int, ship_size)
             open_spaces = self._are_spaces_open(slice_of_location)
-            if orientation == 'row':
-                ship_fits = self._ship_over_edge(col_int, ship_size, board_state, open_spaces)
-            else:
-                ship_fits = self._ship_over_edge(row_int, ship_size, board_state, open_spaces)
+            ship_fits = self._ship_fits(row_int, col_int, ship_size, board_state, open_spaces, orientation)
         return row_int, col_int
