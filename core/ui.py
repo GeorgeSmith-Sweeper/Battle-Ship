@@ -28,36 +28,35 @@ class TerminalUi:
         response = input(prompt_string)
         return response
 
-    def add_row_number(self, row_int, total_rows):
+    def _add_row_number(self, row_int, total_rows):
         if (row_int + 1) < total_rows:
             return ' ' + str(row_int + 1) + ' '
-        else:
-            return str(row_int + 1) + ' '
+        return str(row_int + 1) + ' '
 
-    def spot_value(self, board, row, column):
+    def _spot_value(self, board, row, column):
         return board.state[row][column]
 
-    def is_space_blank(self, spot_value, board):
+    def _is_space_blank(self, spot_value, board):
         return spot_value is None or spot_value in board.all_ships
 
-    def is_space_miss(self, spot_value):
+    def _is_space_miss(self, spot_value):
         return spot_value == consts.MISS
 
-    def is_space_hit(self, spot_value):
+    def _is_space_hit(self, spot_value):
         return spot_value == consts.HIT
 
-    def is_space_sunk(self, spot_value):
+    def _is_space_sunk(self, spot_value):
         return spot_value == consts.SUNK
 
-    def add_shot_marker(self, board, row, column):
-        spot_value = self.spot_value(board, row, column)
-        if self.is_space_blank(spot_value, board):
+    def _add_shot_marker(self, board, row, column):
+        spot_value = self._spot_value(board, row, column)
+        if self._is_space_blank(spot_value, board):
             return self.BLANK_SPACE
-        if self.is_space_miss(spot_value):
+        if self._is_space_miss(spot_value):
             return self.MISS_MARKER
-        if self.is_space_hit(spot_value):
+        if self._is_space_hit(spot_value):
             return self.HIT_MARKER
-        if self.is_space_sunk(spot_value):
+        if self._is_space_sunk(spot_value):
             return self.SUNK_MARKER
 
     def terminal_board(self, board):
@@ -65,8 +64,8 @@ class TerminalUi:
 
         for row in range(0, len(board.state)):
             formatted_board += '\n'
-            formatted_board += self.add_row_number(row, len(board.state))
+            formatted_board += self._add_row_number(row, len(board.state))
             for column in range(0, len(board.state[row])):
-                formatted_board += self.add_shot_marker(board, row, column)
+                formatted_board += self._add_shot_marker(board, row, column)
         formatted_board += '\n'
         return formatted_board

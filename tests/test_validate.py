@@ -22,9 +22,9 @@ class TestValidations(TestCase):
         self.assertEqual(answer, split_choice)
 
     def test_Validate_is_initialized_with_a_letters_list(self):
-        col_lets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+        col_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
-        self.assertEqual(self.validate.col_lets, col_lets)
+        self.assertEqual(self.validate.col_letters, col_letters)
 
     def test_Validate_is_initialized_with_a_numbers_list(self):
         row_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']

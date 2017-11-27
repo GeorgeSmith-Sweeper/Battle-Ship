@@ -23,9 +23,9 @@ COLUMNS = {
     'I': 8,
     'J': 9,
 }
-COL_LETS = [chr(i) for i in range(ord('A'), ord('J') + 1)]
-ROW_NUMS = [str(i) for i in range(1, 11)]
-ALL_SPOTS = [(let + num) for let in COL_LETS for num in ROW_NUMS]
+COL_LETTERS = [letter for letter in COLUMNS]
+ROW_NUMS = [number for number in ROWS]
+ALL_SPOTS = [(let + num) for let in COL_LETTERS for num in ROW_NUMS]
 SUNK = 'Sunk'
 HIT = 'Hit'
 MISS = 'Miss'
