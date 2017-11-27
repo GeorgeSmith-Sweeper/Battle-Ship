@@ -89,7 +89,7 @@ class TestFormat(TestCase):
         total_rows = 10
         row_number = ' 1 '
 
-        formatted_row_number = self.ui.add_row_number(current_row, total_rows)
+        formatted_row_number = self.ui._add_row_number(current_row, total_rows)
         self.assertEqual(formatted_row_number, row_number)
 
     def test_add_row_numbers_returns_correctly_formats_dbl_digit_rows(self):
@@ -97,7 +97,7 @@ class TestFormat(TestCase):
         total_rows = 10
         row_number = '10 '
 
-        formatted_row_number = self.ui.add_row_number(current_row, total_rows)
+        formatted_row_number = self.ui._add_row_number(current_row, total_rows)
         self.assertEqual(formatted_row_number, row_number)
 
     def test_add_shot_marker_returns_M_when_a_ship_is_missed(self):
@@ -106,7 +106,7 @@ class TestFormat(TestCase):
         column = 0
         board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
         board = MagicMock(state=board_with_hit_and_miss, all_ships=self.board.all_ships)
-        formated_marker = self.ui.add_shot_marker(board, row, column)
+        formated_marker = self.ui._add_shot_marker(board, row, column)
 
         self.assertEqual(formated_marker, missed_marker)
 
@@ -116,7 +116,7 @@ class TestFormat(TestCase):
         column = 0
         board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
         board = MagicMock(state=board_with_hit_and_miss, all_ships=self.board.all_ships)
-        formated_marker = self.ui.add_shot_marker(board, row, column)
+        formated_marker = self.ui._add_shot_marker(board, row, column)
 
         self.assertEqual(formated_marker, hit_marker)
 
@@ -126,7 +126,7 @@ class TestFormat(TestCase):
         column = 0
         board_with_a_sunken_ship = self.board_helper.generate_board_with_a_sunken_ship()
         board = MagicMock(state=board_with_a_sunken_ship, all_ships=self.board.all_ships)
-        formated_marker = self.ui.add_shot_marker(board, row, column)
+        formated_marker = self.ui._add_shot_marker(board, row, column)
 
         self.assertEqual(formated_marker, sunk_marker)
 
