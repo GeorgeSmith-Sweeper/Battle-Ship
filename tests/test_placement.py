@@ -13,10 +13,6 @@ class TestPlace(TestCase):
         self.zero_to_nine_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         self.empty_board = self.board_helper.generate_empty_board()
 
-    def test_create_random_generates_a_num_from_0_to_9(self):
-        random_num = self.place.create_random_num(self.empty_board)
-        self.assertIn(random_num, self.zero_to_nine_list)
-
     def test_get_random_row_and_column_returns_numbers_within_board_size(self):
         row, column = self.place.get_random_row_and_column(self.empty_board)
         self.assertIn(row, self.zero_to_nine_list)

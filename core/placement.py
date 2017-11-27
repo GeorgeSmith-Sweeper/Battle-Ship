@@ -3,14 +3,10 @@ import random
 
 class Place:
 
-    def create_random_num(self, board_state):
-        random_num = random.randint(0, (len(board_state) - 1))
-        return random_num
-
     def get_random_row_and_column(self, board_state):
-        row_int = self.create_random_num(board_state)
-        col_int = self.create_random_num(board_state)
-        return row_int, col_int
+        row = random.randint(0, (len(board_state) - 1))
+        column = random.randint(0, (len(board_state) - 1))
+        return row, column
 
     def _are_spaces_open(self, location):
         return all([spot is None for spot in location])
@@ -32,8 +28,7 @@ class Place:
     def _location_type(self, orientation, row_int, col_int, board_state):
         if orientation == 'row':
             return self._get_row(row_int, board_state)
-        else:
-            return self._get_column(col_int, board_state)
+        return self._get_column(col_int, board_state)
 
     def find_space_for_ship(self, board_state, ship_size, orientation, result=''):
         ship_fits = result
