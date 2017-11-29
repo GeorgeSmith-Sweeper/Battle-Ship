@@ -1,68 +1,96 @@
-import helpers.constants as consts
-
-
 class Validate:
-
     def __init__(self):
-        self.col_letters = consts.COL_LETTERS
-        self.row_nums = consts.ROW_NUMS
-        self.all_spots = consts.ALL_SPOTS
-        self.rows = consts.ROWS
-        self.columns = consts.COLUMNS
-
+        self.col_lets = [chr(i) for i in range(ord('A'), ord('J')+1)]
+        self.row_nums = [str(i) for i in range(1, 11)]
+        self.all_spots = [(let + num) for let in self.col_lets for num in self.row_nums]
+        self.rows = {
+                '1': 0,
+                '2': 1,
+                '3': 2,
+                '4': 3,
+                '5': 4,
+                '6': 5,
+                '7': 6,
+                '8': 7,
+                '9': 8,
+                '10': 9
+                }
+        self.columns = {
+                'A': 0,
+                'B': 1,
+                'C': 2,
+                'D': 3,
+                'E': 4,
+                'F': 5,
+                'G': 6,
+                'H': 7,
+                'I': 8,
+                'J': 9
+                }
+    
     def split_user_shot(self, shot_choice):
-        user_letter = shot_choice[0]
+        user_let = shot_choice[0]
         user_num = shot_choice[1:]
-        return user_letter, user_num
+        return user_let, user_num
 
     def get_current_spot(self, board_state, user_shot_choice):
-        user_letter, user_num = self.split_user_shot(user_shot_choice)
+        user_let, user_num = self.split_user_shot(user_shot_choice)
         row = self.rows[user_num]
-        column = self.columns[user_letter]
+        column = self.columns[user_let]
         return board_state[row][column]
 
     def spot_exists(self, ui):
         user_shot_choice = ui.get_input('>>')
+
         while user_shot_choice not in self.all_spots:
-            ui.display(consts.DOES_NOT_EXIST_MSG)
+            ui.display('Spot does not exist, Try again')
             user_shot_choice = ui.get_input('>>')
         return user_shot_choice
-
+ 
     def spot_occupied(self, board, ui):
         user_shot_choice = self.spot_exists(ui)
         current_spot = self.get_current_spot(board.state, user_shot_choice)
-        while current_spot is not None and current_spot not in board.all_ships:
-            ui.display(consts.OCCUPIED_MSG)
+
+        while current_spot is not None and current_spot not in board.all_ships: 
+            ui.display('That spot is occupied. Pick a different spot')
             user_shot_choice = self.spot_exists(ui)
             current_spot = self.get_current_spot(board.state, user_shot_choice)
         return user_shot_choice
+   
+    def hit_ship(self, board, spot_choice, ui):
+        current_spot = self.get_current_spot(board.state, spot_choice)
+        for ship in range(len(board.all_ships)):
+            if current_spot == board.all_ships[ship]:
+                board.all_ships[ship] = self.store_hits(board.all_ships[ship], spot_choice)
+                if self.is_ship_sunk(board.all_ships[ship], ui):
+                    return 'Sunk'
+                ui.display('You hit the ' + board.all_ships[ship]['name'] + '!')
+                return 'Hit'      
+        ui.display('Miss!')
+        return 'Miss'
 
-    def _store_hits(self, current_ship, shot):
-        user_letter, user_num = self.split_user_shot(shot)
+    def store_hits(self, current_ship, shot):
+        user_let, user_num = self.split_user_shot(shot)
         row = self.rows[user_num]
-        column = self.columns[user_letter]
-        current_ship['hit_locations'].append([row, column])
+        column = self.columns[user_let]
+
+        current_ship['hit_locations'].append([row, column])  
         return current_ship
 
-    def _hit_ship(self, ship, spot_choice):
-        current_ship = self._store_hits(ship, spot_choice)
-        if self._is_ship_sunk(current_ship):
-            return consts.SUNK, current_ship
-        return consts.HIT, current_ship
-
-    def _is_ship_sunk(self, current_ship):
-        return len(current_ship['hit_locations']) == current_ship['size']
-
-    def shot_result(self, board, user_shot_choice):
-        current_spot = self.get_current_spot(board.state, user_shot_choice)
-        if current_spot in board.all_ships:
-            ship = current_spot
-            return self._hit_ship(ship, user_shot_choice)
-        return consts.MISS, False
+    def is_ship_sunk(self, current_ship, ui):
+        if len(current_ship['hit_locations']) == current_ship['size']: 
+            ui.display("You sunk the " + current_ship['name'] + '!')
+            return True
+        return False 
 
     def all_ships_sunk(self, board):
         all_sunk = True
-        for ship in board.all_ships:
-            if self._is_ship_sunk(ship) is False:
-                return False
-        return all_sunk
+        for row in range(0, len(board.state)):
+            for ele in board.state[row]:
+                if ele in board.all_ships:
+                   return False
+        return all_sunk 
+
+        
+
+    
