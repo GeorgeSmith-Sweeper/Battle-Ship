@@ -18,16 +18,14 @@ class Game:
 
         while not all_sunk:
             self.ui.display(self.ui.terminal_board(self.comp_board))
-            user_spot = self.validate.spot_occupied(self.comp_board, self.ui)
-            shot_result, current_ship = self.validate.shot_result(self.comp_board, user_spot)
-            self.comp_board.update(user_spot, shot_result)
+            shot_result, current_ship = self.human_turn(self.comp_board)
             self.ui.display(self.ui.ship_messages(shot_result, current_ship))
             all_sunk = self.validate.all_ships_sunk(self.comp_board)
             if all_sunk is True:
                 self.ui.display(self.ui.HUMAN_WIN_MSG)
                 self.ui.display(self.ui.terminal_board(self.comp_board))
                 break
-            shot_result, current_ship = self.ai.shoot_at_board(self.human_board)
+            shot_result, current_ship = self.computer_turn(self.human_board)
             self.ui.display(self.ui.ship_messages(shot_result, current_ship))
             self.ui.display(self.ui.terminal_board(self.human_board))
             all_sunk = self.validate.all_ships_sunk(self.human_board)
@@ -35,3 +33,16 @@ class Game:
                 self.ui.display(self.ui.COMP_WIN_MSG)
                 self.ui.display(self.ui.terminal_board(self.human_board))
                 break
+
+    def computer_turn(self, board):
+        shot_result, current_ship = self.ai.shoot_at_board(board)
+        return shot_result, current_ship
+
+    def human_turn(self, board):
+        spot = self.ui.get_input('>>')
+        while self.validate.spot_is_legal(board, spot) is False:
+            spot = self.ui.get_input('That spot is invalid. Pick a new location')
+
+        shot_result, current_ship = self.validate.shot_result(board, spot)
+        board.update(spot, shot_result)
+        return shot_result, current_ship
