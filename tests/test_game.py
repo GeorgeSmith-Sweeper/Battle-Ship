@@ -10,6 +10,14 @@ from core.game import Game
 
 
 class TestPlayGame(TestCase):
+    def setUp(self):
+        self.ui = TerminalUi()
+        self.human_board = Board()
+        self.comp_board = Board()
+        self.board_helper = BoardHelper(self.comp_board.all_ships)
+        self.validate = Validate()
+        self.place = Place()
+        self.ai = Ai(self.validate)
 
     def test_play_runs_the_correct_methods(self):
         ui = TerminalUi()
@@ -56,12 +64,19 @@ class TestPlayGame(TestCase):
         ai.shoot_at_board.assert_called_with(human_board)
         ui.terminal_board.assert_called()
         ui.ship_messages.assert_called()
-        
+
     @patch('core.validate.Validate.spot_is_legal', side_effect=[False, True])
-    @patch('core.ui.TerminalUi.get_input', side_effect=['A2'])
-    def test_human_player_returns_the_shot_result_and_ship(self, mocks):
-        board_helper = BoardHelper(comp_board.all_ships)
-        validate = Validate()
-        all_but_one = board_helper.generate_all_but_one()
-        board = MagicMock(state=all_but_one, all_ships=self.board.all_ships)
-        
+    @patch('core.ui.TerminalUi.get_input', side_effect=['A2', 'A1'])
+    def test_human_player_returns_the_shot_result_and_ship(self, mock1, mock2):
+        new_game = Game(self.comp_board, self.human_board, self.ai, self.ui, self.validate, self.place)
+        board_helper = BoardHelper(self.comp_board.all_ships)
+        board_with_ships = board_helper.generate_board_with_ships()
+        board = MagicMock(state=board_with_ships, all_ships=self.comp_board.all_ships)
+        expected_ship = {
+            'name': 'Aircraft Carrier',
+            'size': 5,
+            'hit_locations': [[0, 0]],
+        }
+        expected_shot_result = 'Hit'
+        shot_result, ship = new_game.human_turn(board)
+        self.assertEqual((expected_shot_result, expected_ship), (shot_result, ship))
