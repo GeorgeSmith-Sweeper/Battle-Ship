@@ -41,8 +41,8 @@ class Game:
     def human_turn(self, board):
         spot = self.ui.get_input('>>')
         while self.validate.spot_is_legal(board, spot) is False:
-            spot = self.ui.get_input('That spot is invalid. Pick a new location')
-
+            self.ui.display('That spot is invalid.')
+            spot = self.ui.get_input('>>')
         shot_result, current_ship = self.validate.shot_result(board, spot)
         board.update(spot, shot_result)
         return shot_result, current_ship

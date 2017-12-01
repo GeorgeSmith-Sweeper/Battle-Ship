@@ -36,13 +36,13 @@ class TestValidations(TestCase):
 
         self.assertEqual(self.validate.all_spots, all_spots_list)
 
-    def test_spot_exists_returns_True_if_spot_exists(self, mock):
+    def test_spot_exists_returns_True_if_spot_exists(self):
         user_shot_choice = 'A1'
-        self.assertTrue(self.validate.spot_exists(user_shot_choice))
+        self.assertTrue(self.validate._spot_exists(user_shot_choice))
 
-    def test_spot_exists_returns_False_if_the_spot_is_invalid(self, mocks):
+    def test_spot_exists_returns_False_if_the_spot_is_invalid(self):
         user_shot_choice = 'J4000'
-        self.assertFalse(self.validate.spot_exists(user_shot_choice))
+        self.assertFalse(self.validate._spot_exists(user_shot_choice))
 
     def test_get_current_spot_returns_the_value_of_the_selected_spot_on_the_board(self):
         user_shot_choice = 'A1'
@@ -51,18 +51,18 @@ class TestValidations(TestCase):
         aircraft_carrier = self.board.all_ships[0]
         self.assertEqual(spot_value, aircraft_carrier)
 
-    def test_spot_occupied_returns_False_if_spot_is_not_occupied(self, mock1):
+    def test_spot_occupied_returns_False_if_spot_is_not_occupied(self):
         user_shot_choice = 'A2'
         all_but_one = self.board_helper.generate_all_but_one()
         board = MagicMock(state=all_but_one, all_ships=self.board.all_ships)
 
-        self.assertEqual(False, self.validate.spot_occupied(board, user_shot_choice))
+        self.assertEqual(False, self.validate._spot_occupied(board, user_shot_choice))
 
-    def test_spot_occupied_returns_true_if_spot_is_occupied(self, mock1, mock2):
+    def test_spot_occupied_returns_true_if_spot_is_occupied(self):
         user_shot_choice = 'A1'
         all_but_one = self.board_helper.generate_all_but_one()
         board = MagicMock(state=all_but_one, all_ships=self.board.all_ships)
-        self.validate.spot_occupied(board, user_shot_choice)
+        self.validate._spot_occupied(board, user_shot_choice)
 
     def test_all_ships_sunk_returns_True_if_there_are_no_ships_left(self):
         full_board = self.board_helper.generate_full_board()
@@ -76,7 +76,6 @@ class TestValidations(TestCase):
         self.assertEqual(self.validate.all_ships_sunk(board), False)
 
     def test_hitting_a_ship_displays_msg_and_returns_str_Hit(self):
-        self.ui.display = MagicMock()
         shot = 'A1'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
@@ -85,7 +84,6 @@ class TestValidations(TestCase):
         self.assertEqual(shot_result, result)
 
     def test_missing_a_ship_returns_str_Miss_and_False(self):
-        self.ui.display = MagicMock()
         shot = 'A9'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)

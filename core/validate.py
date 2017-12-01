@@ -21,17 +21,15 @@ class Validate:
         column = self.columns[user_letter]
         return board_state[row][column]
 
-    def spot_exists(self, spot):
+    def _spot_exists(self, spot):
         return spot in self.all_spots
 
-    def spot_occupied(self, board, spot):
+    def _spot_occupied(self, board, spot):
         current_spot = self.get_current_spot(board.state, spot)
         return current_spot is not None and current_spot not in board.all_ships
 
     def spot_is_legal(self, board, spot):
-        if self.spot_exists(spot) is True and self.spot_occupied(board, spot) is False:
-            return True
-        return False
+        return self._spot_exists(spot) is True and self._spot_occupied(board, spot) is False
 
     def _store_hits(self, current_ship, shot):
         user_letter, user_num = self.split_user_shot(shot)
