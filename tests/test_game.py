@@ -65,5 +65,5 @@ class TestPlayGame(TestCase):
             'hit_locations': [[0, 0]],
         }
         expected_shot_result = 'Hit'
-        shot_result, ship = new_game.human_turn(board)
+        shot_result, ship = new_game._human_turn(board)
         self.assertEqual((expected_shot_result, expected_ship), (shot_result, ship))
