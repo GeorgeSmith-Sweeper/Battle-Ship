@@ -28,14 +28,11 @@ class Ai:
     def _room_from_right_edge(self, column, human_board_state):
         return (self.col_letters.index(column) + 1) < len(human_board_state)
 
-    def _top_spot_coordinates(self, row, column, offset):
-        return column + self.row_nums[self.row_nums.index(row) - offset]
-
-    def _bottom_spot_coordinates(self, row, column, offset):
+    def _y_axis_spot_coordinates(self, row, column, offset):
         return column + self.row_nums[self.row_nums.index(row) + offset]
 
     # pass in a negative offset
-    def _adjacent_spot_coordinates(self, row, column, offset):
+    def _x_axis_spot_coordinates(self, row, column, offset):
         return self.col_letters[self.col_letters.index(column) + offset] + row
 
     def _legal_space(self, spot):
@@ -45,24 +42,24 @@ class Ai:
 
     def _get_spot_above(self, column, row):
         if self._room_from_top_edge(row):
-            spot_above = self._top_spot_coordinates(row, column, 1)
+            spot_above = self._y_axis_spot_coordinates(row, column, -1)
             return self._legal_space(spot_above)
         return None
 
     def _get_spot_to_left(self, column, row):
         if self._room_from_left_edge(column):
-            spot_to_left = self._adjacent_spot_coordinates(row, column, -1)
+            spot_to_left = self._x_axis_spot_coordinates(row, column, -1)
             return self._legal_space(spot_to_left)
         return None
 
     def _get_spot_below(self, column, row, human_board_state):
         if self._room_from_bottom_edge(row, human_board_state):
-            return self._legal_space(self._bottom_spot_coordinates(row, column, 1))
-        return self._legal_space(self._bottom_spot_coordinates(row, column, 0))
+            return self._legal_space(self._y_axis_spot_coordinates(row, column, 1))
+        return self._legal_space(self._y_axis_spot_coordinates(row, column, 0))
 
     def _get_spot_to_right(self, column, row, human_board_state):
         if self._room_from_right_edge(column, human_board_state):
-            return self._legal_space(self._adjacent_spot_coordinates(row, column, 1))
+            return self._legal_space(self._x_axis_spot_coordinates(row, column, 1))
         return self._legal_space(self._right_spot_coordinates(row, column, 0))
 
     def _remove_none_from_list(self, spots_list):
