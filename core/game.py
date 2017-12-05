@@ -18,7 +18,7 @@ class Game:
         ship_orientation = 'row'
         self.comp_board.add_to_board(self.place, ship_orientation)
         self.human_board.add_to_board(self.place, ship_orientation)
-
+        # duck typing, instances of terminal_board, boolean comparisons
         while game_over is False:
             self.ui.display(self.ui.terminal_board(self.comp_board))
             shot_result, current_ship = self._human_turn(self.comp_board)
@@ -49,3 +49,6 @@ class Game:
         shot_result, current_ship = self.validate.shot_result(board, spot)
         board.update(spot, shot_result)
         return shot_result, current_ship
+
+    # Think about the notion of a player, and their board.
+    # Keep in in mind, high level!

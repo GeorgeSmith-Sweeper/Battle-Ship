@@ -46,14 +46,14 @@ class Validate:
 
     def _is_ship_sunk(self, current_ship):
         return len(current_ship['hit_locations']) == current_ship['size']
-
+    # null object pattern
     def shot_result(self, board, user_shot_choice):
         current_spot = self.get_current_spot(board.state, user_shot_choice)
         if current_spot in board.all_ships:
             ship = current_spot
             return self._hit_ship(ship, user_shot_choice)
         return consts.MISS, False
-
+    #
     def all_ships_sunk(self, board):
         all_sunk = True
         for ship in board.all_ships:

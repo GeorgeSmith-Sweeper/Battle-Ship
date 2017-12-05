@@ -12,6 +12,10 @@ class Ai:
         self.all_spots = [(letter + num) for letter in self.col_letters for num in self.row_nums]
         self.next_shots_list = []
 
+    # DONT FORGET NULL OBJECTS!
+    # if things are at multiple levels, begin to think about why things are being injected in that way
+    # how can refactoring be made easier by moving abstrations to the same level
+    # think about types. str, int, lists, in the context of abstraction
     def _room_from_top_edge(self, row):
         return (self.row_nums.index(row) - 1) >= 0
 
@@ -30,10 +34,8 @@ class Ai:
     def _bottom_spot_coordinates(self, row, column, offset):
         return column + self.row_nums[self.row_nums.index(row) + offset]
 
-    def _left_spot_coordinates(self, row, column, offset):
-        return self.col_letters[self.col_letters.index(column) - offset] + row
-
-    def _right_spot_coordinates(self, row, column, offset):
+    # pass in a negative offset
+    def _adjacent_spot_coordinates(self, row, column, offset):
         return self.col_letters[self.col_letters.index(column) + offset] + row
 
     def _legal_space(self, spot):
@@ -49,7 +51,7 @@ class Ai:
 
     def _get_spot_to_left(self, column, row):
         if self._room_from_left_edge(column):
-            spot_to_left = self._left_spot_coordinates(row, column, 1)
+            spot_to_left = self._adjacent_spot_coordinates(row, column, -1)
             return self._legal_space(spot_to_left)
         return None
 
@@ -60,7 +62,7 @@ class Ai:
 
     def _get_spot_to_right(self, column, row, human_board_state):
         if self._room_from_right_edge(column, human_board_state):
-            return self._legal_space(self._right_spot_coordinates(row, column, 1))
+            return self._legal_space(self._adjacent_spot_coordinates(row, column, 1))
         return self._legal_space(self._right_spot_coordinates(row, column, 0))
 
     def _remove_none_from_list(self, spots_list):
