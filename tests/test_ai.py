@@ -34,23 +34,27 @@ class TestAi(TestCase):
 
     def test_room_from_top_edge_returns_True_if_spot_is_not_on_the_edge(self):
         row = '2'
+        offset = -1
 
-        self.assertTrue(self.ai._room_from_top_edge(row))
+        self.assertTrue(self.ai._room_from_top_edge(row, offset))
 
     def test_room_from_top_edge_returns_False_if_spot_is_on_the_edge(self):
         row = '1'
+        offset = -1
 
-        self.assertFalse(self.ai._room_from_top_edge(row))
+        self.assertFalse(self.ai._room_from_top_edge(row, offset))
 
     def test_room_from_left_edge_returns_True_if_spot_is_not_on_the_edge(self):
         column = 'B'
+        offset = -1
 
-        self.assertTrue(self.ai._room_from_left_edge(column))
+        self.assertTrue(self.ai._room_from_left_edge(column, offset))
 
     def test_room_from_left_edge_returns_False_if_spot_is_on_the_edge(self):
         column = 'A'
+        offset = -1
 
-        self.assertFalse(self.ai._room_from_left_edge(column))
+        self.assertFalse(self.ai._room_from_left_edge(column, offset))
 
     def test_legal_spot_returns_the_spot_if_it_exists(self):
         spot = 'A1'
@@ -64,29 +68,33 @@ class TestAi(TestCase):
         empty_board = self.board_helper.generate_empty_board()
         self.human_board = MagicMock(state=empty_board)
         row = '9'
+        offset = 1
 
-        self.assertTrue(self.ai._room_from_bottom_edge(row, self.human_board.state))
+        self.assertTrue(self.ai._room_from_bottom_edge(row, self.human_board.state, offset))
 
     def test_room_from_bottom_edge_returns_False_if_spot_is_on_the_edge(self):
         empty_board = self.board_helper.generate_empty_board()
         self.human_board = MagicMock(state=empty_board)
         row = '10'
+        offset = 1
 
-        self.assertFalse(self.ai._room_from_bottom_edge(row, self.human_board.state))
+        self.assertFalse(self.ai._room_from_bottom_edge(row, self.human_board.state, offset))
 
     def test_room_from_right_edge_returns_True_if_spot_is_not_the_end_of_row(self):
         empty_board = self.board_helper.generate_empty_board()
         self.human_board = MagicMock(state=empty_board)
         column = 'I'
+        offset = 1
 
-        self.assertTrue(self.ai._room_from_right_edge(column, self.human_board.state))
+        self.assertTrue(self.ai._room_from_right_edge(column, self.human_board.state, offset))
 
     def test_room_from_right_edge_returns_False_if_spot_is_at_end_of_row(self):
         empty_board = self.board_helper.generate_empty_board()
         self.human_board = MagicMock(state=empty_board)
         column = 'J'
+        offset = 1
 
-        self.assertFalse(self.ai._room_from_right_edge(column, self.human_board.state))
+        self.assertFalse(self.ai._room_from_right_edge(column, self.human_board.state, offset))
 
     def test_get_spot_above_returns_the_space_above_selected_spot(self):
         column = 'B'
