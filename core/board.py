@@ -40,11 +40,11 @@ class Board:
             self.destroyer,
         ]
 
-    def _update_spot_to_sunk(self, y_coordinate, x_coordinate):
-        for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:
-            row = each_hit[0]
-            column = each_hit[1]
-            self.state[row][column] = SUNK
+    def add_to_board(self, place, ship_orientation):
+        orientation = ship_orientation
+        for ship in self.all_ships:
+            self._add_ship(orientation, ship, place)
+            orientation = 'column' if orientation == 'row' else 'row'
 
     def update(self, user_shot_choice, shot_result):
         user_letter = user_shot_choice[0]
@@ -58,6 +58,12 @@ class Board:
             self.state[y_coordinate][x_coordinate] = MISS
         else:
             self._update_spot_to_sunk(y_coordinate, x_coordinate)
+
+    def _update_spot_to_sunk(self, y_coordinate, x_coordinate):
+        for each_hit in self.state[y_coordinate][x_coordinate]['hit_locations']:
+            row = each_hit[0]
+            column = each_hit[1]
+            self.state[row][column] = SUNK
 
     def _add_ship_to_row(self, ship, place, row_int, col_int):
         for ele in range(ship['size']):
@@ -73,9 +79,3 @@ class Board:
             self._add_ship_to_row(ship, place, row_int, col_int)
         else:
             self._add_ship_to_column(ship, place, row_int, col_int)
-
-    def add_to_board(self, place, ship_orientation):
-        orientation = ship_orientation
-        for ship in self.all_ships:
-            self._add_ship(orientation, ship, place)
-            orientation = 'column' if orientation == 'row' else 'row'

@@ -52,9 +52,3 @@ class Game:
 
     # Think about the notion of a player, and their board.
     # Keep in in mind, high level!
-
-
-class Player:
-
-    def shoot():
-        pass

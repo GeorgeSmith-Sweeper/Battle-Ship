@@ -83,12 +83,12 @@ class TestValidations(TestCase):
         result = (consts.HIT, {'name': 'Aircraft Carrier', 'size': 5, 'hit_locations': [[0, 0]]})
         self.assertEqual(shot_result, result)
 
-    def test_missing_a_ship_returns_str_Miss_and_False(self):
+    def test_missing_a_ship_returns_str_Miss_and_None(self):
         shot = 'A9'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
         shot_result = self.validate.shot_result(board, shot)
-        result = (consts.MISS, False)
+        result = (consts.MISS, None)
         self.assertEqual(shot_result, result)
 
     def test_ship_is_sunk_when_len_hit_locations_equals_ship_size(self):
