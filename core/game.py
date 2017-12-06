@@ -20,21 +20,21 @@ class Game:
         self.human_board.add_to_board(self.place, ship_orientation)
         # duck typing, instances of terminal_board, boolean comparisons
         while not game_over:
-            self.ui.display(self.ui.terminal_board(self.comp_board))
+            self.ui.display(self.ui.game_board(self.comp_board))
             shot_result, current_ship = self._human_turn(self.comp_board)
             self.ui.display(self.ui.ship_messages(shot_result, current_ship))
             game_over = self.validate.all_ships_sunk(self.comp_board)
             if game_over:
                 self.ui.display(self.ui.HUMAN_WIN_MSG)
-                self.ui.display(self.ui.terminal_board(self.comp_board))
+                self.ui.display(self.ui.game_board(self.comp_board))
                 break
             shot_result, current_ship = self._computer_turn(self.human_board)
             self.ui.display(self.ui.ship_messages(shot_result, current_ship))
-            self.ui.display(self.ui.terminal_board(self.human_board))
+            self.ui.display(self.ui.game_board(self.human_board))
             game_over = self.validate.all_ships_sunk(self.human_board)
             if game_over:
                 self.ui.display(self.ui.COMP_WIN_MSG)
-                self.ui.display(self.ui.terminal_board(self.human_board))
+                self.ui.display(self.ui.game_board(self.human_board))
                 break
 
     def _computer_turn(self, board):
@@ -52,3 +52,9 @@ class Game:
 
     # Think about the notion of a player, and their board.
     # Keep in in mind, high level!
+
+
+class Player:
+
+    def shoot():
+        pass

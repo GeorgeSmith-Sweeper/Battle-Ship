@@ -13,6 +13,16 @@ class TerminalUi:
         self.SUNK_MARKER = consts.SUNK_MARKER
         self.BLANK_SPACE = consts.BLANK_SPACE
 
+    def game_board(self, board):
+        formatted_board = '\n' + '    A  B  C  D  E  F  G  H  I  J'
+        for row in range(0, len(board.state)):
+            formatted_board += '\n'
+            formatted_board += self._add_row_number(row, len(board.state))
+            for column in range(0, len(board.state[row])):
+                formatted_board += self._add_shot_marker(board, row, column)
+        formatted_board += '\n'
+        return formatted_board
+
     def display(self, message):
         print(message)
 
@@ -58,14 +68,3 @@ class TerminalUi:
             return self.HIT_MARKER
         if self._is_space_sunk(spot_value):
             return self.SUNK_MARKER
-
-    def terminal_board(self, board):
-        formatted_board = '\n' + '    A  B  C  D  E  F  G  H  I  J'
-
-        for row in range(0, len(board.state)):
-            formatted_board += '\n'
-            formatted_board += self._add_row_number(row, len(board.state))
-            for column in range(0, len(board.state[row])):
-                formatted_board += self._add_shot_marker(board, row, column)
-        formatted_board += '\n'
-        return formatted_board

@@ -146,7 +146,7 @@ class TestFormat(TestCase):
 """
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
-        formatted_board = self.ui.terminal_board(board)
+        formatted_board = self.ui.game_board(board)
         self.assertEqual(formatted_board, board_with_hidden_ships)
 
     def test_board_is_formatted_correctly_with_a_sunken_ship(self):
@@ -166,7 +166,7 @@ class TestFormat(TestCase):
 """ % (S, S, S, S, S)
         board_with_sunken_ship = self.board_helper.generate_board_with_a_sunken_ship()
         board = MagicMock(state=board_with_sunken_ship, all_ships=self.board.all_ships)
-        formatted_board = self.ui.terminal_board(board)
+        formatted_board = self.ui.game_board(board)
 
         self.assertEqual(formatted_board, occupied_board)
 
@@ -188,6 +188,6 @@ class TestFormat(TestCase):
 """ % (H, M)
         board_with_hit_and_miss = self.board_helper.generate_board_with_hit_and_miss()
         board = MagicMock(state=board_with_hit_and_miss, all_ships=self.board.all_ships)
-        formatted_board = self.ui.terminal_board(board)
+        formatted_board = self.ui.game_board(board)
 
         self.assertEqual(formatted_board, occupied_board)

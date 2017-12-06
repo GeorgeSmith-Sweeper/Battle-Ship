@@ -39,7 +39,7 @@ class TestPlayGame(TestCase):
         self.ai.shoot_at_board = MagicMock(return_value=('Hit', current_ship))
         self.ui.get_input = MagicMock(return_value=user_shot_choice)
         self.ui.display = MagicMock()
-        self.ui.terminal_board = MagicMock()
+        self.ui.game_board = MagicMock()
         self.ui.ship_messages = MagicMock()
 
         new_game = Game(self.comp_board, self.human_board, self.ai, self.ui, self.validate, self.place)
@@ -50,7 +50,7 @@ class TestPlayGame(TestCase):
         self.comp_board.update.assert_called_with(user_shot_choice, shot_result)
         self.validate.all_ships_sunk.assert_called()
         self.ai.shoot_at_board.assert_called_with(self.human_board)
-        self.ui.terminal_board.assert_called()
+        self.ui.game_board.assert_called()
         self.ui.ship_messages.assert_called()
 
     @patch('core.validate.Validate.spot_is_legal', return_value=True)
