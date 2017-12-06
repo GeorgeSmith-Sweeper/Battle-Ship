@@ -76,7 +76,7 @@ class Ai:
         return location_list.index(orientaion) + offset
 
     def _room_from_top_edge(self, row_str, offset):
-        return (self.row_nums.index(row_str) + offset) >= 0
+        return self._find_index(self.row_nums, row_str, offset) >= 0
 
     def _room_from_left_edge(self, column_str, offset):
         return self._find_index(self.col_letters, column_str, offset) >= 0

@@ -19,12 +19,12 @@ class Game:
         self.comp_board.add_to_board(self.place, ship_orientation)
         self.human_board.add_to_board(self.place, ship_orientation)
         # duck typing, instances of terminal_board, boolean comparisons
-        while game_over is False:
+        while not game_over:
             self.ui.display(self.ui.terminal_board(self.comp_board))
             shot_result, current_ship = self._human_turn(self.comp_board)
             self.ui.display(self.ui.ship_messages(shot_result, current_ship))
             game_over = self.validate.all_ships_sunk(self.comp_board)
-            if game_over is True:
+            if game_over:
                 self.ui.display(self.ui.HUMAN_WIN_MSG)
                 self.ui.display(self.ui.terminal_board(self.comp_board))
                 break
@@ -32,7 +32,7 @@ class Game:
             self.ui.display(self.ui.ship_messages(shot_result, current_ship))
             self.ui.display(self.ui.terminal_board(self.human_board))
             game_over = self.validate.all_ships_sunk(self.human_board)
-            if game_over is True:
+            if game_over:
                 self.ui.display(self.ui.COMP_WIN_MSG)
                 self.ui.display(self.ui.terminal_board(self.human_board))
                 break
@@ -43,7 +43,7 @@ class Game:
 
     def _human_turn(self, board):
         spot = self.ui.get_input(consts.PROMPT)
-        while self.validate.spot_is_legal(board, spot) is False:
+        while not self.validate.spot_is_legal(board, spot):
             self.ui.display(consts.INVALID_SPOT)
             spot = self.ui.get_input(consts.PROMPT)
         shot_result, current_ship = self.validate.shot_result(board, spot)
