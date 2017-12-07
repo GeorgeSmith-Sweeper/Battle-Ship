@@ -20,35 +20,35 @@ class Game:
         self.human_board.add_to_board(self.place, ship_orientation)
         # duck typing, instances of terminal_board, boolean comparisons
         while not game_over:
-            self.ui.display(self.ui.game_board(self.comp_board))
-            shot_result, current_ship = self._human_turn(self.comp_board)
-            self.ui.display(self.ui.ship_messages(shot_result, current_ship))
-            game_over = self.validate.all_ships_sunk(self.comp_board)
-            if game_over:
-                self.ui.display(self.ui.HUMAN_WIN_MSG)
-                self.ui.display(self.ui.game_board(self.comp_board))
+            self._human_turn(self.comp_board)
+            if self._is_game_over(self.comp_board, self.ui.HUMAN_WIN_MSG):
                 break
-            shot_result, current_ship = self._computer_turn(self.human_board)
-            self.ui.display(self.ui.ship_messages(shot_result, current_ship))
-            self.ui.display(self.ui.game_board(self.human_board))
-            game_over = self.validate.all_ships_sunk(self.human_board)
-            if game_over:
-                self.ui.display(self.ui.COMP_WIN_MSG)
-                self.ui.display(self.ui.game_board(self.human_board))
+            self._computer_turn(self.human_board)
+            if self._is_game_over(self.human_board, self.ui.COMP_WIN_MSG):
                 break
 
     def _computer_turn(self, board):
         shot_result, current_ship = self.ai.shoot_at_board(board)
-        return shot_result, current_ship
+        self.ui.display(self.ui.ship_messages(shot_result, current_ship))
+        self.ui.display(self.ui.game_board(self.human_board))
 
     def _human_turn(self, board):
+        self.ui.display(self.ui.game_board(self.comp_board))
         spot = self.ui.get_input(consts.PROMPT)
         while not self.validate.spot_is_legal(board, spot):
             self.ui.display(consts.INVALID_SPOT)
             spot = self.ui.get_input(consts.PROMPT)
         shot_result, current_ship = self.validate.shot_result(board, spot)
+        self.ui.display(self.ui.ship_messages(shot_result, current_ship))
         board.update(spot, shot_result)
         return shot_result, current_ship
+
+    def _is_game_over(self, board, message):
+        if self.validate.all_ships_sunk(board):
+            self.ui.display(message)
+            self.ui.display(self.ui.game_board(board))
+            return True
+        return False
 
     # Think about the notion of a player, and their board.
     # Keep in in mind, high level!

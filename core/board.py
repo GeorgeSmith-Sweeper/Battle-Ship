@@ -53,10 +53,10 @@ class Board:
         x_coordinate = self.columns[user_letter]
 
         if shot_result == HIT:
-            self.state[y_coordinate][x_coordinate] = HIT
-        elif shot_result == MISS:
-            self.state[y_coordinate][x_coordinate] = MISS
-        else:
+            self._update_spot_to_hit(y_coordinate, x_coordinate)
+        if shot_result == MISS:
+            self._update_spot_to_miss(y_coordinate, x_coordinate)
+        if shot_result == SUNK:
             self._update_spot_to_sunk(y_coordinate, x_coordinate)
 
     def _update_spot_to_sunk(self, y_coordinate, x_coordinate):
@@ -64,6 +64,12 @@ class Board:
             row = each_hit[0]
             column = each_hit[1]
             self.state[row][column] = SUNK
+
+    def _update_spot_to_hit(self, y_coordinate, x_coordinate):
+        self.state[y_coordinate][x_coordinate] = HIT
+
+    def _update_spot_to_miss(self, y_coordinate, x_coordinate):
+        self.state[y_coordinate][x_coordinate] = MISS
 
     def _add_ship_to_row(self, ship, place, row_int, col_int):
         for ele in range(ship['size']):
