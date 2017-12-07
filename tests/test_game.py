@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock
 from core.board import Board
 from core.ui import TerminalUi
 from core.validate import Validate
@@ -52,18 +52,3 @@ class TestPlayGame(TestCase):
         self.ai.shoot_at_board.assert_called_with(self.human_board)
         self.ui.game_board.assert_called()
         self.ui.ship_messages.assert_called()
-
-    @patch('core.validate.Validate.spot_is_legal', return_value=True)
-    @patch('core.ui.TerminalUi.get_input', return_value='A1')
-    def test_human_player_returns_the_shot_result_and_ship(self, mock1, mock2):
-        new_game = Game(self.comp_board, self.human_board, self.ai, self.ui, self.validate, self.place)
-        board_with_ships = self.board_helper.generate_board_with_ships()
-        board = MagicMock(state=board_with_ships, all_ships=self.comp_board.all_ships)
-        expected_ship = {
-            'name': 'Aircraft Carrier',
-            'size': 5,
-            'hit_locations': [[0, 0]],
-        }
-        expected_shot_result = 'Hit'
-        shot_result, ship = new_game._human_turn(board)
-        self.assertEqual((expected_shot_result, expected_ship), (shot_result, ship))

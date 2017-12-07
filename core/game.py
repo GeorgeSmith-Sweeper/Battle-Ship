@@ -29,8 +29,8 @@ class Game:
 
     def _computer_turn(self, board):
         shot_result, current_ship = self.ai.shoot_at_board(board)
-        self.ui.display(self.ui.ship_messages(shot_result, current_ship))
         self.ui.display(self.ui.game_board(self.human_board))
+        self.ui.display(self.ui.ship_messages(shot_result, current_ship))
 
     def _human_turn(self, board):
         self.ui.display(self.ui.game_board(self.comp_board))
@@ -41,7 +41,6 @@ class Game:
         shot_result, current_ship = self.validate.shot_result(board, spot)
         self.ui.display(self.ui.ship_messages(shot_result, current_ship))
         board.update(spot, shot_result)
-        return shot_result, current_ship
 
     def _is_game_over(self, board, message):
         if self.validate.all_ships_sunk(board):
@@ -49,6 +48,3 @@ class Game:
             self.ui.display(self.ui.game_board(board))
             return True
         return False
-
-    # Think about the notion of a player, and their board.
-    # Keep in in mind, high level!
