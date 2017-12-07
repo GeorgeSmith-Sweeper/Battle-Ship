@@ -71,17 +71,17 @@ class Board:
     def _update_spot_to_miss(self, y_coordinate, x_coordinate):
         self.state[y_coordinate][x_coordinate] = MISS
 
-    def _add_ship_to_row(self, ship, place, row_int, col_int):
+    def _add_ship_to_row(self, ship, row_int, col_int):
         for ele in range(ship['size']):
             self.state[row_int][ele - (len(self.state) - col_int)] = ship
 
-    def _add_ship_to_column(self, ship, place, row_int, col_int):
+    def _add_ship_to_column(self, ship, row_int, col_int):
         for ele in range(ship['size']):
             self.state[ele - (len(self.state) - row_int)][col_int] = ship
 
     def _add_ship(self, orientation, ship, place):
         row_int, col_int = place.find_space_for_ship(self.state, ship['size'], orientation)
         if orientation == 'row':
-            self._add_ship_to_row(ship, place, row_int, col_int)
+            self._add_ship_to_row(ship, row_int, col_int)
         else:
-            self._add_ship_to_column(ship, place, row_int, col_int)
+            self._add_ship_to_column(ship, row_int, col_int)
