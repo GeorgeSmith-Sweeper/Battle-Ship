@@ -37,21 +37,6 @@ class Ai:
         if shot_result == HIT:
             self._get_surrounding_spots(shot_location, board)
 
-    def _get_spot(self, row, column, direction, offset, column_offset, check_offset, board, axis):
-        if self._room_around_space(direction, check_offset, board, axis):
-            spot = self._get_coordinates(row, column, offset, self.row_nums, self.col_letters, column_offset)
-            spot = self._legal_space(spot)
-        else:
-            spot = None
-        return spot
-
-    def _room_around_space(self, spot, offset, board, axis):
-        index = self._find_index(axis, spot, offset)
-        return index >= 0 and index < len(board.state)
-
-    def _get_coordinates(self, row_str, column_str, offset, row_nums, col_letters, column_offset):
-        return col_letters[self._find_index(col_letters, column_str, column_offset)] + row_nums[self._find_index(row_nums, row_str, offset)]
-
     def _get_surrounding_spots(self, selected_spot, board):
         letter, num = self.validate.split_user_shot(selected_spot)
 
@@ -63,8 +48,25 @@ class Ai:
         gathered_spots = list((spot_above, spot_below, spot_left, spot_right))
         self.next_shots_list.extend(self._remove_none_from_list(gathered_spots))
 
-    def _find_index(self, location_list, spot, offset):
-        return location_list.index(spot) + offset
+    def _get_spot(self, row, column, direction, offset, column_offset, check_offset, board, marker_list):
+        if self._room_around_space(direction, check_offset, board, marker_list):
+            spot = self._get_coordinates(row, column, offset, column_offset)
+            spot = self._legal_space(spot)
+        else:
+            spot = None
+        return spot
+
+    def _room_around_space(self, spot, offset, board, marker_list):
+        index = self._find_index(marker_list, spot, offset)
+        return index >= 0 and index < len(board.state)
+
+    def _get_coordinates(self, row, column, offset, column_offset):
+        letter = self.col_letters[self._find_index(self.col_letters, column, column_offset)]
+        num = self.row_nums[self._find_index(self.row_nums, row, offset)]
+        return letter + num
+
+    def _find_index(self, marker_list, spot, offset):
+        return marker_list.index(spot) + offset
 
     def _legal_space(self, spot):
         if spot in self.all_spots:
