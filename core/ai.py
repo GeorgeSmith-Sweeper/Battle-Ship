@@ -56,8 +56,8 @@ class Ai:
             spot = None
         return spot
 
-    def _room_around_space(self, spot, offset, marker_list):
-        index = self._find_index(marker_list, spot, offset)
+    def _room_around_space(self, marker, offset, marker_list):
+        index = self._find_index(marker_list, marker, offset)
         return index >= 0 and index < len(marker_list)
 
     def _get_coordinates(self, row, column, offset, column_offset):
@@ -65,8 +65,8 @@ class Ai:
         num = self.row_nums[self._find_index(self.row_nums, row, offset)]
         return letter + num
 
-    def _find_index(self, marker_list, spot, offset):
-        return marker_list.index(spot) + offset
+    def _find_index(self, marker_list, marker, offset):
+        return marker_list.index(marker) + offset
 
     def _legal_space(self, spot):
         if spot in self.all_spots:
