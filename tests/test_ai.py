@@ -50,42 +50,42 @@ class TestAi(TestCase):
     def test_get_surrounding_spots_adds_the_spots_to_the_next_shot_list(self):
         selected_spot = 'B2'
         correct_spots = ['B1', 'B3', 'A2', 'C2']
-        self.ai._get_surrounding_spots(selected_spot, self.human_board.state)
+        self.ai._get_surrounding_spots(selected_spot, self.human_board)
 
         self.assertEqual(self.ai.next_shots_list, correct_spots)
 
     def test_get_surrounding_spots_at_upper_left_corner(self):
         selected_spot = 'A1'
         correct_spots = ['A2', 'B1']
-        self.ai._get_surrounding_spots(selected_spot, self.human_board.state)
+        self.ai._get_surrounding_spots(selected_spot, self.human_board)
 
         self.assertEqual(self.ai.next_shots_list, correct_spots)
 
     def test_get_surrounding_spots_at_upper_right_corner(self):
         selected_spot = 'J1'
         correct_spots = ['J2', 'I1']
-        self.ai._get_surrounding_spots(selected_spot, self.human_board.state)
+        self.ai._get_surrounding_spots(selected_spot, self.human_board)
 
         self.assertEqual(self.ai.next_shots_list, correct_spots)
 
     def test_get_surrounding_spots_at_bottom_right_corner(self):
         selected_spot = 'J10'
         correct_spots = ['J9', 'I10']
-        self.ai._get_surrounding_spots(selected_spot, self.human_board.state)
+        self.ai._get_surrounding_spots(selected_spot, self.human_board)
 
         self.assertEqual(self.ai.next_shots_list, correct_spots)
 
     def test_get_surrounding_spots_at_bottom_left_corner(self):
         selected_spot = 'A10'
         correct_spots = ['A9', 'B10']
-        self.ai._get_surrounding_spots(selected_spot, self.human_board.state)
+        self.ai._get_surrounding_spots(selected_spot, self.human_board)
 
         self.assertEqual(self.ai.next_shots_list, correct_spots)
 
     def test_get_surrounding_spots_at_bottom_edge_returns_current_spot(self):
         selected_spot = 'B10'
         correct_spots = ['B9', 'A10', 'C10']
-        self.ai._get_surrounding_spots(selected_spot, self.human_board.state)
+        self.ai._get_surrounding_spots(selected_spot, self.human_board)
 
         self.assertEqual(self.ai.next_shots_list, correct_spots)
 
