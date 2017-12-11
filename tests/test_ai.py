@@ -32,26 +32,6 @@ class TestAi(TestCase):
         self.ai._choose_random_spot.assert_called()
         self.human_board.update.assert_called_with(ai_shot, shot_result)
 
-    def test_room_from_top_edge_returns_True_if_spot_is_not_on_the_edge(self):
-        row = '2'
-
-        self.assertTrue(self.ai._room_from_top_edge(row))
-
-    def test_room_from_top_edge_returns_False_if_spot_is_on_the_edge(self):
-        row = '1'
-
-        self.assertFalse(self.ai._room_from_top_edge(row))
-
-    def test_room_from_left_edge_returns_True_if_spot_is_not_on_the_edge(self):
-        column = 'B'
-
-        self.assertTrue(self.ai._room_from_left_edge(column))
-
-    def test_room_from_left_edge_returns_False_if_spot_is_on_the_edge(self):
-        column = 'A'
-
-        self.assertFalse(self.ai._room_from_left_edge(column))
-
     def test_legal_spot_returns_the_spot_if_it_exists(self):
         spot = 'A1'
         self.assertEqual(spot, self.ai._legal_space(spot))
@@ -59,70 +39,6 @@ class TestAi(TestCase):
     def test_legal_spot_returns_None_if_spot_does_not_exist(self):
         spot = 'Z1'
         self.assertEqual(None, self.ai._legal_space(spot))
-
-    def test_room_from_bottom_edge_returns_True_if_spot_is_not_on_the_edge(self):
-        empty_board = self.board_helper.generate_empty_board()
-        self.human_board = MagicMock(state=empty_board)
-        row = '9'
-
-        self.assertTrue(self.ai._room_from_bottom_edge(row, self.human_board.state))
-
-    def test_room_from_bottom_edge_returns_False_if_spot_is_on_the_edge(self):
-        empty_board = self.board_helper.generate_empty_board()
-        self.human_board = MagicMock(state=empty_board)
-        row = '10'
-
-        self.assertFalse(self.ai._room_from_bottom_edge(row, self.human_board.state))
-
-    def test_room_from_right_edge_returns_True_if_spot_is_not_the_end_of_row(self):
-        empty_board = self.board_helper.generate_empty_board()
-        self.human_board = MagicMock(state=empty_board)
-        column = 'I'
-
-        self.assertTrue(self.ai._room_from_right_edge(column, self.human_board.state))
-
-    def test_room_from_right_edge_returns_False_if_spot_is_at_end_of_row(self):
-        empty_board = self.board_helper.generate_empty_board()
-        self.human_board = MagicMock(state=empty_board)
-        column = 'J'
-
-        self.assertFalse(self.ai._room_from_right_edge(column, self.human_board.state))
-
-    def test_get_spot_above_returns_the_space_above_selected_spot(self):
-        column = 'B'
-        row = '2'
-
-        self.assertEqual(self.ai._get_spot_above(column, row), 'B1')
-
-    def test_get_spot_below_returns_the_space_below_selected_spot(self):
-        column = 'B'
-        row = '2'
-
-        self.assertEqual(self.ai._get_spot_below(column, row, self.board.state), 'B3')
-
-    def test_get_spot_below_returns_selected_spot_if_there_is_no_space_below(self):
-        column = 'B'
-        row = '10'
-
-        self.assertEqual(self.ai._get_spot_below(column, row, self.board.state), 'B10')
-
-    def test_get_spot_to_left_returns_the_space_to_the_left_of_selected_spot(self):
-        column = 'B'
-        row = '2'
-
-        self.assertEqual(self.ai._get_spot_to_left(column, row), 'A2')
-
-    def test_get_spot_to_right_returns_the_space_to_the_right_of_selected_spot(self):
-        column = 'B'
-        row = '2'
-
-        self.assertEqual(self.ai._get_spot_to_right(column, row, self.board.state), 'C2')
-
-    def test_get_spot_to_right_returns_selected_spot_if_there_is_no_spot_to_right(self):
-        column = 'J'
-        row = '10'
-
-        self.assertEqual(self.ai._get_spot_below(column, row, self.board.state), 'J10')
 
     def test_remove_none_from_list_returns_a_list_without_nones(self):
         list_with_nones = ['B1', 'B2', None, None]
@@ -134,7 +50,42 @@ class TestAi(TestCase):
     def test_get_surrounding_spots_adds_the_spots_to_the_next_shot_list(self):
         selected_spot = 'B2'
         correct_spots = ['B1', 'B3', 'A2', 'C2']
-        self.ai._get_surrounding_spots(selected_spot, self.human_board.state)
+        self.ai._get_surrounding_spots(selected_spot)
+
+        self.assertEqual(self.ai.next_shots_list, correct_spots)
+
+    def test_get_surrounding_spots_at_upper_left_corner(self):
+        selected_spot = 'A1'
+        correct_spots = ['A2', 'B1']
+        self.ai._get_surrounding_spots(selected_spot)
+
+        self.assertEqual(self.ai.next_shots_list, correct_spots)
+
+    def test_get_surrounding_spots_at_upper_right_corner(self):
+        selected_spot = 'J1'
+        correct_spots = ['J2', 'I1']
+        self.ai._get_surrounding_spots(selected_spot)
+
+        self.assertEqual(self.ai.next_shots_list, correct_spots)
+
+    def test_get_surrounding_spots_at_bottom_right_corner(self):
+        selected_spot = 'J10'
+        correct_spots = ['J9', 'I10']
+        self.ai._get_surrounding_spots(selected_spot)
+
+        self.assertEqual(self.ai.next_shots_list, correct_spots)
+
+    def test_get_surrounding_spots_at_bottom_left_corner(self):
+        selected_spot = 'A10'
+        correct_spots = ['A9', 'B10']
+        self.ai._get_surrounding_spots(selected_spot)
+
+        self.assertEqual(self.ai.next_shots_list, correct_spots)
+
+    def test_get_surrounding_spots_at_bottom_edge_returns_current_spot(self):
+        selected_spot = 'B10'
+        correct_spots = ['B9', 'A10', 'C10']
+        self.ai._get_surrounding_spots(selected_spot)
 
         self.assertEqual(self.ai.next_shots_list, correct_spots)
 

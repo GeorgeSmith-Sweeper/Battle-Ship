@@ -45,7 +45,9 @@ COMP_WIN_MSG = 'The Computer has sunk all the ships! Game Over!'
 HUMAN_WIN_MSG = 'Congratulations, you\'ve has sunk all the computers ships! Game Over!'
 WELCOME_MSG = 'Welcome to BattleShip!'
 DOES_NOT_EXIST_MSG = 'Spot does not exist, Try again'
+INVALID_SPOT = 'That spot is invalid. Pick a new location'
 OCCUPIED_MSG = 'That spot is occupied. Pick a different spot'
+PROMPT = '>>'
 INSTRUCTIONS = ('\n' +
                 'Your shots will appear on the bottem board.' +
                 '\n' +
