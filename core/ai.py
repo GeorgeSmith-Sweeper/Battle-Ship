@@ -37,16 +37,16 @@ class Ai:
         if shot_result == HIT:
             self._get_surrounding_spots(shot_location, board.state)
 
-    def _get_spot(self, row, column, direction, offset, column_offset, check_offset, room_check, board_state, axis):
-        if room_check(direction, check_offset, board_state, axis):
+    def _get_spot(self, row, column, direction, offset, column_offset, check_offset, board_state, axis):
+        if self._room_check(direction, check_offset, board_state, axis):
             spot = self._get_coordinates(row, column, offset, self.row_nums, self.col_letters, column_offset)
             spot = self._legal_space(spot)
         else:
             spot = None
         return spot
 
-    def _room_check(self, row_str, offset, board_state, axis):
-        index = self._find_index(axis, row_str, offset)
+    def _room_check(self, location, offset, board_state, axis):
+        index = self._find_index(axis, location, offset)
         return index >= 0 and index < len(board_state)
 
     def _get_coordinates(self, row_str, column_str, offset, row_nums, col_letters, column_offset):
@@ -55,10 +55,10 @@ class Ai:
     def _get_surrounding_spots(self, selected_spot, board_state):
         user_letter, user_num = self.validate.split_user_shot(selected_spot)
 
-        spot_above = self._get_spot(user_num, user_letter, user_num, -1, 0, -1, self._room_check, board_state, self.row_nums)
-        spot_left = self._get_spot(user_num, user_letter, user_letter, 0, -1, -1, self._room_check, board_state, self.col_letters)
-        spot_below = self._get_spot(user_num, user_letter, user_num, 1, 0, 1, self._room_check, board_state, self.row_nums)
-        spot_right = self._get_spot(user_num, user_letter, user_letter, 0, 1, 1, self._room_check, board_state, self.col_letters)
+        spot_above = self._get_spot(user_num, user_letter, user_num, -1, 0, -1, board_state, self.row_nums)
+        spot_left = self._get_spot(user_num, user_letter, user_letter, 0, -1, -1, board_state, self.col_letters)
+        spot_below = self._get_spot(user_num, user_letter, user_num, 1, 0, 1, board_state, self.row_nums)
+        spot_right = self._get_spot(user_num, user_letter, user_letter, 0, 1, 1, board_state, self.col_letters)
 
         gathered_spots = list((spot_above, spot_below, spot_left, spot_right))
         self.next_shots_list.extend(self._remove_none_from_list(gathered_spots))
