@@ -129,4 +129,4 @@ class TestBoard(TestCase):
         ship_orientation = 'column'
         self.board.add_to_board(place, ship_orientation)
         self.maxDiff = None
-        self.assertEqual(self.board.state, state_after_move)   
+        self.assertEqual(self.board.state, state_after_move)
