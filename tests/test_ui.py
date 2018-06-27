@@ -1,9 +1,10 @@
 from unittest import TestCase, mock
-from unittest.mock import patch, MagicMock, PropertyMock
+from unittest.mock import patch, MagicMock
 from core.ui import TerminalUi
 from core.board import Board
 from io import StringIO
 from helpers.board_helper import BoardHelper
+
 
 class TestTerminalUi(TestCase):
     def test_terminal_displays_string_passed_to_it(self):
@@ -21,7 +22,7 @@ class TestTerminalUi(TestCase):
     @patch('core.ui.TerminalUi.get_input', return_value='hello')
     def test_get_input_returns_a_users_input(self, mock):
         self.assertEqual(self.correct_response(), 'it works')
-    
+
     def test_ui_is_initialized_with_a_winning_msg_for_the_computer(self):
         ui = TerminalUi()
         COMP_WIN_MSG = 'The Computer has sunk all the ships! Game Over!'
@@ -33,7 +34,7 @@ class TestTerminalUi(TestCase):
         HUMAN_WIN_MSG = 'Congratulations, you\'ve has sunk all the computers ships! Game Over!'
 
         self.assertEqual(ui.HUMAN_WIN_MSG, HUMAN_WIN_MSG)
-    
+
     def test_ui_is_initialized_with_instructions(self):
         ui = TerminalUi()
         INSTRUCTIONS = ('\n' +
