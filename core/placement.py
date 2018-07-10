@@ -12,7 +12,7 @@ class Place:
             row_int = self.create_random_num()
             col_int = self.create_random_num()
             requested_row = board_state[row_int]
-            slice_of_row = requested_row[row_int : row_int + (len(requested_row) - ship_size)]
+            slice_of_row = requested_row[row_int: row_int + (len(requested_row) - ship_size)]
             ship_fits = all([spot == None for spot in slice_of_row])
             if (col_int + ship_size) > len(board_state): ship_fits = False
         return row_int, col_int
