@@ -81,15 +81,13 @@ class TestBoard(TestCase):
 
         self.assertEqual(self.board.state, self.board_helper.generate_board_with_a_sunken_ship())
 
-    @patch('core.placement.Place.create_random_num', return_value=0)
-    @patch('core.placement.Place.create_random_num', return_value=0)
-    def test_a_ship_is_added_to_row_if_there_is_room(self, mock1, mock2):
+    @patch('core.placement.Place._get_random_row_and_column', side_effect=[(0, 0)])
+    def test_a_ship_is_added_to_row_if_there_is_room(self, mock_coordinates):
         place = Place()
         self.board.all_ships = [{
             'name': 'Aircraft Carrier',
             'size': 5,
-            'health': 5,
-            'sunk': False,
+            'hit_locations': [],
         }]
         state_after_move = [
             [self.board.all_ships[0], self.board.all_ships[0], self.board.all_ships[0], self.board.all_ships[0], self.board.all_ships[0], None, None, None, None, None],
@@ -108,15 +106,13 @@ class TestBoard(TestCase):
 
         self.assertEqual(self.board.state, state_after_move)
 
-    @patch('core.placement.Place.create_random_num', return_value=0)
-    @patch('core.placement.Place.create_random_num', return_value=0)
-    def test_ship__added_to_column_if_there_is_room(self, mock1, mock2):
+    @patch('core.placement.Place._get_random_row_and_column', side_effect=[(0, 0)])
+    def test_ship__added_to_column_if_there_is_room(self, mock_coordinates):
         place = Place()
         self.board.all_ships = [{
             'name': 'Aircraft Carrier',
             'size': 5,
-            'health': 5,
-            'sunk': False,
+            'hit_locations': [],
         }]
         state_after_move = [
             [self.board.all_ships[0], None, None, None, None, None, None, None, None, None],
@@ -132,5 +128,6 @@ class TestBoard(TestCase):
         ]
         ship_orientation = 'column'
         self.board.add_to_board(place, ship_orientation)
-
+        self.maxDiff = None
+        
         self.assertEqual(self.board.state, state_after_move)

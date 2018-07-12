@@ -1,9 +1,10 @@
 from unittest import TestCase
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock
 from core.validate import Validate
 from core.board import Board
 from core.ui import TerminalUi
 from helpers.board_helper import BoardHelper
+import helpers.constants as consts
 
 
 class TestValidations(TestCase):
@@ -18,12 +19,13 @@ class TestValidations(TestCase):
         user_shot_choice = 'A2'
         split_choice = ('A', '2')
         answer = self.validate.split_user_shot(user_shot_choice)
+        
         self.assertEqual(answer, split_choice)
 
     def test_Validate_is_initialized_with_a_letters_list(self):
-        col_lets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+        col_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
-        self.assertEqual(self.validate.col_lets, col_lets)
+        self.assertEqual(self.validate.col_letters, col_letters)
 
     def test_Validate_is_initialized_with_a_numbers_list(self):
         row_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -35,116 +37,99 @@ class TestValidations(TestCase):
 
         self.assertEqual(self.validate.all_spots, all_spots_list)
 
-    @patch('core.ui.TerminalUi.get_input', return_value='A1')
-    def test_spot_exists_returns_user_input_when_choosen_spot_exists(self, mock):
+    def test_spot_exists_returns_True_if_spot_exists(self):
         user_shot_choice = 'A1'
-        self.assertEqual(self.validate.spot_exists(self.ui), user_shot_choice)
+        
+        self.assertTrue(self.validate._spot_exists(user_shot_choice))
+
+    def test_spot_exists_returns_False_if_the_spot_is_invalid(self):
+        user_shot_choice = 'J4000'
+        
+        self.assertFalse(self.validate._spot_exists(user_shot_choice))
 
     def test_get_current_spot_returns_the_value_of_the_selected_spot_on_the_board(self):
         user_shot_choice = 'A1'
         board_with_ships = self.board_helper.generate_board_with_ships()
         spot_value = self.validate.get_current_spot(board_with_ships, user_shot_choice)
         aircraft_carrier = self.board.all_ships[0]
+        
         self.assertEqual(spot_value, aircraft_carrier)
 
-    @patch('core.ui.TerminalUi.get_input', side_effect=['A35', 'A1'])
-    def test_spot_exists_prompts_the_user_if_spot_is_invalid(self, mocks):
-        invalid_msg = 'Spot does not exist, Try again'
-        self.ui.display = MagicMock()
-
-        self.validate.spot_exists(self.ui)
-
-        self.ui.display.assert_called_with(invalid_msg)
-
-    @patch('core.validate.Validate.spot_exists', return_value='A2')
-    def test_user_choice_is_returned_when_spot_is_not_occupied(self, mock1):
+    def test_spot_occupied_returns_False_if_spot_is_not_occupied(self):
         user_shot_choice = 'A2'
         all_but_one = self.board_helper.generate_all_but_one()
         board = MagicMock(state=all_but_one, all_ships=self.board.all_ships)
 
-        self.assertEqual(self.validate.spot_occupied(board, self.ui), user_shot_choice)
+        self.assertEqual(False, self.validate._spot_occupied(board, user_shot_choice))
 
-    @patch('core.validate.Validate.spot_exists', side_effect=['A1', 'A2'])
-    @patch('core.ui.TerminalUi.get_input', side_effect=['A2'])
-    def test_spot_occupied_prompts_the_user_if_spot_is_occupied(self, mock1, mock2):
-        invalid_msg = 'That spot is occupied. Pick a different spot'
-        self.ui.display = MagicMock()
+    def test_spot_occupied_returns_true_if_spot_is_occupied(self):
+        user_shot_choice = 'A1'
         all_but_one = self.board_helper.generate_all_but_one()
         board = MagicMock(state=all_but_one, all_ships=self.board.all_ships)
-        self.validate.spot_occupied(board, self.ui)
-
-        self.ui.display.assert_called_with(invalid_msg)
+        
+        self.validate._spot_occupied(board, user_shot_choice)
 
     def test_all_ships_sunk_returns_True_if_there_are_no_ships_left(self):
         full_board = self.board_helper.generate_full_board()
-        board = MagicMock(state=full_board, all_ships=self.board.all_ships)
+        all_sunken_ships = self.board_helper.generate_sunken_ships()
+        board = MagicMock(state=full_board, all_ships=all_sunken_ships)
+
         self.assertEqual(self.validate.all_ships_sunk(board), True)
 
     def test_all_ships_sunk_returns_False_if_there_are_ships_left(self):
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
+        
         self.assertEqual(self.validate.all_ships_sunk(board), False)
 
     def test_hitting_a_ship_displays_msg_and_returns_str_Hit(self):
-        self.ui.display = MagicMock()
         shot = 'A1'
-        ship_hit_msg = 'You hit the Aircraft Carrier!'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
-        is_hit = self.validate.hit_ship(board, shot, self.ui)
+        shot_result = self.validate.shot_result(board, shot)
+        result = (consts.HIT, {'name': 'Aircraft Carrier', 'size': 5, 'hit_locations': [[0, 0]]})
+        
+        self.assertEqual(shot_result, result)
 
-        self.ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(is_hit, 'Hit')
-
-    def test_missing_a_ship_displays_miss_msg_and_returns_str_Miss(self):
-        self.ui.display = MagicMock()
+    def test_missing_a_ship_returns_str_Miss_and_None(self):
         shot = 'A9'
-        ship_hit_msg = 'Miss!'
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
-        is_hit = self.validate.hit_ship(board, shot, self.ui)
-
-        self.ui.display.assert_called_with(ship_hit_msg)
-        self.assertEqual(is_hit, 'Miss')
+        shot_result = self.validate.shot_result(board, shot)
+        result = (consts.MISS, None)
+        
+        self.assertEqual(shot_result, result)
 
     def test_ship_is_sunk_when_len_hit_locations_equals_ship_size(self):
         sunken_ship = {
             'name': 'Aircraft Carrier',
             'size': 5,
-            'sunk': True,
             'hit_locations': [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5]],
         }
+        is_sunk = self.validate._is_ship_sunk(sunken_ship)
 
-        self.ui.display = MagicMock()
-        ship_sunk_msg = 'You sunk the Aircraft Carrier!'
-        is_sunk = self.validate.is_ship_sunk(sunken_ship, self.ui)
-
-        self.ui.display.assert_called_with(ship_sunk_msg)
         self.assertEqual(is_sunk, True)
 
     def test_ship_is_not_sunk_when_len_hit_locations_doesnt_equal_ship_size(self):
         ship_with_no_hits = {
             'name': 'Aircraft Carrier',
             'size': 5,
-            'sunk': False,
             'hit_locations': [],
         }
 
-        self.assertFalse(self.validate.is_ship_sunk(ship_with_no_hits, self.ui))
+        self.assertFalse(self.validate._is_ship_sunk(ship_with_no_hits))
 
     def test_when_a_ship_is_hit_it_stores_the_location_of_the_hit(self):
         current_ship = {
             'name': 'Aircraft Carrier',
             'size': 5,
-            'sunk': False,
             'hit_locations': [],
         }
-
         ship_after_hit = {
             'name': 'Aircraft Carrier',
             'size': 5,
-            'sunk': False,
-            'hit_locations': [[0, 0]],
+            'hit_locations': [[0, 0]]
         }
         shot = 'A1'
-        self.assertEqual(self.validate.store_hits(current_ship, shot), ship_after_hit)
+
+        self.assertEqual(self.validate._store_hits(current_ship, shot), ship_after_hit)
