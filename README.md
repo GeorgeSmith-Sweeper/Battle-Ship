@@ -1,4 +1,4 @@
-# BATTLESHIP
+# BATTLE SHIP
 
 
 ### Requirements
