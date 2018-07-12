@@ -67,6 +67,7 @@ class TestPlace(TestCase):
             ['ship', 'ship', None, 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
             ['ship', 'ship', None, 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
             ['ship', 'ship', None, 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
+
             ['ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
             ['ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],
             ['ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship', 'ship'],

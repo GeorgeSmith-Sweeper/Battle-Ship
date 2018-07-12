@@ -10,7 +10,6 @@ class Validate:
         self.rows = consts.ROWS
         self.columns = consts.COLUMNS
 
-    # null object pattern
     def shot_result(self, board, user_shot_choice):
         ship = None
         current_spot = self.get_current_spot(board.state, user_shot_choice)
