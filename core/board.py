@@ -39,13 +39,13 @@ class Board:
             self.submarine,
             self.destroyer,
         ]
-        
+
     def add_to_board(self, place, ship_orientation):
         orientation = ship_orientation
         for ship in self.all_ships:
             self._add_ship(orientation, ship, place)
             orientation = 'column' if orientation == 'row' else 'row'
-            
+
     def update(self, user_shot_choice, shot_result):
         user_letter = user_shot_choice[0]
         user_num = user_shot_choice[1:]

@@ -7,7 +7,6 @@ from helpers.board_helper import BoardHelper
 import helpers.constants as consts
 
 
-
 class TestTerminalUi(TestCase):
     def test_terminal_displays_string_passed_to_it(self):
         ui = TerminalUi()
