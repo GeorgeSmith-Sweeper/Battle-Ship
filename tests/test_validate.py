@@ -59,15 +59,17 @@ class TestValidations(TestCase):
         user_shot_choice = 'A2'
         all_but_one = self.board_helper.generate_all_but_one()
         board = MagicMock(state=all_but_one, all_ships=self.board.all_ships)
+        spot_occupied = self.validate._spot_occupied(board, user_shot_choice)
 
-        self.assertEqual(False, self.validate._spot_occupied(board, user_shot_choice))
+        self.assertEqual(False, spot_occupied)
 
     def test_spot_occupied_returns_true_if_spot_is_occupied(self):
         user_shot_choice = 'A1'
         all_but_one = self.board_helper.generate_all_but_one()
         board = MagicMock(state=all_but_one, all_ships=self.board.all_ships)
+        spot_occupied = self.validate._spot_occupied(board, user_shot_choice)
 
-        self.validate._spot_occupied(board, user_shot_choice)
+        self.assertEqual(True, spot_occupied)
 
     def test_all_ships_sunk_returns_True_if_there_are_no_ships_left(self):
         full_board = self.board_helper.generate_full_board()
