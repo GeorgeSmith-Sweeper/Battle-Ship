@@ -75,14 +75,16 @@ class TestValidations(TestCase):
         full_board = self.board_helper.generate_full_board()
         all_sunken_ships = self.board_helper.generate_sunken_ships()
         board = MagicMock(state=full_board, all_ships=all_sunken_ships)
+        all_ships_sunk = self.validate.all_ships_sunk(board)
 
-        self.assertEqual(self.validate.all_ships_sunk(board), True)
+        self.assertEqual(all_ships_sunk, True)
 
     def test_all_ships_sunk_returns_False_if_there_are_ships_left(self):
         board_with_ships = self.board_helper.generate_board_with_ships()
         board = MagicMock(state=board_with_ships, all_ships=self.board.all_ships)
+        all_ships_sunk = self.validate.all_ships_sunk(board)
 
-        self.assertEqual(self.validate.all_ships_sunk(board), False)
+        self.assertEqual(all_ships_sunk, False)
 
     def test_hitting_a_ship_displays_msg_and_returns_str_Hit(self):
         shot = 'A1'
